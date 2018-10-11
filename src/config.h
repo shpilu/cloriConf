@@ -3,14 +3,14 @@
 // Copyright 2018 James Wei (weijianlhp@163.com)
 //
 // usage:
-// conf = Config::instance().Load(path, SP_LOCAL); // Load local config file 
+// conf = Config::instance().Load(path, SP_LOCAL); // 加载本地文件
 // conf = Config::instance().Load(path, SP_DIRECT); // 直接将入参作为参数解析
 // conf = Config::instance().Load(path, SP_ZK); // 加载zookeeper
 // conf = Config::instance().Load(path, SP_HTTP); // 加载HTTP
 // conf = Config::instance().Load(path, SP_ZK, MD_LOOP); // 加载并监听, 如果有更新则更新conf本地
 // conf = Config::instance().LoadConfig(configure); // 以配置文件的形式加载
 // spect = std::bind(xxxx);
-// conf.Watch(path, spect); // 消息订阅, 
+// conf.Subscribe(path, spect); // 消息订阅, 
 // std::string name  = conf->getNode().asString();
 // int32_t year = conf->getInt32("xxx/year");
 // for (auto &p : dada) {

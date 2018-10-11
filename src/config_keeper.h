@@ -1,4 +1,3 @@
-//
 // config keeper: base class of config keeper  
 // Copyright 2018 James Wei (weijianlhp@163.com)
 // version:1.0

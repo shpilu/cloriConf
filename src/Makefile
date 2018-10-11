@@ -38,7 +38,7 @@ $(TEST_OBJECTS):%.o:%.cc
 $(OBJECTS):%.o:%.cc
 	$(CC) $(INCLUDES) $(CXXFLAGS) -c $< -o $@
 
-insall:
+install:
 
 clean:
 	-rm -f $(TEST_OBJECTS) $(OBJECTS) $(PB_SOURCES) $(PB_HEADERS) $(TARGET_SO) #../bin/$(TARGET_BIN)
