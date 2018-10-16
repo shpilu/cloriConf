@@ -8,10 +8,7 @@
 
 namespace cloris {
 
-pthread_once_t Config::ponce_ = PTHREAD_ONCE_INIT;
-Config* Config::value_ = NULL;
-
-std::string& CNode::asString() {
+const std::string& CNode::asString() {
     return value_.get();
 }
 
@@ -148,8 +145,7 @@ CNodeIterator CNode::nonleaf_end() {
 }
 
 Config* Config::instance() {
-    ::pthread_once(&Config::ponce_, &Config::Init);
-    return Config::value_;
+    return Singleton<Config>::instance();
 }
 
 Config::Config()
@@ -169,15 +165,6 @@ Config::~Config() {
     delete impl_;
 }
 
-void Config::Init() {
-    Config::value_ = new Config();
-    ::atexit(Config::Destroy);
-}
-
-void Config::Destroy() {
-    delete Config::value_;
-}
-
 bool Config::Watch(const std::string& cpath, uint32_t event, EventHandler& handler) {
     // TODO
     return impl_->RegisterWatcher(cpath, event, handler);
@@ -192,6 +179,15 @@ Config* Config::Load(const std::string& src, int mode, std::string* err_msg) {
         ret = impl_->Load(src, mode, tmp_msg);
     }
     return ret ? this : NULL; 
+}
+
+CNode::CNode(ConfigImpl* impl, const std::string& key, const std::string& hkey, const std::string& value, bool is_leaf) 
+    : impl_(impl), 
+      key_(key), 
+      hkey_(hkey),
+      enabled_(true), 
+      is_leaf_(is_leaf) { 
+    value_.Set(value);
 }
 
 CNode* Config::getCNode(const std::string& key) {
