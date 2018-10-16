@@ -3,18 +3,18 @@
 #include "../config.h"
 
 // usage:
-// conf = Config::instance().Load(path, SP_LOCAL); // 加载本地文件
-// conf = Config::instance().Load(path, SP_DIRECT); // 直接将入参作为参数解析
-// conf = Config::instance().Load(path, SP_ZK); // 加载zookeeper
-// conf = Config::instance().Load(path, SP_HTTP); // 加载HTTP
-// conf = Config::instance().Load(path, SP_ZK, MD_LOOP); // 加载并监听, 如果有更新则更新conf本地
+// conf = Config::instance().Load(path, SRC_LOCAL); // 加载本地文件
+// conf = Config::instance().Load(path, SRC_DIRECT); // 直接将入参作为参数解析
+// conf = Config::instance().Load(path, SRC_ZK); // 加载zookeeper
+// conf = Config::instance().Load(path, SRC_HTTP); // 加载HTTP
+// conf = Config::instance().Load(path, SRC_ZK, MD_LOOP); // 加载并监听, 如果有更新则更新conf本地
 // conf = Config::instance().LoadConfig(configure); // 以配置文件的形式加载
 // int k = Config::instance()->getInt32("/adslot/inmobi/weight");
 // spect = std::bind(xxxx);
 
 void test_local() {
     std::string err_msg;
-    cloris::Config* conf = cloris::Config::instance()->Load("../conf/common.ini", cloris::SP_LOCAL, &err_msg);
+    cloris::Config* conf = cloris::Config::instance()->Load("../conf/common.ini", SRC_LOCAL, &err_msg);
     if (conf) {
         std::cout << "run test success" << std::endl;
     } else {
@@ -36,7 +36,7 @@ void watch(cloris::CNode* node, const std::string& path, uint32_t event) {
 
 void test_zk() {
     std::string err_msg;
-    cloris::Config* conf = cloris::Config::instance()->Load("../conf/zk.ini", cloris::SP_ZK, &err_msg);
+    cloris::Config* conf = cloris::Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);
     if (conf) {
         std::cout << "run test success" << std::endl;
     } else {
@@ -69,7 +69,7 @@ void test_zk() {
 
 void test_direct() {
     std::string conf("[myself] \n name=James Wei\n school=BUAA \n company=ofo\n");
-    if (cloris::Config::instance()->Load(conf, cloris::SP_DIRECT)) {
+    if (cloris::Config::instance()->Load(conf, SRC_DIRECT)) {
         std::string my_name = cloris::Config::instance()->getString("myself.name");
         std::cout << "my name is " << my_name << std::endl;
     } else {

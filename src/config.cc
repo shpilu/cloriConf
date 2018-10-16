@@ -158,7 +158,7 @@ Config::Config()
     impl_ = new ConfigImpl();
 }
 
-Config::Config(const std::string& src, SP_MODE mode) : Config() {
+Config::Config(const std::string& src, int mode) : Config() {
     Config* conf = this->Load(src, mode, &last_error_);
     if (!conf) {
         status_ = -1;
@@ -183,7 +183,7 @@ bool Config::Watch(const std::string& cpath, uint32_t event, EventHandler& handl
     return impl_->RegisterWatcher(cpath, event, handler);
 }
 
-Config* Config::Load(const std::string& src, SP_MODE mode, std::string* err_msg) {
+Config* Config::Load(const std::string& src, int mode, std::string* err_msg) {
     bool ret;
     if (err_msg) {
         ret = impl_->Load(src, mode, *err_msg);

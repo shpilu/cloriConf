@@ -2,29 +2,6 @@
 // version: 1.0 
 // Copyright 2018 James Wei (weijianlhp@163.com)
 //
-// usage:
-// conf = Config::instance().Load(path, SP_LOCAL); // 加载本地文件
-// conf = Config::instance().Load(path, SP_DIRECT); // 直接将入参作为参数解析
-// conf = Config::instance().Load(path, SP_ZK); // 加载zookeeper
-// conf = Config::instance().Load(path, SP_HTTP); // 加载HTTP
-// conf = Config::instance().Load(path, SP_ZK, MD_LOOP); // 加载并监听, 如果有更新则更新conf本地
-// conf = Config::instance().LoadConfig(configure); // 以配置文件的形式加载
-// spect = std::bind(xxxx);
-// conf.Subscribe(path, spect); // 消息订阅, 
-// std::string name  = conf->getNode().asString();
-// int32_t year = conf->getInt32("xxx/year");
-// for (auto &p : dada) {
-//      LOG(p.asString());
-// }
-//
-// 支持的功能:
-// (1) 从各个源(本地文件、直接配置、zookeeper、http接口)加载配置
-// (2) 快速的配置读取
-// (3) 配置热更新
-// (4) 消息订阅
-// (5) 配置转换
-//
-//
 
 #ifndef CLORIS_CONFIG_H_
 #define CLORIS_CONFIG_H_
@@ -43,6 +20,16 @@
 #define EVENT_SELF_CHANGED  (EVENT_ADD | EVENT_DELETE | EVENT_UPDATE)
 #define EVENT_CHANGED       (EVENT_ADD | EVENT_DELETE | EVENT_UPDATE | EVENT_CHILDREN)
 #define EVENT_ALL           (EVENT_INIT | EVENT_ADD | EVENT_DELETE | EVENT_UPDATE | EVENT_CHILDREN)
+
+
+#define SRC_MASK        0x0000ffff
+#define SRC_LOCAL       0x00000001
+#define SRC_DIRECT      0x00000002
+#define SRC_ZK          0x00000004
+
+#define FMT_JINI        0x00010000
+#define FMT_JSON        0x00020000
+#define FMT_MASK        0xffff0000
 
 namespace cloris {
 
@@ -98,12 +85,6 @@ T& DoubleBuffer<T>::get() {
 class CNode;
 
 typedef std::function<void(CNode*, const std::string&, uint32_t)> EventHandler;
-
-enum SP_MODE {
-    SP_LOCAL = 0,
-    SP_DIRECT = 1,
-    SP_ZK  = 2,
-};
 
 enum ITYPE {
     ITYPE_ALL = 0,
@@ -194,11 +175,11 @@ class Config : boost::noncopyable {
 public:
     static Config* instance();
 
-    Config(const std::string& src, SP_MODE mode);
+    Config(const std::string& src, int mode);
     Config();
     ~Config();
 
-    Config* Load(const std::string& src, SP_MODE mode, std::string* err_msg = NULL);
+    Config* Load(const std::string& src, int mode, std::string* err_msg = NULL);
     bool Watch(const std::string& path, uint32_t event, EventHandler& handler);
 
     CNode*      getCNode(const std::string& key = "");

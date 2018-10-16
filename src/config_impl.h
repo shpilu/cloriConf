@@ -43,7 +43,7 @@ public:
     bool RegisterWatcher(const std::string& cpath, uint32_t event, EventHandler& handler); 
     
     bool CheckIfNotExistOrExpired(const std::string& cpath, int64_t version = 0, bool* noexist = NULL);
-    bool Load(const std::string& src, SP_MODE mode, std::string& err_msg);
+    bool Load(const std::string& src, int mode, std::string& err_msg);
     bool Insert(const std::string& cpath, const std::string& value, std::string& err_msg, int64_t version = 0);
 
     void NodifyWatcher(const std::string& cpath); 

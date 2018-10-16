@@ -120,15 +120,15 @@ bool ConfigImpl::CheckIfNotExistOrExpired(const std::string& stdkey, int64_t ver
     return false;
 }
 
-bool ConfigImpl::Load(const std::string& src, SP_MODE mode, std::string& err_msg) {
+bool ConfigImpl::Load(const std::string& src, int mode, std::string& err_msg) {
     switch (mode) {
-        case SP_LOCAL:
+        case SRC_LOCAL:
             ck_.reset(new ConfigKeeperLocal(this));
             break;
-        case SP_ZK:
+        case SRC_ZK:
             ck_.reset(new ConfigZookeeper(this));
             break;
-        case SP_DIRECT:
+        case SRC_DIRECT:
             ck_.reset(new ConfigKeeperDirect(this));
             break;
         default:

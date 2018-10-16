@@ -131,7 +131,7 @@ bool ConfigZookeeper::ScanZookeeper(std::string& err_msg) {
 bool ConfigZookeeper::LoadConfig(const std::string& src, std::string& err_msg) {
     static bool enable_update = true;
     // 会保存上次执行的错误信息
-    std::shared_ptr<Config> conf = std::shared_ptr<Config>(new Config(src, SP_LOCAL));
+    std::shared_ptr<Config> conf = std::shared_ptr<Config>(new Config(src, SRC_LOCAL | FMT_JINI));
     if (!conf->ok()) {
         err_msg = conf->error();
         return false;
