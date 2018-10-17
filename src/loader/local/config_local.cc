@@ -18,10 +18,23 @@ ConfigKeeperLocal::ConfigKeeperLocal(ConfigImpl* impl)
     : ConfigKeeper(impl) {
 }
 
-// Config::instance()->Load("xadsad", "#|;|//");
 bool ConfigKeeperLocal::LoadConfig(const std::string& filename, int format, std::string* err_msg) {
     bool ret(true);
-    std::vector<std::string> comments = {"#"};
+    std::vector<std::string> comments; 
+    int comment_flag = format & CMT_MASK;
+    if (comment_flag & CMT_SHARP) {
+        comments.push_back("#");
+    }
+    if (comment_flag & CMT_SLASH) {
+        comments.push_back("//");
+    }
+    if (comment_flag & CMT_SEMICOLON) {
+        comments.push_back(";");
+    }
+    if (comment_flag & CMT_PERCENT) {
+        comments.push_back("%");
+    }
+
     std::ifstream fl(filename);
     std::string buf;
     std::vector<TraceNode> vec_trace;
