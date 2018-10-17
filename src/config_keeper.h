@@ -12,7 +12,7 @@
 
 namespace cloris {
 
-typedef std::function<bool(const std::string&, const std::string&, std::string&)> ConfigInserter;
+typedef std::function<bool(const std::string&, const std::string&, std::string*)> ConfigInserter;
 
 class ConfigImpl;
 
@@ -20,7 +20,7 @@ class ConfigKeeper : boost::noncopyable {
 public:
     ConfigKeeper(ConfigImpl* impl) : impl_(impl) { }
     virtual ~ConfigKeeper() { }
-    virtual bool LoadConfig(const std::string& src, std::string& ret_msg) = 0; 
+    virtual bool LoadConfig(const std::string& src, int format, std::string* err_msg = NULL) = 0; 
 
     ConfigImpl* impl() { return impl_; }
 private:

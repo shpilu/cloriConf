@@ -155,8 +155,7 @@ Config::Config()
 }
 
 Config::Config(const std::string& src, int mode) : Config() {
-    Config* conf = this->Load(src, mode, &last_error_);
-    if (!conf) {
+    if (!this->Load(src, mode, &last_error_)) {
         status_ = -1;
     }
 }
@@ -171,13 +170,7 @@ bool Config::Watch(const std::string& cpath, uint32_t event, EventHandler& handl
 }
 
 Config* Config::Load(const std::string& src, int mode, std::string* err_msg) {
-    bool ret;
-    if (err_msg) {
-        ret = impl_->Load(src, mode, *err_msg);
-    } else {
-        std::string tmp_msg;
-        ret = impl_->Load(src, mode, tmp_msg);
-    }
+    bool ret = impl_->Load(src, mode, err_msg);
     return ret ? this : NULL; 
 }
 

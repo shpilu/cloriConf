@@ -1,5 +1,5 @@
 // 
-// cloriConf -- a flexisible config service and service found 
+// cloriConf header
 // version: 1.0 
 // Copyright 2018 James Wei (weijianlhp@163.com)
 //

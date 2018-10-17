@@ -6,7 +6,6 @@
 #ifndef CLORIS_CONFIG_DIRECT_H_
 #define CLORIS_CONFIG_DIRECT_H_
 
-#include "../common.h"
 #include "../../config_keeper.h"
 
 namespace cloris {
@@ -16,7 +15,7 @@ public:
     ConfigKeeperDirect() = delete;
     ConfigKeeperDirect(ConfigImpl* impl);
     ~ConfigKeeperDirect() { }
-    bool LoadConfig(const std::string& src, std::string& ret_msg);
+    bool LoadConfig(const std::string& src, int format, std::string* err_msg);
 };
 
 } // namespace cloris

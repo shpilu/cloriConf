@@ -11,7 +11,7 @@ CC=g++
 
 TEST_SRC=$(wildcard test/*.cc)
 TEST_OBJECTS=$(TEST_SRC:%.cc=%.o)
-SOURCES=$(wildcard *.cc loader/zookeeper/*.cc loader/local/*.cc loader/direct/*.cc) 
+SOURCES=$(wildcard *.cc loader/*.cc loader/zookeeper/*.cc loader/local/*.cc loader/direct/*.cc) 
 OBJECTS=$(SOURCES:%.cc=%.o)
 
 CXXFLAGS=-std=c++11 -g2 -Wall -Werror -fPIC -fno-omit-frame-pointer

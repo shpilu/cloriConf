@@ -1,6 +1,8 @@
-// cloriConf -- a flexisible config service and service found 
+//
+// cloriConf implementation header 
 // version: 1.0 
 // Copyright 2018 James Wei (weijianlhp@163.com)
+//
 
 #ifndef CLORIS_CONFIG_IMPL_H_
 #define CLORIS_CONFIG_IMPL_H_
@@ -18,6 +20,7 @@ namespace cloris {
 class Config;
 class ConfigKeeper;
 
+// use hash table to accelerate cnode search 
 struct HNode {
     HNode() : value_(NULL), version_(0), enabled_(true) { }
     HNode(void* val) : value_(val), version_(0), enabled_(true) { }
@@ -29,6 +32,7 @@ struct HNode {
     void disable();
 };
 
+// watch node
 struct WNode {
     WNode(const std::string& cpath, EventHandler& handler) : cpath_(cpath), handler_(handler) { }
     std::string cpath_;
@@ -43,14 +47,14 @@ public:
     bool RegisterWatcher(const std::string& cpath, uint32_t event, EventHandler& handler); 
     
     bool CheckIfNotExistOrExpired(const std::string& cpath, int64_t version = 0, bool* noexist = NULL);
-    bool Load(const std::string& src, int mode, std::string& err_msg);
-    bool Insert(const std::string& cpath, const std::string& value, std::string& err_msg, int64_t version = 0);
+    bool Load(const std::string& src, int mode, std::string* err_msg);
+    bool Insert(const std::string& cpath, const std::string& value, std::string* err_msg, int64_t version = 0);
 
     void NodifyWatcher(const std::string& cpath); 
     void FlushWatcher();
     CNode* getCNode(const std::string& key);
     CNode* getCNode(const std::string& key_prefix, const std::string& key);
-    size_t count() { return htable_.size(); }
+    size_t count() const { return htable_.size(); }
 private:
     std::unordered_map<std::string, HNode*> htable_;
     std::unordered_map<std::string, WNode*> wtable_;

@@ -16,15 +16,15 @@ public:
     ConfigZookeeper(ConfigImpl* impl);
     ~ConfigZookeeper();
 
-    bool LoadConfig(const std::string& src, std::string& err_msg);
+    bool LoadConfig(const std::string& src, int format, std::string* err_msg);
     void Start();
     void Stop();
     void Job();
 
-    bool ScanZk(std::string& err_msg);
-    bool ConnectZk(std::string& err_msg);
+    bool ScanZk(std::string* err_msg);
+    bool ConnectZk(std::string* err_msg);
     void CloseZk();
-    bool ScanZookeeper(std::string& err_msg);
+    bool ScanZookeeper(std::string* err_msg);
 private:
     zhandle_t* zh_;
     bool running_;

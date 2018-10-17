@@ -1,3 +1,9 @@
+// 
+// cloriConf implementation
+// version: 1.0 
+// Copyright 2018 James Wei (weijianlhp@163.com)
+//
+
 #include <memory>
 #include <boost/algorithm/string.hpp>
 #include "loader/zookeeper/config_zk.h"
@@ -5,13 +11,11 @@
 #include "loader/direct/config_direct.h"
 #include "config_impl.h"
 
-
-// 所有路径格式都以"/xx1/xx2/xx3"的格式进行标准化
-
 namespace cloris {
 
 using namespace std::placeholders;
 
+// hash key standard format "/a1/a2/a3"
 static std::string vec2hkey(const std::vector<std::string>& vec) {
     if (vec.size() == 0) {
         return "";
@@ -120,8 +124,9 @@ bool ConfigImpl::CheckIfNotExistOrExpired(const std::string& stdkey, int64_t ver
     return false;
 }
 
-bool ConfigImpl::Load(const std::string& src, int mode, std::string& err_msg) {
-    switch (mode) {
+bool ConfigImpl::Load(const std::string& src, int mode, std::string* err_msg) {
+    int src_type = SRC_MASK & mode;
+    switch (src_type) {
         case SRC_LOCAL:
             ck_.reset(new ConfigKeeperLocal(this));
             break;
@@ -132,10 +137,12 @@ bool ConfigImpl::Load(const std::string& src, int mode, std::string& err_msg) {
             ck_.reset(new ConfigKeeperDirect(this));
             break;
         default:
-            err_msg = "unsupported loader";
+            if (err_msg) {
+                *err_msg = "unsupported loader";
+            }
     }
     if (ck_) {
-        return ck_->LoadConfig(src, err_msg); 
+        return ck_->LoadConfig(src, mode & FMT_MASK, err_msg); 
     } else {
         return false;
     }
@@ -144,7 +151,6 @@ bool ConfigImpl::Load(const std::string& src, int mode, std::string& err_msg) {
 bool ConfigImpl::RegisterWatcher(const std::string& cpath, uint32_t event, EventHandler& handler) {
     std::string std_path = convert2stdkey(cpath);
     WNode *node = new WNode(std_path, handler);
-    // wtable_.insert(std::pair<std::string, WNode*>(std_path, node));
     wtable_.emplace(std_path, node);
 
     if (event & EVENT_INIT) {
@@ -153,12 +159,11 @@ bool ConfigImpl::RegisterWatcher(const std::string& cpath, uint32_t event, Event
             handler(node, std_path, EVENT_INIT);
         }
     }
-
     return true;
 }
 
 // cpath : format like 'xx1/xx2/xx3' '/xx1/xx2/xx3' or '/xx1/xx2/xx3/' is all OK, then change to standard format '/x1/x2/x3'
-bool ConfigImpl::Insert(const std::string& cpath, const std::string& value, std::string& err_msg, int64_t version) {
+bool ConfigImpl::Insert(const std::string& cpath, const std::string& value, std::string* err_msg, int64_t version) {
     std::string cleaned_path = convert2stdkey(cpath);
     std::vector<std::string> vec_path;
     std::vector<std::string> real_path;
@@ -172,31 +177,25 @@ bool ConfigImpl::Insert(const std::string& cpath, const std::string& value, std:
             std::string hkey = vec2hkey(real_path);
 
             if (current->children().find(p) != current->children().end()) {
+                // light up all disabled node in the path
                 current = current->children()[p];
                 if (!current->enabled()) {
                     current->refresh();
                 }
-                // set all enabled in the path
                 if (htable_.find(hkey) != htable_.end()) {
                     htable_[hkey]->enabled_ = true; 
                 }
-                // 
             } else {
                 CNode* node = new CNode(this, p, hkey, "", true);
-                // current->children().insert(std::pair<std::string, CNode*>(p, node));
                 current->children().emplace(p, node);
                 current->set_is_leaf(false);
                 current = node;
                 HNode *hn = new HNode(current, version);
-                // htable_.insert(std::pair<std::string, HNode*>(hkey, hn));
                 htable_.emplace(hkey, hn);
             }
-        } else {
-            // TODO bad case
         }
     }
     if (index > 0) {
-        // update version
         current->value().Set(value);
         std::string hkey = vec2hkey(real_path);
         if (htable_.find(hkey) != htable_.end()) {
