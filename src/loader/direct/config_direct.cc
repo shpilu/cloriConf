@@ -14,7 +14,7 @@ namespace cloris {
 
 using namespace std::placeholders;
 
-bool read_line(const std::string& raw_conf, std::string& buf, size_t& index) {
+static bool read_line(const std::string& raw_conf, std::string& buf, size_t& index) {
     if (index >= raw_conf.size()) {
         return false;
     }

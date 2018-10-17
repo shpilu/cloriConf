@@ -66,6 +66,12 @@ ConfigImpl::ConfigImpl() : root_(this, "ROOT", "", "", false) {
 }
 
 ConfigImpl::~ConfigImpl() {
+    for (auto &p : htable_) {
+        delete p.second;
+    }
+    for (auto &p : wtable_) {
+        delete p.second;
+    }
 }
 
 void ConfigImpl::NodifyWatcher(const std::string& cpath) {

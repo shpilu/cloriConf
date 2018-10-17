@@ -48,6 +48,7 @@ class CNode {
     friend class CNodeIterator;
 public:
     CNode() = delete;
+    ~CNode();
     CNode(ConfigImpl* impl, const std::string& key, const std::string& hkey, const std::string& value, bool is_leaf); 
 
     CNodeIterator begin();

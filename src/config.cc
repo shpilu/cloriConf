@@ -183,6 +183,12 @@ CNode::CNode(ConfigImpl* impl, const std::string& key, const std::string& hkey, 
     value_.Set(value);
 }
 
+CNode::~CNode() {
+    for (auto &p : children_) {
+        delete p.second;
+    }
+}
+
 CNode* Config::getCNode(const std::string& key) {
     return impl_->getCNode(key);
 }
