@@ -40,7 +40,9 @@ bool ConfigKeeperLocal::LoadJoml(const std::string& filename, int format, std::s
     std::vector<TraceNode> vec_trace;
     
     if (!fl.is_open()) {
-        *err_msg = "failed to open file " + filename;
+        if (err_msg) {
+            *err_msg = "failed to open file " + filename;
+        }
         return false;
     }
 
@@ -56,7 +58,7 @@ bool ConfigKeeperLocal::LoadJoml(const std::string& filename, int format, std::s
     }
     fl.close();
 
-    if (!ret) {
+    if (!ret && err_msg) {
         *err_msg = "[parse_config_failed]" + (*err_msg);
     }
     impl()->FlushWatcher();
