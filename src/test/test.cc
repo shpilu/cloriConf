@@ -30,6 +30,24 @@ void test_local() {
     std::cout << "k2=" << k2 << std::endl;
 }
 
+void test_local_json() {
+    std::string err_msg;
+    cloris::Config* conf = cloris::Config::instance()->Load("../conf/common.json", SRC_LOCAL | FMT_JSON, &err_msg);
+    if (conf) {
+        std::cout << "run test success" << std::endl;
+    } else {
+        std::cout << "run test failed, " << err_msg << std::endl;
+    }
+    std::string k1 = conf->getString("adslot.vta.popUp");
+    cloris::CNode* node = conf->getCNode("adslot.vta.splash");
+    if (node) {
+        std::cout << "adslot.vta.splash=" << node->asString() << std::endl;
+    }
+    int k2 = conf->getInt32("/adslot/vta/xxx", 13456);
+    std::cout << "k1=" << k1 << std::endl;
+    std::cout << "k2=" << k2 << std::endl;
+}
+
 void watch(cloris::CNode* node, const std::string& path, uint32_t event) {
     std::cout << "watch hit !!" << std::endl;
 }
@@ -95,9 +113,11 @@ void test_direct_joml() {
 }
 
 int main(int argc, char** argv) {
-    // test_local();
+    test_local();
+    std::cout << "test local json..." << std::endl;
+    test_local_json();
     // test_zk();
     // test_direct_joml();
-    test_direct_json();
+    // test_direct_json();
     return 0;
 }

@@ -12,7 +12,7 @@
 
 namespace cloris {
 
-bool parseJsonConfig(const std::string& input, const ConfigInserter& handler, std::string* err_msg);
+bool ParseJsonConfig(const std::string& input, bool is_file, const ConfigInserter& handler, std::string* err_msg);
 
 } // namespace cloris
 

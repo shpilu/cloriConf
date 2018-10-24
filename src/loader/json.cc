@@ -4,6 +4,9 @@
 // version: 1.0
 //
 
+#include <fstream>
+#include <stdio.h>
+#include <rapidjson/filereadstream.h>
 #include <rapidjson/document.h>
 #include <rapidjson/error/en.h>
 #include "json.h"
@@ -14,7 +17,7 @@ namespace cloris {
 
 using namespace rapidjson;
 
-static bool parsePlainObjectNode(const Value& obj, std::vector<TraceNode>& vec_trace, 
+static bool ParsePlainObjectNode(const Value& obj, std::vector<TraceNode>& vec_trace, 
         const ConfigInserter& handler, 
         std::string* err_msg) {
     std::string cpath = vec2str(vec_trace, "/");
@@ -38,7 +41,7 @@ static bool parsePlainObjectNode(const Value& obj, std::vector<TraceNode>& vec_t
     }
 }
 
-static bool parseMemberNode(const std::string& key, const Value& value, std::vector<TraceNode>& vec_trace, 
+static bool ParseMemberNode(const std::string& key, const Value& value, std::vector<TraceNode>& vec_trace, 
         const ConfigInserter& handler, std::string* err_msg) {
     bool ok;
     vec_trace.push_back(TraceNode(key, 0));
@@ -49,7 +52,7 @@ static bool parseMemberNode(const std::string& key, const Value& value, std::vec
             ok = handler(cpath, EMPTY_VALUE, err_msg);
         } else {
             for (Value::ConstMemberIterator in_iter = value.MemberBegin(); in_iter != value.MemberEnd(); ++in_iter) {
-                ok = parseMemberNode(in_iter->name.GetString(), in_iter->value, vec_trace, handler, err_msg);
+                ok = ParseMemberNode(in_iter->name.GetString(), in_iter->value, vec_trace, handler, err_msg);
                 if (!ok) {
                     break;
                 }
@@ -66,40 +69,62 @@ static bool parseMemberNode(const std::string& key, const Value& value, std::vec
                 // p1/p2/0/...
                 // p1/p2/1/...
                 std::string mkey = std::to_string(i++);
-                ok = parseMemberNode(mkey, *in_iter, vec_trace, handler, err_msg);
+                ok = ParseMemberNode(mkey, *in_iter, vec_trace, handler, err_msg);
                 if (!ok) {
                     break;
                 }
             }
         }
     } else {
-        ok = parsePlainObjectNode(value, vec_trace, handler, err_msg);
+        ok = ParsePlainObjectNode(value, vec_trace, handler, err_msg);
     }
     vec_trace.pop_back();
     return ok;
 }
 
-bool parseJsonConfig(const std::string& input, const ConfigInserter& handler, std::string* err_msg) {
+bool ParseJsonConfig(const std::string& input, bool is_file, const ConfigInserter& handler, std::string* err_msg) {
     Document doc;
-    if (doc.Parse<0>(input.c_str()).HasParseError()) {
+    if (is_file) {
+        std::ifstream file(input.c_str());
+        FILE* fp = fopen(input.c_str(), "r");
+        char buffer[65536];
+        FileReadStream stream(fp, buffer, sizeof(buffer));
+        doc.ParseStream(stream);
+    } else {
+        doc.Parse<0>(input.c_str());
+    }
+    if (doc.HasParseError()) {
         if (err_msg) {
             *err_msg = GetParseError_En(doc.GetParseError());
         }
         return false;
     }
-    if (!doc.IsObject()) {
+
+    std::vector<TraceNode> vec_trace;
+    if (doc.IsObject()) {
+        for (Value::ConstMemberIterator iter = doc.MemberBegin(); iter != doc.MemberEnd(); ++iter) {
+            if (!ParseMemberNode(iter->name.GetString(), iter->value, vec_trace, handler, err_msg)) {
+                return false;
+            }
+        }
+        return true;
+    } else if (doc.IsArray()) {
+        int i = 0;
+        for (Value::ConstValueIterator in_iter = doc.Begin(); in_iter != doc.End(); ++in_iter) {
+            // p1/p2/0/...
+            // p1/p2/1/...
+            std::string mkey = std::to_string(i++);
+            if (!ParseMemberNode(mkey, *in_iter, vec_trace, handler, err_msg)) {
+                return false;
+            }
+        }
+        return true;
+    } else {
         if (err_msg) {
-            *err_msg = "whole config is not json object";
+            *err_msg = "config is not object or array";
         }
         return false;
     }
-    std::vector<TraceNode> vec_trace;
-    for (Value::ConstMemberIterator iter = doc.MemberBegin(); iter != doc.MemberEnd(); ++iter) {
-        if (!parseMemberNode(iter->name.GetString(), iter->value, vec_trace, handler, err_msg)) {
-            return false;
-        }
-    }
-    return true;
 }
 
 } // namespace cloris

@@ -15,7 +15,9 @@ public:
     ConfigKeeperLocal() = delete;
     ConfigKeeperLocal(ConfigImpl* impl);
     ~ConfigKeeperLocal() { }
-    bool LoadConfig(const std::string& src, int format, std::string* err_msg);
+    bool LoadConfig(const std::string& filename, int format, std::string* err_msg);
+    bool LoadJoml(const std::string& filename, int format, std::string* err_msg);
+    bool LoadJson(const std::string& filename, std::string* err_msg);
 };
 
 } // namespace cloris

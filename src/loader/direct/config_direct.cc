@@ -34,7 +34,7 @@ ConfigKeeperDirect::ConfigKeeperDirect(ConfigImpl* impl)
 
 bool ConfigKeeperDirect::LoadJson(const std::string& raw_conf, std::string* err_msg) {
     ConfigInserter handler = std::bind(&ConfigImpl::Insert, this->impl(), _1, _2, _3, 0);
-    return parseJsonConfig(raw_conf, handler, err_msg);
+    return ParseJsonConfig(raw_conf, false, handler, err_msg);
 }
 
 bool ConfigKeeperDirect::LoadConfig(const std::string& raw_conf, int format, std::string* err_msg) {
