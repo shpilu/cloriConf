@@ -34,24 +34,9 @@ bool ConfigKeeperLocal::LoadJson(const std::string& filename, std::string* err_m
 }
 
 bool ConfigKeeperLocal::LoadJoml(const std::string& filename, int format, std::string* err_msg) {
-    bool ret(true);
-    std::vector<std::string> comments; 
-    int comment_flag = format & CMT_MASK;
-    if (comment_flag & CMT_SHARP) {
-        comments.push_back("#");
-    }
-    if (comment_flag & CMT_SLASH) {
-        comments.push_back("//");
-    }
-    if (comment_flag & CMT_SEMICOLON) {
-        comments.push_back(";");
-    }
-    if (comment_flag & CMT_PERCENT) {
-        comments.push_back("%");
-    }
-
-    std::ifstream fl(filename);
     std::string buf;
+    bool ret(true);
+    std::ifstream fl(filename);
     std::vector<TraceNode> vec_trace;
     
     if (!fl.is_open()) {
@@ -59,9 +44,12 @@ bool ConfigKeeperLocal::LoadJoml(const std::string& filename, int format, std::s
         return false;
     }
 
+    std::vector<std::string> comments; 
+    LoadCommentChars(format, comments);
+
     ConfigInserter handler = std::bind(&ConfigImpl::Insert, this->impl(), _1, _2, _3, 0);
     while (getline(fl, buf)) {
-        if (!purgeLine(buf, err_msg, comments) || !parseLine(buf, vec_trace, handler, err_msg)) {
+        if (!PurgeLine(buf, err_msg, comments) || !ParseLine(buf, vec_trace, handler, err_msg)) {
             ret = false;
             break;
         }

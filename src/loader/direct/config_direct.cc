@@ -49,28 +49,16 @@ bool ConfigKeeperDirect::LoadConfig(const std::string& raw_conf, int format, std
 // cloriConf just support JINI config format only now
 bool ConfigKeeperDirect::LoadJoml(const std::string& raw_conf, int format, std::string* err_msg) {
     bool ret(true);
-    std::vector<std::string> comments;
-    int comment_flag = format & CMT_MASK;
-    if (comment_flag & CMT_SHARP) {
-        comments.push_back("#");
-    }
-    if (comment_flag & CMT_SLASH) {
-        comments.push_back("//");
-    }
-    if (comment_flag & CMT_SEMICOLON) {
-        comments.push_back(";");
-    }
-    if (comment_flag & CMT_PERCENT) {
-        comments.push_back("%");
-    }
-
     std::string buf;
     std::vector<TraceNode> vec_trace;
+
+    std::vector<std::string> comments;
+    LoadCommentChars(format, comments);
 
     ConfigInserter handler = std::bind(&ConfigImpl::Insert, this->impl(), _1, _2, _3, 0);
     size_t index = 0;
     while (read_line(raw_conf, buf, index)) {
-        if (!purgeLine(buf, err_msg, comments) || !parseLine(buf, vec_trace, handler, err_msg)) {
+        if (!PurgeLine(buf, err_msg, comments) || !ParseLine(buf, vec_trace, handler, err_msg)) {
             ret = false;
             break;
         }

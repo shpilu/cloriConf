@@ -12,20 +12,20 @@ class ConfigImpl;
 
 class ConfigZookeeper : public ConfigKeeper {
 public:
-    ConfigZookeeper() = delete;
     ConfigZookeeper(ConfigImpl* impl);
     ~ConfigZookeeper();
+    bool LoadConfig(const std::string& conf_file, int format, std::string* err_msg);
 
-    bool LoadConfig(const std::string& src, int format, std::string* err_msg);
+private:
+    ConfigZookeeper() = delete;
     void Start();
     void Stop();
     void Job();
-
     bool ScanZk(std::string* err_msg);
     bool ConnectZk(std::string* err_msg);
     void CloseZk();
-    bool ScanZookeeper(std::string* err_msg);
-private:
+    bool SyncConfigFromZk(std::string* err_msg);
+
     zhandle_t* zh_;
     bool running_;
     std::string host_;

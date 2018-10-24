@@ -12,10 +12,12 @@ namespace cloris {
 
 class ConfigKeeperLocal : public ConfigKeeper {
 public:
-    ConfigKeeperLocal() = delete;
     ConfigKeeperLocal(ConfigImpl* impl);
     ~ConfigKeeperLocal() { }
     bool LoadConfig(const std::string& filename, int format, std::string* err_msg);
+
+private:
+    ConfigKeeperLocal() = delete;
     bool LoadJoml(const std::string& filename, int format, std::string* err_msg);
     bool LoadJson(const std::string& filename, std::string* err_msg);
 };

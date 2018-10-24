@@ -5,23 +5,40 @@
 //
 
 #include <boost/algorithm/string.hpp>
+#include "../config_impl.h"
 #include "joml.h"
 
 namespace cloris {
 
 using namespace std::placeholders;
 
-static bool isLegal(const std::string& str, std::string* err_msg) { 
+static bool IsLegal(const std::string& str, std::string* err_msg) { 
     return true; 
 }
 
-bool purgeLine(std::string& line, std::string* err_msg, std::vector<std::string>& comments) {
+void LoadCommentChars(int format, std::vector<std::string>& comments) {
+    int comment_flag = format & CMT_MASK;
+    if (comment_flag & CMT_SHARP) {
+        comments.push_back("#");
+    }
+    if (comment_flag & CMT_SLASH) {
+        comments.push_back("//");
+    }
+    if (comment_flag & CMT_SEMICOLON) {
+        comments.push_back(";");
+    }
+    if (comment_flag & CMT_PERCENT) {
+        comments.push_back("%");
+    }
+}
+
+bool PurgeLine(std::string& line, std::string* err_msg, std::vector<std::string>& comments) {
     for (auto &p : comments) {
         line = line.substr(0, line.find(p));
         boost::trim(line);
     }
     // TODO check unsupported chars 
-    if (!isLegal(line, err_msg)) {
+    if (!IsLegal(line, err_msg)) {
         return false;
     }
     if (comments.size() == 0) {
@@ -30,7 +47,7 @@ bool purgeLine(std::string& line, std::string* err_msg, std::vector<std::string>
     return true;
 }
 
-static bool insertConfNode(const std::string& key, 
+static bool InsertConfNode(const std::string& key, 
         const std::string& value, 
         std::vector<TraceNode>& vec_trace, 
         const ConfigInserter& handler,
@@ -59,8 +76,8 @@ static bool insertConfNode(const std::string& key,
     }
 
     vec_trace.push_back(TraceNode(first_key, current_weight));
-    std::string cpath = vec2str(vec_trace, "/");
-    if (!handler(cpath, node_value, err_msg)) {
+    std::string full_path = vec2str(vec_trace, "/");
+    if (!handler(full_path, node_value, err_msg)) {
         return false;
     }
 
@@ -68,29 +85,29 @@ static bool insertConfNode(const std::string& key,
         return true;
     } else {
         std::string pending_key = key.substr(separator_pos + 1);
-        return insertConfNode(pending_key, value, vec_trace, handler, current_weight, err_msg);
+        return InsertConfNode(pending_key, value, vec_trace, handler, current_weight, err_msg);
     }
 }
 
-static void traceBack(std::vector<TraceNode>& vec_trace, int current_weight) {
+static void TraceBack(std::vector<TraceNode>& vec_trace, int current_weight) {
     while (!vec_trace.empty() && (vec_trace.back().weight <= current_weight)) {
         vec_trace.pop_back();
     }
 }
 
-static bool parseKeyLine(const std::string& buf, std::vector<TraceNode>& vec_trace, const ConfigInserter& handler, 
+static bool ParseKeyLine(const std::string& buf, std::vector<TraceNode>& vec_trace, const ConfigInserter& handler, 
         int current_weight, std::string* err_msg) {
-    traceBack(vec_trace, current_weight); 
+    TraceBack(vec_trace, current_weight); 
     size_t eq_pos = buf.find('=');
     std::string key(buf.substr(0, eq_pos));        
     std::string value((eq_pos == std::string::npos) ? "" : buf.substr(eq_pos + 1));
 
     boost::trim(value);
 
-    return insertConfNode(key, value, vec_trace, handler, current_weight, err_msg);
+    return InsertConfNode(key, value, vec_trace, handler, current_weight, err_msg);
 }
 
-static bool parseSectionLine(const std::string& buf, std::vector<TraceNode>& vec_trace, 
+static bool ParseSectionLine(const std::string& buf, std::vector<TraceNode>& vec_trace, 
         const ConfigInserter& handler, std::string* err_msg) {
     int i(0);
     int j(buf.size() - 1); 
@@ -114,20 +131,20 @@ static bool parseSectionLine(const std::string& buf, std::vector<TraceNode>& vec
 
     // support '[[ ]]' --- separate sections
     if (key.empty()) {
-        traceBack(vec_trace, i);
+        TraceBack(vec_trace, i);
         return true;
     } else {
-        return parseKeyLine(key, vec_trace, handler, i, err_msg);
+        return ParseKeyLine(key, vec_trace, handler, i, err_msg);
     }
 }
 
-bool parseLine(const std::string& buf, std::vector<TraceNode>& vec_trace, const ConfigInserter& handler, std::string* err_msg) {
+bool ParseLine(const std::string& buf, std::vector<TraceNode>& vec_trace, const ConfigInserter& handler, std::string* err_msg) {
     if (buf.empty()) {
         return true;
     } else if (buf[0] == '[') {
-        return parseSectionLine(buf, vec_trace, handler, err_msg);
+        return ParseSectionLine(buf, vec_trace, handler, err_msg);
     } else {
-        return parseKeyLine(buf, vec_trace, handler, 0, err_msg);
+        return ParseKeyLine(buf, vec_trace, handler, 0, err_msg);
     }
 }
 

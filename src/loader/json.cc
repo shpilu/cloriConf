@@ -20,19 +20,19 @@ using namespace rapidjson;
 static bool ParsePlainObjectNode(const Value& obj, std::vector<TraceNode>& vec_trace, 
         const ConfigInserter& handler, 
         std::string* err_msg) {
-    std::string cpath = vec2str(vec_trace, "/");
+    std::string full_path = vec2str(vec_trace, "/");
     if (obj.IsString()) {
-        return handler(cpath, obj.GetString(), err_msg);
+        return handler(full_path, obj.GetString(), err_msg);
     } else if (obj.IsNumber()) {
         if (obj.IsInt64()) {
-            return handler(cpath, std::to_string(obj.GetInt64()), err_msg);
+            return handler(full_path, std::to_string(obj.GetInt64()), err_msg);
         } else { 
-            return handler(cpath, std::to_string(obj.GetDouble()), err_msg);
+            return handler(full_path, std::to_string(obj.GetDouble()), err_msg);
         }
     } else if (obj.IsBool()) {
-        return handler(cpath, obj.GetBool() ? "true" : "false", err_msg);
+        return handler(full_path, obj.GetBool() ? "true" : "false", err_msg);
     } else if (obj.IsNull()) {
-        return handler(cpath, "", err_msg);
+        return handler(full_path, "", err_msg);
     } else {
         if (err_msg) {
             *err_msg = "json parser internal error";
@@ -48,8 +48,8 @@ static bool ParseMemberNode(const std::string& key, const Value& value, std::vec
     if (value.IsObject()) {
         // empty object '{ }'
         if (value.MemberBegin() == value.MemberEnd()) {
-            std::string cpath = vec2str(vec_trace, "/");
-            ok = handler(cpath, EMPTY_VALUE, err_msg);
+            std::string full_path = vec2str(vec_trace, "/");
+            ok = handler(full_path, EMPTY_VALUE, err_msg);
         } else {
             for (Value::ConstMemberIterator in_iter = value.MemberBegin(); in_iter != value.MemberEnd(); ++in_iter) {
                 ok = ParseMemberNode(in_iter->name.GetString(), in_iter->value, vec_trace, handler, err_msg);
@@ -61,8 +61,8 @@ static bool ParseMemberNode(const std::string& key, const Value& value, std::vec
     } else if (value.IsArray()) {
         // empty array '[ ]'
         if (value.Begin() == value.End()) {
-            std::string cpath = vec2str(vec_trace, "/");
-            ok = handler(cpath, EMPTY_VALUE, err_msg);
+            std::string full_path = vec2str(vec_trace, "/");
+            ok = handler(full_path, EMPTY_VALUE, err_msg);
         } else {
             int i = 0;
             for (Value::ConstValueIterator in_iter = value.Begin(); in_iter != value.End(); ++in_iter) {

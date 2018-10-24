@@ -6,15 +6,16 @@
 #include "config_zk.h"
 
 #define BUF_LEN 1024000
-
+#define DEFAULT_CONN_TIMEOUT  5000
+#define DEFAULT_SCAN_INTERVAL 10000
 namespace cloris {
 
 ConfigZookeeper::ConfigZookeeper(ConfigImpl* impl) 
     : ConfigKeeper(impl),
       zh_(NULL),
       running_(false),
-      timeout_(5000),
-      interval_(10000) {
+      timeout_(DEFAULT_CONN_TIMEOUT),
+      interval_(DEFAULT_SCAN_INTERVAL) {
 }
 
 ConfigZookeeper::~ConfigZookeeper() {
@@ -40,8 +41,7 @@ void ConfigZookeeper::Job() {
     std::string err_msg;
     while (running_) {
         std::this_thread::sleep_for(std::chrono::milliseconds(interval_));
-        // std::cout << "running job" << std::endl;
-        ScanZookeeper(&err_msg);
+        SyncConfigFromZk(&err_msg);
         impl()->FlushWatcher();
     }
 }
@@ -51,7 +51,6 @@ bool ConfigZookeeper::ScanZk(std::string* err_msg) {
     std::deque<std::string> queue;
 
     queue.push_back("");
-    // 只有全部节点正常时才能进入下一步
     int zerr; 
     while (!queue.empty()) {
         std::string head = queue[0];
@@ -73,13 +72,13 @@ bool ConfigZookeeper::ScanZk(std::string* err_msg) {
     }
 
     // now get config---
-    std::string buf_str;
-    buf_str.resize(BUF_LEN);
-    char *pbuf = const_cast<char*>(buf_str.data());
+    std::string buffer;
+    buffer.resize(BUF_LEN);
+    char *pbuf = const_cast<char*>(buffer.data());
     struct Stat stat;
     size_t new_node(0);
 
-    size_t old_count = impl()->count();
+    size_t old_node_count = impl()->count();
     for (auto& p : node_set) {
         int buf_len(BUF_LEN);
         zerr = zoo_get(zh_, (root_ + p).c_str(), 0, pbuf, &buf_len, &stat);
@@ -89,7 +88,7 @@ bool ConfigZookeeper::ScanZk(std::string* err_msg) {
             }
             return false;
         }
-        buf_str[buf_len] = '\0';
+        buffer[buf_len] = '\0';
         // if not found in old table or updated, do it
         bool noexist(false);
         if (impl()->CheckIfNotExistOrExpired(p, stat.mzxid, &noexist)) {
@@ -99,7 +98,7 @@ bool ConfigZookeeper::ScanZk(std::string* err_msg) {
             ++new_node;
         }
     }
-    if (old_count + new_node > node_set.size()) {
+    if (old_node_count + new_node > node_set.size()) {
         impl()->DisableDeletedNode(node_set);
     }
     return true;
@@ -123,7 +122,7 @@ void ConfigZookeeper::CloseZk() {
     zh_ = NULL;
 }
 
-bool ConfigZookeeper::ScanZookeeper(std::string* err_msg) {
+bool ConfigZookeeper::SyncConfigFromZk(std::string* err_msg) {
     bool ret = this->ConnectZk(err_msg);
     if (ret) {
         ret = ScanZk(err_msg);
@@ -146,7 +145,7 @@ bool ConfigZookeeper::LoadConfig(const std::string& src, int format, std::string
     interval_ = conf->getInt32("zookeeper.interval");
     root_     = conf->getString("zookeeper.root");
 
-    bool ret = this->ScanZookeeper(err_msg);
+    bool ret = this->SyncConfigFromZk(err_msg);
     if (ret && enable_update) {
         this->Start();
     }

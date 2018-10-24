@@ -12,8 +12,9 @@
 
 namespace cloris {
 
-bool purgeLine(std::string& line, std::string* err_msg, std::vector<std::string>& comments);
-bool parseLine(const std::string& buf, std::vector<TraceNode>& vec_trace, const ConfigInserter& handler, std::string* err_msg);
+void LoadCommentChars(int format, std::vector<std::string>& comments);
+bool PurgeLine(std::string& line, std::string* err_msg, std::vector<std::string>& comments);
+bool ParseLine(const std::string& buf, std::vector<TraceNode>& vec_trace, const ConfigInserter& handler, std::string* err_msg);
 
 } // namespace cloris
 
