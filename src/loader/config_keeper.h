@@ -27,6 +27,16 @@ private:
     ConfigImpl* impl_;
 };
 
+struct TraceNode {
+    TraceNode(const std::string& s_id, int i_weight) 
+        : id(s_id),
+           weight(i_weight) { }
+    std::string id;
+    int weight;
+};
+
+std::string vec2str(const std::vector<TraceNode>& vec, const std::string& separator); 
+
 } // namespace cloris 
 
 #endif //  CLORIS_CONFIG_KEEPER_H_

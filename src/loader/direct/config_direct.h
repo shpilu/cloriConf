@@ -6,7 +6,7 @@
 #ifndef CLORIS_CONFIG_DIRECT_H_
 #define CLORIS_CONFIG_DIRECT_H_
 
-#include "../../config_keeper.h"
+#include "../config_keeper.h"
 
 namespace cloris {
 

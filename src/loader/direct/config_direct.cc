@@ -60,7 +60,6 @@ bool ConfigKeeperDirect::LoadConfig(const std::string& raw_conf, int format, std
             break;
         }
     }
-
     if (!ret) {
         if (err_msg) {
             *err_msg = "[parse_config_failed]" + (*err_msg);

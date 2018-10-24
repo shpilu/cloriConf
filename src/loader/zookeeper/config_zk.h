@@ -4,7 +4,7 @@
 
 #include <thread>
 #include <zookeeper/zookeeper.h>
-#include "../../config_keeper.h"
+#include "../config_keeper.h"
 
 namespace cloris {
 
