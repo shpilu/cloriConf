@@ -67,19 +67,37 @@ void test_zk() {
 
 }
 
-void test_direct() {
+void test_direct_json() {
+    std::string conf("{\"myself\":{\"name\":\"WeiJian\", \"school\":\"BUAA\",\"dr\":[\"cloris\", \"yt\"]}}");
+    std::string err_msg("");
+    if (cloris::Config::instance()->Load(conf, SRC_DIRECT|FMT_JSON, &err_msg)) {
+        std::string my_name = cloris::Config::instance()->getString("myself.name");
+        cloris::CNode* node = cloris::Config::instance()->getCNode("myself.dr");
+        for (auto &p : *node) {
+            std::cout << "dr, key=" << p.key() << ", value=" << p.asString() << std::endl;
+        }
+        std::cout << "my name is " << my_name << std::endl;
+        std::cout << "dr0=" << cloris::Config::instance()->getString("myself.dr.0") << std::endl;
+    } else {
+        std::cout << "init direct config failed:" << err_msg << std::endl;
+    }
+}
+
+void test_direct_joml() {
     std::string conf("[myself] \n name=James Wei\n school=BUAA \n company=ofo\n");
-    if (cloris::Config::instance()->Load(conf, SRC_DIRECT)) {
+    std::string err_msg("");
+    if (cloris::Config::instance()->Load(conf, SRC_DIRECT, &err_msg)) {
         std::string my_name = cloris::Config::instance()->getString("myself.name");
         std::cout << "my name is " << my_name << std::endl;
     } else {
-        std::cout << "init direct config failed!" << std::endl;
+        std::cout << "init direct config failed:" << err_msg << std::endl;
     }
 }
 
 int main(int argc, char** argv) {
-    test_local();
+    // test_local();
     // test_zk();
-    // test_direct();
+    // test_direct_joml();
+    test_direct_json();
     return 0;
 }

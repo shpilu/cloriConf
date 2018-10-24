@@ -87,7 +87,7 @@ bool parseJsonConfig(const std::string& input, const ConfigInserter& handler, st
         }
         return false;
     }
-    if (doc.IsObject()) {
+    if (!doc.IsObject()) {
         if (err_msg) {
             *err_msg = "whole config is not json object";
         }

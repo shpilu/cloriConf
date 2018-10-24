@@ -16,6 +16,8 @@ public:
     ConfigKeeperDirect(ConfigImpl* impl);
     ~ConfigKeeperDirect() { }
     bool LoadConfig(const std::string& src, int format, std::string* err_msg);
+    bool LoadJoml(const std::string& raw_conf, int format, std::string* err_msg);
+    bool LoadJson(const std::string& raw_conf, std::string* err_msg);
 };
 
 } // namespace cloris

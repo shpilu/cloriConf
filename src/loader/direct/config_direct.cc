@@ -7,6 +7,7 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include "../joml.h"
+#include "../json.h"
 #include "../../config_impl.h"
 #include "config_direct.h"
 
@@ -31,8 +32,22 @@ ConfigKeeperDirect::ConfigKeeperDirect(ConfigImpl* impl)
     : ConfigKeeper(impl) {
 }
 
-// cloriConf just support JINI config format only now
+bool ConfigKeeperDirect::LoadJson(const std::string& raw_conf, std::string* err_msg) {
+    ConfigInserter handler = std::bind(&ConfigImpl::Insert, this->impl(), _1, _2, _3, 0);
+    return parseJsonConfig(raw_conf, handler, err_msg);
+}
+
 bool ConfigKeeperDirect::LoadConfig(const std::string& raw_conf, int format, std::string* err_msg) {
+    if (format & FMT_JSON) {
+        return this->LoadJson(raw_conf, err_msg);
+    } else {
+        // use joml as default data format
+        return this->LoadJoml(raw_conf, format, err_msg);
+    }
+}
+
+// cloriConf just support JINI config format only now
+bool ConfigKeeperDirect::LoadJoml(const std::string& raw_conf, int format, std::string* err_msg) {
     bool ret(true);
     std::vector<std::string> comments;
     int comment_flag = format & CMT_MASK;

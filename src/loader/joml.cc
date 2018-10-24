@@ -24,6 +24,9 @@ bool purgeLine(std::string& line, std::string* err_msg, std::vector<std::string>
     if (!isLegal(line, err_msg)) {
         return false;
     }
+    if (comments.size() == 0) {
+        boost::trim(line);
+    }
     return true;
 }
 
@@ -100,7 +103,7 @@ static bool parseSectionLine(const std::string& buf, std::vector<TraceNode>& vec
             break;
         } else {
             if (err_msg) {
-                *err_msg = "bad section format";
+                *err_msg = "bad section format:" + buf;
             }
             return false;
         }
