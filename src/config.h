@@ -21,7 +21,7 @@ class ConfigImpl;
 
 typedef std::function<void(CNode*, const std::string&, uint32_t)> EventHandler;
 
-enum ITYPE {
+enum IterType {
     ITYPE_ALL = 0,
     ITYPE_LEAF  = 1,
     ITYPE_NONLEAF = 2,
@@ -49,49 +49,45 @@ class CNode {
 public:
     CNode() = delete;
     ~CNode();
-    CNode(ConfigImpl* impl, const std::string& key, const std::string& hkey, const std::string& value, bool is_leaf); 
+    CNode(ConfigImpl* impl, const std::string& path, const std::string& hash_key, const std::string& value, bool is_leaf); 
 
     CNodeIterator begin();
     CNodeIterator end();
     CNodeIterator leaf_begin();
     CNodeIterator leaf_end();
-    CNodeIterator nonleaf_begin();
-    CNodeIterator nonleaf_end();
+    CNodeIterator non_leaf_begin();
+    CNodeIterator non_leaf_end();
 public:
-    inline void refresh();
-    const std::string& asString();
-    int32_t     asInt32();
-    int64_t     asInt64();
-    double      asDouble();
-    bool        asBool();
+    const std::string& AsString() const;
+    int32_t     AsInt32() const;
+    int64_t     AsInt64() const;
+    double      AsDouble() const;
+    bool        AsBool() const;
 
-    std::string getString(const std::string& key, const std::string& def_val = "");
-    int32_t     getInt32(const std::string& key, int32_t def_val = 0);
-    int64_t     getInt64(const std::string& key, int64_t def_val = 0L);
-    double      getDouble(const std::string& key, double def_val = 0.0);
-    bool        getBool(const std::string& key, bool def_val = false);
+    const std::string GetString(const std::string& key, const std::string& def_val = "") const;
+    int32_t     GetInt32(const std::string& key, int32_t def_val = 0) const;
+    int64_t     GetInt64(const std::string& key, int64_t def_val = 0L) const;
+    double      GetDouble(const std::string& key, double def_val = 0.0) const;
+    bool        GetBool(const std::string& key, bool def_val = false) const;
+    const CNode* GetCNode(const std::string& key = "") const; 
 
-    std::map<std::string, CNode*>& children() { 
-        return children_; 
-    }
-    DoubleBuffer<std::string>& value() { 
-        return value_; 
-    } 
-
-    CNode* getCNode(const std::string& key = ""); 
-    void disable() { enabled_ = false; }
-    void set_is_leaf(bool is_leaf) { is_leaf_ = is_leaf; }
-
-    bool is_leaf() const { return is_leaf_; }
+    std::map<std::string, CNode*>& children() { return children_; }
     const std::string& key() const { return key_; }
+    void Disable() { enabled_ = false; }
+    void Refresh();
     bool enabled() const  { return enabled_; }
-    
+    void set_is_leaf(bool is_leaf) { is_leaf_ = is_leaf; }
+    const DoubleBuffer<std::string>& value() const { return value_; } 
+    DoubleBuffer<std::string>& mutable_value() { return value_; } 
+
 private:
-    ConfigImpl *impl_;
+    bool is_leaf() const { return is_leaf_; }
+
     std::map<std::string, CNode*> children_;
+    DoubleBuffer<std::string> value_;
+    ConfigImpl *impl_;
     std::string key_;
     std::string hkey_;
-    DoubleBuffer<std::string> value_;
     bool enabled_;
     bool is_leaf_;
 };
@@ -99,33 +95,28 @@ private:
 class Config : boost::noncopyable {
 public:
     static Config* instance();
-    Config(const std::string& src, int mode);
+    Config(const std::string& input, int mode);
     Config();
     ~Config();
 
-    Config* Load(const std::string& src, int mode, std::string* err_msg = NULL);
+    Config* Load(const std::string& input, int mode, std::string* err_msg = NULL);
     bool Watch(const std::string& path, uint32_t event, EventHandler& handler);
 
-    CNode*      getCNode(const std::string& key = "");
-    std::string getString(const std::string& key, const std::string& def_val = "");
-    int32_t     getInt32(const std::string& key, int32_t def_val = 0);
-    int64_t     getInt64(const std::string& key, int64_t def_val = 0L);
-    double      getDouble(const std::string& key, double def_val = 0.0);
-    bool        getBool(const std::string& key, bool def_val = false);
+    const CNode*      GetCNode(const std::string& key = "") const;
+    std::string GetString(const std::string& key, const std::string& def_val = "") const;
+    int32_t     GetInt32(const std::string& key, int32_t def_val = 0) const;
+    int64_t     GetInt64(const std::string& key, int64_t def_val = 0L) const;
+    double      GetDouble(const std::string& key, double def_val = 0.0) const;
+    bool        GetBool(const std::string& key, bool def_val = false) const;
 
-    bool ok() { return (status_ == 0); }
-    const std::string& error() const { return last_error_; }
+    bool Ok() { return (status_ == 0); }
+    const std::string& ErrorText() const { return last_error_; }
 private:
     int status_;
     std::string last_error_;
-
     ConfigImpl* impl_;
 };
 
-inline void CNode::refresh() { 
-    enabled_ = true; 
-    value_.Set("");
-}
 
 } // namespace cloris
 

@@ -21,21 +21,21 @@ class Config;
 class ConfigKeeper;
 
 // use hash table to accelerate cnode search 
-struct HNode {
-    HNode() : value_(NULL), version_(0), enabled_(true) { }
-    HNode(void* val) : value_(val), version_(0), enabled_(true) { }
-    HNode(void* val, int64_t version) : value_(val), version_(version), enabled_(true) { }
+struct HashNode {
+    HashNode() : value_(NULL), version_(0), enabled_(true) { }
+    HashNode(void* val) : value_(val), version_(0), enabled_(true) { }
+    HashNode(void* val, int64_t version) : value_(val), version_(version), enabled_(true) { }
 
     void *value_;
     int64_t version_;
     bool enabled_;
-    void disable();
+    void Disable();
 };
 
 // watch node
-struct WNode {
-    WNode(const std::string& cpath, EventHandler& handler) : cpath_(cpath), handler_(handler) { }
-    std::string cpath_;
+struct WatchNode {
+    WatchNode(const std::string& node_path, EventHandler& handler) : node_path_(node_path), handler_(handler) { }
+    std::string node_path_;
     EventHandler handler_;
 };
 
@@ -43,23 +43,23 @@ class ConfigImpl {
 public:
     ConfigImpl();
     ~ConfigImpl();
-    void DisableDeletedNode(std::set<std::string>& nset);
-    bool RegisterWatcher(const std::string& cpath, uint32_t event, EventHandler& handler); 
+    void DisableDeletedNode(const std::set<std::string>& node_set);
+    bool RegisterWatcher(const std::string& node_path, uint32_t event, EventHandler& handler); 
     
-    bool CheckIfNotExistOrExpired(const std::string& cpath, int64_t version = 0, bool* noexist = NULL);
+    bool CheckIfNotExistOrExpired(const std::string& node_path, int64_t version = 0, bool* no_exist = NULL);
     bool Load(const std::string& src, int mode, std::string* err_msg);
-    bool Insert(const std::string& cpath, const std::string& value, std::string* err_msg, int64_t version = 0);
+    bool Insert(const std::string& node_path, const std::string& value, std::string* err_msg, int64_t version = 0);
 
-    void NodifyWatcher(const std::string& cpath); 
+    void NodifyWatcher(const std::string& node_path); 
     void FlushWatcher();
-    CNode* getCNode(const std::string& key);
-    CNode* getCNode(const std::string& key_prefix, const std::string& key);
-    size_t count() const { return htable_.size(); }
+    CNode* GetCNode(const std::string& key);
+    CNode* GetCNode(const std::string& key_prefix, const std::string& key);
+    size_t count() const { return hash_table_.size(); }
 private:
-    std::unordered_map<std::string, HNode*> htable_;
-    std::unordered_map<std::string, WNode*> wtable_;
+    std::unordered_map<std::string, HashNode*> hash_table_;
+    std::unordered_map<std::string, WatchNode*> watch_table_;
     std::set<std::string> trigger_;
-    std::unique_ptr<ConfigKeeper> ck_;
+    std::unique_ptr<ConfigKeeper> config_keeper_;
     CNode root_;
 };
 

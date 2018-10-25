@@ -134,16 +134,16 @@ bool ConfigZookeeper::SyncConfigFromZk(std::string* err_msg) {
 bool ConfigZookeeper::LoadConfig(const std::string& src, int format, std::string* err_msg) {
     static bool enable_update = true;
     std::shared_ptr<Config> conf = std::shared_ptr<Config>(new Config(src, SRC_LOCAL | FMT_JINI));
-    if (!conf->ok()) {
+    if (!conf->Ok()) {
         if (err_msg) {
-            *err_msg = conf->error();
+            *err_msg = conf->ErrorText();
         }
         return false;
     }
-    host_     = conf->getString("zookeeper.host");
-    timeout_  = conf->getInt32("zookeeper.timeout");
-    interval_ = conf->getInt32("zookeeper.interval");
-    root_     = conf->getString("zookeeper.root");
+    host_     = conf->GetString("zookeeper.host");
+    timeout_  = conf->GetInt32("zookeeper.timeout");
+    interval_ = conf->GetInt32("zookeeper.interval");
+    root_     = conf->GetString("zookeeper.root");
 
     bool ret = this->SyncConfigFromZk(err_msg);
     if (ret && enable_update) {

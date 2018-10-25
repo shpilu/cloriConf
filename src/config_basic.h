@@ -24,6 +24,7 @@
 #define FMT_JINI        0x00000010
 #define FMT_JSON        0x00000020
 
+// comment characters for joml/ini 
 #define CMT_SHARP       0x00000100  // #
 #define CMT_SLASH       0x00000200  // //
 #define CMT_SEMICOLON   0x00000400  // ;
@@ -44,7 +45,7 @@ public:
 
     void Set(const T& value);
     void SetDirect(T value);
-    T& get();
+    const T& Get() const;
 private:
     T value_[2];
     int32_t current_;
@@ -78,7 +79,7 @@ void DoubleBuffer<T>::SetDirect(T value) {
 }
 
 template<typename T> 
-T& DoubleBuffer<T>::get() {
+const T& DoubleBuffer<T>::Get() const  {
     return value_[current_];
 }
 

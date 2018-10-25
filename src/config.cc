@@ -8,77 +8,83 @@
 
 namespace cloris {
 
-const std::string& CNode::asString() {
-    return value_.get();
+void CNode::Refresh() { 
+    enabled_ = true; 
+    value_.Set("");
 }
 
-int32_t CNode::asInt32() {
-    return atoi(value_.get().c_str());
+const std::string& CNode::AsString() const {
+    return value_.Get();
 }
 
-int64_t CNode::asInt64() {
-    return atol(value_.get().c_str());
+int32_t CNode::AsInt32() const {
+    return atoi(value_.Get().c_str());
 }
 
-double CNode::asDouble() {
-    return atof(value_.get().c_str());
+int64_t CNode::AsInt64() const {
+    return atol(value_.Get().c_str());
 }
 
-bool CNode::asBool() {
-    return (value_.get() == "true");
+double CNode::AsDouble() const {
+    return atof(value_.Get().c_str());
 }
 
-CNode* CNode::getCNode(const std::string& key) {
-    return impl_->getCNode(this->hkey_, key);
+bool CNode::AsBool() const {
+    return (value_.Get() == "true");
 }
 
-std::string CNode::getString(const std::string& key, const std::string& def_val) {
-    CNode* node = this->getCNode(key);
+const CNode* CNode::GetCNode(const std::string& key) const {
+    return impl_->GetCNode(this->hkey_, key);
+}
+
+const std::string CNode::GetString(const std::string& key, const std::string& def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asString();
+        return node->AsString();
     } else {
         return def_val;
     }
 }
 
-int32_t CNode::getInt32(const std::string& key, int32_t def_val) {
-    CNode* node = this->getCNode(key);
+int32_t CNode::GetInt32(const std::string& key, int32_t def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asInt32();
+        return node->AsInt32();
     } else {
         return def_val;
     }
 }
 
-int64_t CNode::getInt64(const std::string& key, int64_t def_val) {
-    CNode* node = this->getCNode(key);
+int64_t CNode::GetInt64(const std::string& key, int64_t def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asInt64();
+        return node->AsInt64();
     } else {
         return def_val;
     }
 }
 
-double CNode::getDouble(const std::string& key, double def_val) {
-    CNode* node = this->getCNode(key);
+double CNode::GetDouble(const std::string& key, double def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asDouble();
+        return node->AsDouble();
     } else {
         return def_val;
     }
 }
 
-bool CNode::getBool(const std::string& key, bool def_val) {
-    CNode* node = this->getCNode(key);
+bool CNode::GetBool(const std::string& key, bool def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asBool();
+        return node->AsBool();
     } else {
         return def_val;
     }
 }
 
 CNodeIterator::CNodeIterator(const std::map<std::string, CNode*>::iterator& begin,
-    const std::map<std::string, CNode*>::iterator& end, uint8_t mode) 
+    const std::map<std::string, CNode*>::iterator& end, 
+    uint8_t mode) 
         : current_(begin), 
           end_(end),
           mode_(mode) {
@@ -100,7 +106,7 @@ CNodeIterator& CNodeIterator::operator++() {
     return *this;
 }
 
-CNode & CNodeIterator::operator*() {
+CNode& CNodeIterator::operator*() {
     return *(current_->second);
 }
 
@@ -132,7 +138,7 @@ CNodeIterator CNode::leaf_end() {
     return CNodeIterator(children_.end(), children_.end(), ITYPE_LEAF);
 }
 
-CNodeIterator CNode::nonleaf_begin() {
+CNodeIterator CNode::non_leaf_begin() {
     std::map<std::string, CNode*>::iterator iter = children_.begin();
     while ((iter != children_.end()) && (iter->second->is_leaf())) {
         ++iter;
@@ -140,7 +146,7 @@ CNodeIterator CNode::nonleaf_begin() {
     return CNodeIterator(iter, children_.end(), ITYPE_NONLEAF);
 }
 
-CNodeIterator CNode::nonleaf_end() {
+CNodeIterator CNode::non_leaf_end() {
     return CNodeIterator(children_.end(), children_.end(), ITYPE_NONLEAF);
 }
 
@@ -154,8 +160,8 @@ Config::Config()
     impl_ = new ConfigImpl();
 }
 
-Config::Config(const std::string& src, int mode) : Config() {
-    if (!this->Load(src, mode, &last_error_)) {
+Config::Config(const std::string& input, int mode) : Config() {
+    if (!this->Load(input, mode, &last_error_)) {
         status_ = -1;
     }
 }
@@ -164,20 +170,20 @@ Config::~Config() {
     delete impl_;
 }
 
-bool Config::Watch(const std::string& cpath, uint32_t event, EventHandler& handler) {
+bool Config::Watch(const std::string& node_path, uint32_t event, EventHandler& handler) {
     // TODO
-    return impl_->RegisterWatcher(cpath, event, handler);
+    return impl_->RegisterWatcher(node_path, event, handler);
 }
 
-Config* Config::Load(const std::string& src, int mode, std::string* err_msg) {
-    bool ret = impl_->Load(src, mode, err_msg);
+Config* Config::Load(const std::string& input, int mode, std::string* err_msg) {
+    bool ret = impl_->Load(input, mode, err_msg);
     return ret ? this : NULL; 
 }
 
-CNode::CNode(ConfigImpl* impl, const std::string& key, const std::string& hkey, const std::string& value, bool is_leaf) 
+CNode::CNode(ConfigImpl* impl, const std::string& path, const std::string& hash_key, const std::string& value, bool is_leaf) 
     : impl_(impl), 
-      key_(key), 
-      hkey_(hkey),
+      key_(path), 
+      hkey_(hash_key),
       enabled_(true), 
       is_leaf_(is_leaf) { 
     value_.Set(value);
@@ -189,50 +195,50 @@ CNode::~CNode() {
     }
 }
 
-CNode* Config::getCNode(const std::string& key) {
-    return impl_->getCNode(key);
+const CNode* Config::GetCNode(const std::string& key) const {
+    return impl_->GetCNode(key);
 }
 
-std::string Config::getString(const std::string& key, const std::string& def_val) {
-    CNode* node = this->getCNode(key);
+std::string Config::GetString(const std::string& key, const std::string& def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asString();
+        return node->AsString();
     } else {
         return def_val;
     }
 } 
 
-int32_t Config::getInt32(const std::string& key, int32_t def_val) {
-    CNode* node = this->getCNode(key);
+int32_t Config::GetInt32(const std::string& key, int32_t def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asInt32();
+        return node->AsInt32();
     } else {
         return def_val;
     }
 } 
 
-int64_t Config::getInt64(const std::string& key, int64_t def_val) {
-    CNode* node = this->getCNode(key);
+int64_t Config::GetInt64(const std::string& key, int64_t def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asInt64();
+        return node->AsInt64();
     } else {
         return def_val;
     }
 } 
 
-double Config::getDouble(const std::string& key, double def_val) {
-    CNode* node = this->getCNode(key);
+double Config::GetDouble(const std::string& key, double def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asDouble();
+        return node->AsDouble();
     } else {
         return def_val;
     }
 } 
 
-bool Config::getBool(const std::string& key, bool def_val) {
-    CNode* node = this->getCNode(key);
+bool Config::GetBool(const std::string& key, bool def_val) const {
+    const CNode* node = this->GetCNode(key);
     if (node) {
-        return node->asBool();
+        return node->AsBool();
     } else {
         return def_val;
     }
