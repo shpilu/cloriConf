@@ -19,6 +19,7 @@ namespace cloris {
 
 class ConfNode;
 class ConfigImpl;
+struct HashNode;
 
 typedef std::map<std::string, ConfNode*> ChildrenNodes;
 typedef const ConfNode* ConfNodePtr;
@@ -31,7 +32,7 @@ template <bool Const, typename T> struct MaybeAddConst : SelectIfCond<Const, con
 
 template <bool Const, typename TypeName>
 class GenericIterator {
-    typedef typename SelectIfCond<Const, const TypeName, TypeName>::Type ValueType;
+    typedef typename MaybeAddConst<Const, TypeName>::Type ValueType;
     typedef typename SelectIfCond<Const, ChildrenNodes::const_iterator, ChildrenNodes::iterator>::Type IteratorType;
 public:
     typedef GenericIterator Iterator;
@@ -49,21 +50,21 @@ private:
     IteratorType current_;
 };
 
-// config node 
 class ConfNode {
     friend class ConfigImpl;
-public:
+    friend struct HashNode;
     ConfNode() = delete;
-    ~ConfNode();
+public:
     ConfNode(ConfigImpl* impl, const std::string& path, const std::string& hash_key, const std::string& value, bool is_leaf); 
+    ~ConfNode();
 
     typedef typename GenericIterator<false, ConfNode>::Iterator ChildrenIterator;
     typedef typename GenericIterator<true, ConfNode>::Iterator  ConstChildrenIterator;
 
-    ChildrenIterator begin() { return ChildrenIterator(children_.begin()); }
-    ChildrenIterator end() { return ChildrenIterator(children_.end()); }
     ConstChildrenIterator begin() const { return ConstChildrenIterator(children_.begin()); } 
     ConstChildrenIterator end() const { return ConstChildrenIterator(children_.end()); }
+    ChildrenIterator begin() { return ChildrenIterator(children_.begin()); }
+    ChildrenIterator end() { return ChildrenIterator(children_.end()); }
 
     const std::string& AsString() const;
     int32_t AsInt32() const;
@@ -71,23 +72,24 @@ public:
     double  AsDouble() const;
     bool    AsBool() const;
 
-    const std::string GetString(const std::string& key, const std::string& def_val = "") const;
-    int32_t GetInt32(const std::string& key, int32_t def_val = 0) const;
-    int64_t GetInt64(const std::string& key, int64_t def_val = 0L) const;
-    double  GetDouble(const std::string& key, double def_val = 0.0) const;
-    bool    GetBool(const std::string& key, bool def_val = false) const;
+    const std::string GetString(const std::string& key, const std::string& default_value = "") const;
+    int32_t GetInt32(const std::string& key, int32_t default_value = 0) const;
+    int64_t GetInt64(const std::string& key, int64_t default_value = 0L) const;
+    double  GetDouble(const std::string& key, double default_value = 0.0) const;
+    bool    GetBool(const std::string& key, bool default_value = false) const;
     const ConfNode* GetConfNode(const std::string& key = "") const; 
+    bool Exists(const std::string& key) const;
 
-    void Disable() { enabled_ = false; }
-    void Refresh();
-    bool enabled() const  { return enabled_; }
-    void set_is_leaf(bool is_leaf) { is_leaf_ = is_leaf; }
+private:
     const DoubleBuffer<std::string>& value() const { return value_; } 
     DoubleBuffer<std::string>& mutable_value() { return value_; } 
-private:
+    bool enabled() const  { return enabled_; }
+    void Disable() { enabled_ = false; }
+    void Refresh();
     void Flush();
     std::map<std::string, ConfNode*>& children() { return children_; }
     bool is_leaf() const { return is_leaf_; }
+    void set_is_leaf(bool is_leaf) { is_leaf_ = is_leaf; }
 
     ConfigImpl *impl_;
     std::map<std::string, ConfNode*> children_;
@@ -106,12 +108,13 @@ public:
 
     Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL) noexcept;
     bool Watch(const std::string& path, uint32_t event, EventHandler& handler);
+
     const ConfNode* GetConfNode(const std::string& key = "") const;
-    std::string GetString(const std::string& key, const std::string& def_val = "") const;
-    int32_t GetInt32(const std::string& key, int32_t def_val = 0) const;
-    int64_t GetInt64(const std::string& key, int64_t def_val = 0L) const;
-    double  GetDouble(const std::string& key, double def_val = 0.0) const;
-    bool    GetBool(const std::string& key, bool def_val = false) const;
+    std::string GetString(const std::string& key, const std::string& default_value = "") const;
+    int32_t GetInt32(const std::string& key, int32_t default_value = 0) const;
+    int64_t GetInt64(const std::string& key, int64_t default_value = 0L) const;
+    double  GetDouble(const std::string& key, double default_value = 0.0) const;
+    bool    GetBool(const std::string& key, bool default_value = false) const;
     bool    Exists(const std::string& key) const ;
 
     bool Ok() const { return (status_ == 0); }
