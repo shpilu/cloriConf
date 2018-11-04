@@ -2,4 +2,4 @@
 
 ulimit -c unlimited
 
-./conf_test
+./cconf_tutorial

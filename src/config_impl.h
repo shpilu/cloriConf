@@ -52,15 +52,16 @@ public:
 
     void NodifyWatcher(const std::string& node_path); 
     void FlushWatcher();
-    CNode* GetCNode(const std::string& key);
-    CNode* GetCNode(const std::string& key_prefix, const std::string& key);
+    ConfNode* GetConfNode(const std::string& key);
+    ConfNode* GetConfNode(const std::string& key_prefix, const std::string& key);
     size_t count() const { return hash_table_.size(); }
 private:
+    void Flush();
     std::unordered_map<std::string, HashNode*> hash_table_;
     std::unordered_map<std::string, WatchNode*> watch_table_;
     std::set<std::string> trigger_;
     std::unique_ptr<ConfigKeeper> config_keeper_;
-    CNode root_;
+    ConfNode* root_;
 };
 
 } // namespace cloris

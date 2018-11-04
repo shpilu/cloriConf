@@ -53,7 +53,7 @@ static std::string convert_to_standard_path(const std::string& key) {
 
 void HashNode::Disable() {
     this->enabled_ = false;
-    CNode* node = static_cast<CNode*>(this->value_);
+    ConfNode* node = static_cast<ConfNode*>(this->value_);
     if (node) {
         node->Disable();
     } else {
@@ -61,17 +61,27 @@ void HashNode::Disable() {
     }
 }
 
-ConfigImpl::ConfigImpl() : root_(this, "ROOT", "", "", false) {
+ConfigImpl::ConfigImpl() {
     config_keeper_.reset();
+    root_ = new ConfNode(this, "ROOT", "", "", false); 
 }
 
-ConfigImpl::~ConfigImpl() {
+
+void ConfigImpl::Flush() {
     for (auto &p : hash_table_) {
         delete p.second;
     }
     for (auto &p : watch_table_) {
         delete p.second;
     }
+    hash_table_.clear();
+    watch_table_.clear();
+    delete root_;
+    root_ = NULL;
+}
+
+ConfigImpl::~ConfigImpl() {
+    Flush();
 }
 
 void ConfigImpl::NodifyWatcher(const std::string& node_path) {
@@ -92,9 +102,9 @@ void ConfigImpl::NodifyWatcher(const std::string& node_path) {
 void ConfigImpl::FlushWatcher() {
     for (auto &p : trigger_) {
         if (watch_table_.find(p) != watch_table_.end()) {
-            CNode* node = NULL;
+            ConfNode* node = NULL;
             if ((hash_table_.find(p) != hash_table_.end()) && (hash_table_[p]->enabled_)) {
-                node = reinterpret_cast<CNode*>(hash_table_[p]->value_);
+                node = reinterpret_cast<ConfNode*>(hash_table_[p]->value_);
             }
             watch_table_[p]->handler_(node, p, EVENT_UPDATE);
         }
@@ -159,7 +169,7 @@ bool ConfigImpl::RegisterWatcher(const std::string& node_path, uint32_t event, E
     WatchNode *node = new WatchNode(standard_path, handler);
     watch_table_.emplace(standard_path, node);
     if (event & EVENT_INIT) {
-        CNode *node = this->GetCNode(standard_path);
+        ConfNode *node = this->GetConfNode(standard_path);
         if (node) {
             handler(node, standard_path, EVENT_INIT);
         }
@@ -173,7 +183,7 @@ bool ConfigImpl::Insert(const std::string& path, const std::string& value, std::
     std::vector<std::string> vec_path;
     std::vector<std::string> real_path;
     boost::split(vec_path, standard_path, boost::is_any_of("/"));
-    CNode* current = &root_; 
+    ConfNode* current = root_; 
     int index(0);
     for (auto &p : vec_path) {
         if (p.size() > 0) {
@@ -191,7 +201,7 @@ bool ConfigImpl::Insert(const std::string& path, const std::string& value, std::
                     hash_table_[hash_key]->enabled_ = true; 
                 }
             } else {
-                CNode* node = new CNode(this, p, hash_key, "", true);
+                ConfNode* node = new ConfNode(this, p, hash_key, "", true);
                 current->children().emplace(p, node);
                 current->set_is_leaf(false);
                 current = node;
@@ -213,25 +223,25 @@ bool ConfigImpl::Insert(const std::string& path, const std::string& value, std::
     return true;
 }
 
-CNode* ConfigImpl::GetCNode(const std::string& key) {
+ConfNode* ConfigImpl::GetConfNode(const std::string& key) {
     std::string real_key = convert_to_standard_path(key);
     if (real_key == "/") {
-        return &root_;
+        return root_;
     }
     if ((hash_table_.find(real_key) != hash_table_.end()) && (hash_table_[real_key]->enabled_)) {
-        return reinterpret_cast<CNode*>(hash_table_[real_key]->value_);
+        return reinterpret_cast<ConfNode*>(hash_table_[real_key]->value_);
     } else {
         return NULL;
     }
 }
 
-CNode* ConfigImpl::GetCNode(const std::string& key_prefix, const std::string& key) {
+ConfNode* ConfigImpl::GetConfNode(const std::string& key_prefix, const std::string& key) {
     std::string real_key = key_prefix + convert_to_standard_path(key);
     if (real_key == "/") {
-        return &root_;
+        return root_;
     }
     if ((hash_table_.find(real_key) != hash_table_.end()) && (hash_table_[real_key]->enabled_)) {
-        return reinterpret_cast<CNode*>(hash_table_[real_key]->value_);
+        return reinterpret_cast<ConfNode*>(hash_table_[real_key]->value_);
     } else {
         return NULL;
     }

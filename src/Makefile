@@ -5,12 +5,12 @@
 #
 
 TARGET_SO=libcconf.so
-TARGET_BIN=conf_test
+TARGET_BIN=cconf_tutorial
 
 CC=g++
 
-TEST_SRC=$(wildcard test/*.cc)
-TEST_OBJECTS=$(TEST_SRC:%.cc=%.o)
+TUTORIAL_SRC=$(wildcard example/*.cc)
+TUTORIAL_OBJECTS=$(TUTORIAL_SRC:%.cc=%.o)
 SOURCES=$(wildcard *.cc loader/*.cc loader/zookeeper/*.cc loader/local/*.cc loader/direct/*.cc) 
 OBJECTS=$(SOURCES:%.cc=%.o)
 
@@ -26,13 +26,13 @@ LDANYMICS=-Wl,-Bdynamic -lzookeeper_mt -lpthread -ldl $(LOCAL_LD)
 all: $(PB_SOURCES) $(TARGET_BIN) $(TARGET_SO)
 	mv $(TARGET_BIN) ../bin/  
 
-$(TARGET_BIN):$(OBJECTS) $(TEST_OBJECTS)
+$(TARGET_BIN):$(OBJECTS) $(TUTORIAL_OBJECTS)
 	$(CC) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) $(STATICS) $(LDSTATICS) $(LDANYMICS)
 
 $(TARGET_SO):$(OBJECTS)
 	$(CC) $(CXXFLAGS) $^ -o $@ -shared $(LDFLAGS) $(STATICS) $(LDSTATICS) $(LDANYMICS)
 
-$(TEST_OBJECTS):%.o:%.cc
+$(TUTORIAL_OBJECTS):%.o:%.cc
 	$(CC) $(INCLUDES) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTS):%.o:%.cc
@@ -41,6 +41,6 @@ $(OBJECTS):%.o:%.cc
 install:
 
 clean:
-	-rm -f $(TEST_OBJECTS) $(OBJECTS) $(PB_SOURCES) $(PB_HEADERS) $(TARGET_SO) #../bin/$(TARGET_BIN)
+	-rm -f $(TUTORIAL_OBJECTS) $(OBJECTS) $(PB_SOURCES) $(PB_HEADERS) $(TARGET_SO) #../bin/$(TARGET_BIN)
 
 .PHONY: all install clean
