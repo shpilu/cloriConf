@@ -13,7 +13,7 @@
 #include <functional>
 #include <boost/noncopyable.hpp>
 #include "internal/double_buffer.h"
-#include "config_basic.h"
+#include "internal/macro.h"
 
 namespace cloris {
 
@@ -43,9 +43,8 @@ public:
     Iterator& operator++() { ++current_; return *this; }
     Iterator& operator--() { --current_; return *this; }
     ValueType& operator*() const { return current_->second; }
-    ValueType* operator->() const { return &(current_->second); }
-    bool   operator!=(ConstIterator& that) { return current_ != that.current_; }
-    const std::string& key() const { return current_->first; }
+    ValueType* operator->() const { return current_->second; }
+    bool   operator!=(GenericIterator that) const { return current_ != that.current_; }
 private:
     IteratorType current_;
 };
@@ -55,7 +54,7 @@ class ConfNode {
     friend struct HashNode;
     ConfNode() = delete;
 public:
-    ConfNode(ConfigImpl* impl, const std::string& path, const std::string& hash_key, const std::string& value, bool is_leaf); 
+    ConfNode(ConfigImpl* impl, const std::string& name, const std::string& hash_key, const std::string& value, bool is_leaf); 
     ~ConfNode();
 
     typedef typename GenericIterator<false, ConfNode>::Iterator ChildrenIterator;
@@ -72,13 +71,14 @@ public:
     double  AsDouble() const;
     bool    AsBool() const;
 
-    const std::string GetString(const std::string& key, const std::string& default_value = "") const;
-    int32_t GetInt32(const std::string& key, int32_t default_value = 0) const;
-    int64_t GetInt64(const std::string& key, int64_t default_value = 0L) const;
-    double  GetDouble(const std::string& key, double default_value = 0.0) const;
-    bool    GetBool(const std::string& key, bool default_value = false) const;
-    const ConfNode* GetConfNode(const std::string& key = "") const; 
-    bool Exists(const std::string& key) const;
+    const std::string GetString(const std::string& name, const std::string& default_value = "") const;
+    int32_t GetInt32(const std::string& name, int32_t default_value = 0) const;
+    int64_t GetInt64(const std::string& name, int64_t default_value = 0L) const;
+    double  GetDouble(const std::string& name, double default_value = 0.0) const;
+    bool    GetBool(const std::string& name, bool default_value = false) const;
+    ConfNode* GetConfNode(const std::string& name = "") const; 
+    bool Exists(const std::string& name) const;
+    const std::string& name() const { return name_; }
 
 private:
     const DoubleBuffer<std::string>& value() const { return value_; } 
@@ -93,6 +93,7 @@ private:
 
     ConfigImpl *impl_;
     std::map<std::string, ConfNode*> children_;
+    std::string name_;
     DoubleBuffer<std::string> value_;
     std::string hash_key_;
     bool enabled_;
@@ -109,13 +110,13 @@ public:
     Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL) noexcept;
     bool Watch(const std::string& path, uint32_t event, EventHandler& handler);
 
-    const ConfNode* GetConfNode(const std::string& key = "") const;
-    std::string GetString(const std::string& key, const std::string& default_value = "") const;
-    int32_t GetInt32(const std::string& key, int32_t default_value = 0) const;
-    int64_t GetInt64(const std::string& key, int64_t default_value = 0L) const;
-    double  GetDouble(const std::string& key, double default_value = 0.0) const;
-    bool    GetBool(const std::string& key, bool default_value = false) const;
-    bool    Exists(const std::string& key) const ;
+    ConfNode* GetConfNode(const std::string& name = "") const;
+    std::string GetString(const std::string& name, const std::string& default_value = "") const;
+    int32_t GetInt32(const std::string& name, int32_t default_value = 0) const;
+    int64_t GetInt64(const std::string& name, int64_t default_value = 0L) const;
+    double  GetDouble(const std::string& name, double default_value = 0.0) const;
+    bool    GetBool(const std::string& name, bool default_value = false) const;
+    bool    Exists(const std::string& name) const ;
 
     bool Ok() const { return (status_ == 0); }
     const std::string& ErrorText() const { return last_error_; }

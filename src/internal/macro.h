@@ -1,11 +1,11 @@
 // 
-// cloriConf basic header
+// cloriConf MACROs definition 
 // version: 1.0 
-// Copyright 2018 James Wei (weijianlhp@163.com)
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
 
-#ifndef CLORIS_CONFIG_BASIC_H_
-#define CLORIS_CONFIG_BASIC_H_
+#ifndef CLORIS_MACRO_H_
+#define CLORIS_MACRO_H_
 
 #define EVENT_INIT          0x00000001
 #define EVENT_ADD           0x00000002
@@ -21,7 +21,7 @@
 #define SRC_DIRECT      0x00000002
 #define SRC_ZK          0x00000004
 
-#define FMT_JINI        0x00000010
+#define FMT_JOML        0x00000010
 #define FMT_JSON        0x00000020
 
 // comment characters for joml/ini 
@@ -34,8 +34,5 @@
 #define FMT_MASK        0x000000f0
 #define CMT_MASK        0x00000f00
 
-namespace cloris {
+#endif // CLORIS_MACRO_H_ 
 
-} // namespace cloris
-
-#endif // CLORIS_CONFIG_BASIC_H_

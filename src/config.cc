@@ -34,12 +34,12 @@ bool ConfNode::AsBool() const {
     return (value_.Get() == "true");
 }
 
-const ConfNode* ConfNode::GetConfNode(const std::string& key) const {
-    return impl_->GetConfNode(this->hash_key_, key);
+ConfNode* ConfNode::GetConfNode(const std::string& name) const {
+    return impl_->GetConfNode(this->hash_key_, name);
 }
 
-const std::string ConfNode::GetString(const std::string& key, const std::string& def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+const std::string ConfNode::GetString(const std::string& name, const std::string& def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsString();
     } else {
@@ -47,8 +47,8 @@ const std::string ConfNode::GetString(const std::string& key, const std::string&
     }
 }
 
-int32_t ConfNode::GetInt32(const std::string& key, int32_t def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+int32_t ConfNode::GetInt32(const std::string& name, int32_t def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsInt32();
     } else {
@@ -56,8 +56,8 @@ int32_t ConfNode::GetInt32(const std::string& key, int32_t def_val) const {
     }
 }
 
-int64_t ConfNode::GetInt64(const std::string& key, int64_t def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+int64_t ConfNode::GetInt64(const std::string& name, int64_t def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsInt64();
     } else {
@@ -65,8 +65,8 @@ int64_t ConfNode::GetInt64(const std::string& key, int64_t def_val) const {
     }
 }
 
-double ConfNode::GetDouble(const std::string& key, double def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+double ConfNode::GetDouble(const std::string& name, double def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsDouble();
     } else {
@@ -74,8 +74,8 @@ double ConfNode::GetDouble(const std::string& key, double def_val) const {
     }
 }
 
-bool ConfNode::GetBool(const std::string& key, bool def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+bool ConfNode::GetBool(const std::string& name, bool def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsBool();
     } else {
@@ -112,8 +112,9 @@ Config* Config::Load(const std::string& input, uint32_t mode, std::string* err_m
     return ret ? this : NULL; 
 }
 
-ConfNode::ConfNode(ConfigImpl* impl, const std::string& path, const std::string& hash_key, const std::string& value, bool is_leaf) 
+ConfNode::ConfNode(ConfigImpl* impl, const std::string& name, const std::string& hash_key, const std::string& value, bool is_leaf) 
     : impl_(impl), 
+      name_(name),
       hash_key_(hash_key),
       enabled_(true), 
       is_leaf_(is_leaf) { 
@@ -131,12 +132,12 @@ ConfNode::~ConfNode() {
     Flush();
 }
 
-const ConfNode* Config::GetConfNode(const std::string& key) const {
-    return impl_->GetConfNode(key);
+ConfNode* Config::GetConfNode(const std::string& name) const {
+    return impl_->GetConfNode(name);
 }
 
-std::string Config::GetString(const std::string& key, const std::string& def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+std::string Config::GetString(const std::string& name, const std::string& def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsString();
     } else {
@@ -144,8 +145,8 @@ std::string Config::GetString(const std::string& key, const std::string& def_val
     }
 } 
 
-int32_t Config::GetInt32(const std::string& key, int32_t def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+int32_t Config::GetInt32(const std::string& name, int32_t def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsInt32();
     } else {
@@ -153,8 +154,8 @@ int32_t Config::GetInt32(const std::string& key, int32_t def_val) const {
     }
 } 
 
-int64_t Config::GetInt64(const std::string& key, int64_t def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+int64_t Config::GetInt64(const std::string& name, int64_t def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsInt64();
     } else {
@@ -162,8 +163,8 @@ int64_t Config::GetInt64(const std::string& key, int64_t def_val) const {
     }
 } 
 
-double Config::GetDouble(const std::string& key, double def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+double Config::GetDouble(const std::string& name, double def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsDouble();
     } else {
@@ -171,8 +172,8 @@ double Config::GetDouble(const std::string& key, double def_val) const {
     }
 } 
 
-bool Config::GetBool(const std::string& key, bool def_val) const {
-    const ConfNode* node = this->GetConfNode(key);
+bool Config::GetBool(const std::string& name, bool def_val) const {
+    const ConfNode* node = this->GetConfNode(name);
     if (node) {
         return node->AsBool();
     } else {
@@ -180,8 +181,8 @@ bool Config::GetBool(const std::string& key, bool def_val) const {
     }
 } 
 
-bool Config::Exists(const std::string& key) const {
-    const ConfNode* node = this->GetConfNode(key);
+bool Config::Exists(const std::string& name) const {
+    const ConfNode* node = this->GetConfNode(name);
     return node ? true : false;
 }
 

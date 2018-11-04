@@ -133,7 +133,7 @@ bool ConfigZookeeper::SyncConfigFromZk(std::string* err_msg) {
 
 bool ConfigZookeeper::LoadConfig(const std::string& src, int format, std::string* err_msg) {
     static bool enable_update = true;
-    std::shared_ptr<Config> conf = std::shared_ptr<Config>(new Config(src, SRC_LOCAL | FMT_JINI));
+    std::shared_ptr<Config> conf = std::shared_ptr<Config>(new Config(src, SRC_LOCAL | FMT_JOML));
     if (!conf->Ok()) {
         if (err_msg) {
             *err_msg = conf->ErrorText();
