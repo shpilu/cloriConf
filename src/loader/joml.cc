@@ -1,9 +1,8 @@
 //
 // cloriConf joml parser implementation 
-// Copyright 2018 James Wei (weijianlhp@163.com)
-// version: 1.0
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
-
 #include <boost/algorithm/string.hpp>
 #include "../config_impl.h"
 #include "joml.h"

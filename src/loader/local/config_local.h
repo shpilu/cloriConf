@@ -1,8 +1,8 @@
-// cloriConf cpp header
-// Copyright 2018 James Wei (weijianlhp@163.com)
-// version: 1.0
-// description: local file implementation
-
+//
+// local configuration file implementation
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
+//
 #ifndef CLORIS_CONFIG_LOCAL_H_
 #define CLORIS_CONFIG_LOCAL_H_
 

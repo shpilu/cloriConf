@@ -37,13 +37,15 @@ class GenericIterator {
 public:
     typedef GenericIterator Iterator;
     typedef GenericIterator<true, TypeName> ConstIterator;
+    typedef GenericIterator<false, TypeName> NonConstIterator;
     GenericIterator() : current_() {}
     GenericIterator(IteratorType iter) : current_(iter) {}
 
     Iterator& operator++() { ++current_; return *this; }
     Iterator& operator--() { --current_; return *this; }
-    ValueType& operator*() const { return current_->second; }
+    ValueType& operator*() const { return *current_->second; }
     ValueType* operator->() const { return current_->second; }
+    Iterator& operator=(const NonConstIterator& that) { current_ = that.current_; return *this; }
     bool   operator!=(GenericIterator that) const { return current_ != that.current_; }
 private:
     IteratorType current_;

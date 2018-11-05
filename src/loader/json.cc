@@ -1,9 +1,8 @@
 //
 // cloriConf json parser implementation 
-// Copyright 2018 James Wei (weijianlhp@163.com)
-// version: 1.0
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
-
 #include <fstream>
 #include <stdio.h>
 #include <rapidjson/filereadstream.h>

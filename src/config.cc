@@ -1,8 +1,8 @@
+// 
+// cloriConf API implementation 
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
-// cloriConf wrapper 
-// Copyright 2018 James Wei (weijianlhp@163.com)
-//
-
 #include "internal/singleton.h"
 #include "config_impl.h"
 #include "config.h"

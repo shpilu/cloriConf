@@ -1,4 +1,8 @@
-
+//
+// cloriConf zookeeper implementation
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
+//
 #ifndef  CLORIS_CONFIG_ZOOKEEPER_H_
 #define  CLORIS_CONFIG_ZOOKEEPER_H_
 

@@ -1,9 +1,8 @@
 //
 // cloriConf joml parser header 
-// Copyright 2018 James Wei (weijianlhp@163.com)
-// version: 1.0
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
-
 #ifndef CLORIS_LOADER_JOML_H_
 #define CLORIS_LOADER_JOML_H_
 

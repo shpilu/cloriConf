@@ -1,8 +1,8 @@
 // 
 // implementaton of double buffer 
 // Copyright 2017 James Wei (weijianlhp@163.com)
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
-
 #ifndef CLORIS_DOUBLE_BUFFER_H_
 #define CLORIS_DOUBLE_BUFFER_H_
 

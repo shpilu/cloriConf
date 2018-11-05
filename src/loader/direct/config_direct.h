@@ -1,8 +1,8 @@
-// cloriConf cpp header
-// version: 1.0
-// description: direct config implementation
-// Copyright 2018 James Wei (weijianlhp@163.com)
-
+//
+// direct configuration implementation
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
+//
 #ifndef CLORIS_CONFIG_DIRECT_H_
 #define CLORIS_CONFIG_DIRECT_H_
 

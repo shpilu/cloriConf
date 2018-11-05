@@ -1,7 +1,8 @@
-// config keeper: base class of config keeper  
-// Copyright 2018 James Wei (weijianlhp@163.com)
-// version:1.0
-
+//
+// base class of configuration keeper  
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
+//
 #ifndef CLORIS_CONFIG_KEEPER_H_
 #define CLORIS_CONFIG_KEEPER_H_
 
@@ -13,7 +14,6 @@
 namespace cloris {
 
 typedef std::function<bool(const std::string&, const std::string&, std::string*)> ConfigInserter;
-
 class ConfigImpl;
 
 class ConfigKeeper : boost::noncopyable {

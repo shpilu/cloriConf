@@ -1,6 +1,7 @@
-// config keeper: base class of config loader 
-// Copyright 2018 James Wei (weijianlhp@163.com)
-// version:1.0
+//
+// config keeper
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
 #include <string>
 #include <vector>

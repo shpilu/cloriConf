@@ -1,9 +1,8 @@
-// 
+//
 // cloriConf implementation
 // version: 1.0 
-// Copyright 2018 James Wei (weijianlhp@163.com)
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
 //
-
 #include <memory>
 #include <boost/algorithm/string.hpp>
 #include "loader/zookeeper/config_zk.h"

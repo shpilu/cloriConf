@@ -1,8 +1,7 @@
 // 
 // implementaton of singleton pattern
-// Copyright 2017 James Wei (weijianlhp@163.com)
+// Copyright (C) 2017 James Wei (weijianlhp@163.com). All rights reserved
 //
-
 #ifndef CLORIS_SINGLETON_H_
 #define CLORIS_SINGLETON_H_
 

@@ -1,8 +1,8 @@
-// cloriConf cpp header
-// Copyright 2018 James Wei (weijianlhp@163.com)
-// version: 1.0
-// description: direct config implementation, use JOML format
-
+//
+// direct config implementation, use JOML format
+// version: 1.0 
+// Copyright (C) 2018 James Wei (weijianlhp@163.com). All rights reserved
+//
 #include <vector>
 #include <iostream>
 #include <boost/algorithm/string.hpp>
