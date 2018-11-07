@@ -3,7 +3,7 @@ includedir=${CMAKE_INSTALL_PREFIX}/include
 libdir=${CMAKE_INSTALL_PREFIX}/lib
 
 Name: cloriconf 
-Description: An uniq configure parser 
+Description: A configuration parser which support parsing various configuration format(e.g. ini, json, yaml) and even loading configuration data from distributed configuration center (e.g. zookeeper)
 Version: @CLORICONF_VERSION@
 Cflags: -I${CMAKE_INSTALL_PREFIX}/include
 Libs: -L${CMAKE_INSTALL_PREFIX}/lib -lcloriconf
