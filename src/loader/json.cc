@@ -42,7 +42,7 @@ static bool ParsePlainObjectNode(const Value& obj, std::vector<TraceNode>& vec_t
 
 static bool ParseMemberNode(const std::string& key, const Value& value, std::vector<TraceNode>& vec_trace, 
         const ConfigInserter& handler, std::string* err_msg) {
-    bool ok;
+    bool ok = true;
     vec_trace.push_back(TraceNode(key, 0));
     if (value.IsObject()) {
         // empty object '{ }'

@@ -8,9 +8,17 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/def.h.in ${PROJECT_BINARY_DIR}/output
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 if(ENABLE_JSON)
     find_package(RAPIDJSON REQUIRED)
+    # customize rapidjson search path -DRAPIDJSON_PATH=xxx
+    if(RAPIDJSON_PATH)
+        include_directories(${RAPIDJSON_PATH})
+    endif()
 endif()
 if(ENABLE_ZOOKEEPER)
     find_package(ZOOKEEPER REQUIRED)
+    # customize zookeeper search path -DZOOKEEPER_PATH=xxx
+    if(ZOOKEEPER_PATH)
+        include_directories(${ZOOKEEPER_PATH})
+    endif()
 endif()
 
 include_directories(${CMAKE_CURRENT_SRC_DIR}
@@ -30,18 +38,15 @@ endmacro(use_cxx11)
 
 use_cxx11()
 
-set(DYNAMIC_LIB
-    pthread
-    dl)
-
 if(ENABLE_JSON)
     include_directories(${RAPIDJSON_INCLUDE_PATH})
-    set(DYNAMIC_LIB "${DYNAMIC_LIB} ${RAPIDJSON_LIB}")
 endif()
+
 if(ENABLE_ZOOKEEPER)
     include_directories(${ZOOKEEPER_INCLUDE_PATH})
-    set(DYNAMIC_LIB "${DYNAMIC_LIB} ${ZOOKEEPER_LIB}")
-    set(CLORICONF_PRIVATE_LIBS "${CLORICONF_PRIVATE_LIBS} -lzookeeper_mt") 
+    set(DYNAMIC_LIB pthread)
+    set(DYNAMIC_LIB "${DYNAMIC_LIB} ${ZOOKEEPER_LIBRARY}")
+    set(CLORICONF_PRIVATE_LIBS "${CLORICONF_PRIVATE_LIBS} -lzookeeper_mt -lpthread") 
 endif()
 
 # for *.so output
@@ -57,12 +62,12 @@ set(PACKAGE_SOURCES ${BASIC_SOURCES}
     ${PROJECT_SOURCE_DIR}/src/loader/local/config_local.cc)
 if(ENABLE_JSON)
     set(PACKAGE_SOURCES ${PACKAGE_SOURCES}
-        ${PROJECT_SOURCE_DIR/src/loader/json/json.cc)
+        ${PROJECT_SOURCE_DIR}/src/loader/json.cc)
 endif()
 
 if(ENABLE_ZOOKEEPER)
     set(PACKAGE_SOURCES ${PACKAGE_SOURCES}
-        ${PROJECT_SOURCE_DIR/src/loader/zookeeper/config_zk.cc)
+        ${PROJECT_SOURCE_DIR}/src/loader/zookeeper/config_zk.cc)
 endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})

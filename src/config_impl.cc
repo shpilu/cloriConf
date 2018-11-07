@@ -10,7 +10,7 @@
 #include "internal/def.h"
 #include "config_impl.h"
 
-#if ENABLE_ZOOKEEPER
+#ifdef ENABLE_ZOOKEEPER
     #include "loader/zookeeper/config_zk.h"
 #endif
 
