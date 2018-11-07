@@ -5,10 +5,14 @@
 //
 #include <memory>
 #include <boost/algorithm/string.hpp>
-#include "loader/zookeeper/config_zk.h"
 #include "loader/local/config_local.h"
 #include "loader/direct/config_direct.h"
+#include "internal/def.h"
 #include "config_impl.h"
+
+#if ENABLE_ZOOKEEPER
+    #include "loader/zookeeper/config_zk.h"
+#endif
 
 namespace cloris {
 
@@ -145,9 +149,11 @@ bool ConfigImpl::Load(const std::string& src, int mode, std::string* err_msg) {
         case SRC_LOCAL:
             config_keeper_.reset(new ConfigKeeperLocal(this));
             break;
+#ifdef ENABLE_ZOOKEEPER
         case SRC_ZK:
             config_keeper_.reset(new ConfigZookeeper(this));
             break;
+#endif
         case SRC_DIRECT:
             config_keeper_.reset(new ConfigKeeperDirect(this));
             break;

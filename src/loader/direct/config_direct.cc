@@ -7,9 +7,13 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include "../joml.h"
-#include "../json.h"
+#include "../../internal/def.h"
 #include "../../config_impl.h"
 #include "config_direct.h"
+
+#ifdef ENABLE_JSON
+    #include "../json.h"
+#endif
 
 namespace cloris {
 
@@ -33,8 +37,15 @@ ConfigKeeperDirect::ConfigKeeperDirect(ConfigImpl* impl)
 }
 
 bool ConfigKeeperDirect::LoadJson(const std::string& raw_conf, std::string* err_msg) {
+#ifdef ENABLE_JSON
     ConfigInserter handler = std::bind(&ConfigImpl::Insert, this->impl(), _1, _2, _3, 0);
     return ParseJsonConfig(raw_conf, false, handler, err_msg);
+#else
+    if (err_msg) {
+        *err_msg = "json format is not support yet, please recompile cloriConf with ENABLE_JSON=ON";
+    }
+    return false;
+#endif
 }
 
 bool ConfigKeeperDirect::LoadConfig(const std::string& raw_conf, int format, std::string* err_msg) {

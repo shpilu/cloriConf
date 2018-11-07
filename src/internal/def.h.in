@@ -1,0 +1,7 @@
+#ifndef CLORIS_DEF_H_
+#define CLORIS_DEF_H_
+
+#cmakedefine ENABLE_JSON
+#cmakedefine ENABLE_ZOOKEEPER
+
+#endif // CLORIS_DEF_H_

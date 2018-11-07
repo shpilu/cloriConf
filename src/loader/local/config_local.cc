@@ -6,10 +6,14 @@
 #include <vector>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
+#include "../../internal/def.h"
 #include "../joml.h"
-#include "../json.h"
 #include "../../config_impl.h"
 #include "config_local.h"
+
+#ifdef ENABLE_JSON
+    #include "../json.h"
+#endif
 
 namespace cloris {
 
@@ -29,8 +33,15 @@ bool ConfigKeeperLocal::LoadConfig(const std::string& filename, int format, std:
 }
 
 bool ConfigKeeperLocal::LoadJson(const std::string& filename, std::string* err_msg) {
+#ifdef ENABLE_JSON
     ConfigInserter handler = std::bind(&ConfigImpl::Insert, this->impl(), _1, _2, _3, 0);
     return ParseJsonConfig(filename, true, handler, err_msg);
+#else 
+    if (err_msg) {
+        *err_msg = "json format is not support yet, please recompile cloriConf with ENABLE_JSON=ON";
+    }
+    return false;
+#endif
 }
 
 bool ConfigKeeperLocal::LoadJoml(const std::string& filename, int format, std::string* err_msg) {
