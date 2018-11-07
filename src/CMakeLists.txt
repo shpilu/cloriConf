@@ -1,10 +1,4 @@
 
-# compile options
-OPTION(ENABLE_JSON "Support json format" OFF)
-OPTION(ENABLE_ZOOKEEPER "Support zookeeper" OFF)
-OPTION(DEBUG "Print debug logs" FALSE)
-OPTION(WITH_DEBUG_SYMBOLS "With debug symbols" ON)
-
 if(WITH_DEBUG_SYMBOLS)
     SET(DEBUG_SYMBOL "-g")
 endif()
@@ -34,7 +28,6 @@ endif()
 endmacro(use_cxx11)
 
 use_cxx11()
-
 
 set(DYNAMIC_LIB
     pthread
@@ -86,11 +79,18 @@ set(TUTORIAL_SOURCES ${PROJECT_SOURCE_DIR}/src/example/tutorial.cc)
 add_executable(tutorial ${TUTORIAL_SOURCES})
 target_link_libraries(tutorial cloriconf-shared)
 
+file(COPY ${PROJECT_SOURCE_DIR}/bin/
+    DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
-# install
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX "/usr/local/cloriconf" CACHE PATH "cloriconf install prefix" FORCE)
-endif()
+file(COPY ${PROJECT_SOURCE_DIR}/conf/
+    DESTINATION ${PROJECT_BINARY_DIR}/output/conf)
+
+file(COPY ${PROJECT_SOURCE_DIR}/src/config.h DESTINATION ${PROJECT_BINARY_DIR}/output/include/) 
+file(COPY ${PROJECT_SOURCE_DIR}/src/internal/
+    DESTINATION ${PROJECT_BINARY_DIR}/output/include/internal/
+    FILES_MATCHING
+    PATTERN "*.h"
+    ) 
 
 install(TARGETS cloriconf-shared 
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
@@ -101,4 +101,10 @@ install(TARGETS cloriconf-static
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+
+install(DIRECTORY ${PROJECT_BINARY_DIR}/output/include/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+    FILES_MATCHING
+    PATTERN "*.h"
+    )
 

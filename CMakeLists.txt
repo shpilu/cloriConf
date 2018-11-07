@@ -16,5 +16,16 @@ else()
     message(WARNING "You are using an unsupported compiler! Compilation has only been tested with GCC only")
 endif()
 
+# compile options
+OPTION(ENABLE_JSON "Support json format" OFF)
+OPTION(ENABLE_ZOOKEEPER "Support zookeeper" OFF)
+OPTION(DEBUG "Print debug logs" FALSE)
+OPTION(WITH_DEBUG_SYMBOLS "With debug symbols" ON)
+
+# install prefix
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "/usr/local/cloriconf" CACHE PATH "cloriconf install prefix" FORCE)
+endif()
+
 add_subdirectory(src)
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <unistd.h>
 #include "../config.h"
+#include "../internal/def.h"
 
 using namespace cloris;
 
@@ -110,9 +111,14 @@ void test_direct_joml() {
 
 int main(int argc, char** argv) {
     load_joml_from_file();
-    load_json_from_file();
-    test_zookeeper();
-    test_direct_json();
     test_direct_joml();
+
+#ifdef ENABLE_JSON
+    load_json_from_file();
+    test_direct_json();
+#endif
+#ifdef ENABLE_ZOOKEEPER
+    test_zookeeper();
+#endif
     return 0;
 }
