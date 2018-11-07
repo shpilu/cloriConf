@@ -3,7 +3,7 @@ if(WITH_DEBUG_SYMBOLS)
     SET(DEBUG_SYMBOL "-g")
 endif()
 
-configure_file(${PROJECT_SOURCE_DIR}/src/internal/def.h.in ${PROJECT_SOURCE_DIR}/src/internal/def.h @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/cmake/def.h.in ${PROJECT_SOURCE_DIR}/src/internal/def.h @ONLY)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 if(ENABLE_JSON)
@@ -91,7 +91,9 @@ file(COPY ${PROJECT_SOURCE_DIR}/src/internal/
     FILES_MATCHING
     PATTERN "*.h"
     ) 
+configure_file(${PROJECT_SOURCE_DIR}/cmake/cloriconf.pc.in ${PROJECT_BINARY_DIR}/output/cloriconf.pc)
 
+# install
 install(TARGETS cloriconf-shared 
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
@@ -108,3 +110,4 @@ install(DIRECTORY ${PROJECT_BINARY_DIR}/output/include/
     PATTERN "*.h"
     )
 
+install(FILES ${PROJECT_BINARY_DIR}/output/cloriconf.pc DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
