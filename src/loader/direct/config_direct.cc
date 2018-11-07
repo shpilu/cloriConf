@@ -7,7 +7,7 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include "../joml.h"
-#include "../../internal/def.h"
+#include "internal/def.h"
 #include "../../config_impl.h"
 #include "config_direct.h"
 

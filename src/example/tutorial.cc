@@ -4,7 +4,7 @@
 #include <iostream>
 #include <unistd.h>
 #include "../config.h"
-#include "../internal/def.h"
+#include "internal/def.h"
 
 using namespace cloris;
 

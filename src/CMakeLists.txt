@@ -3,7 +3,7 @@ if(WITH_DEBUG_SYMBOLS)
     SET(DEBUG_SYMBOL "-g")
 endif()
 
-configure_file(${PROJECT_SOURCE_DIR}/cmake/def.h.in ${PROJECT_SOURCE_DIR}/src/internal/def.h @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/cmake/def.h.in ${PROJECT_BINARY_DIR}/output/include/internal/def.h @ONLY)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 if(ENABLE_JSON)
@@ -13,7 +13,8 @@ if(ENABLE_ZOOKEEPER)
     find_package(ZOOKEEPER REQUIRED)
 endif()
 
-include_directories(${CMAKE_CURRENT_SRC_DIR})
+include_directories(${CMAKE_CURRENT_SRC_DIR}
+    ${PROJECT_BINARY_DIR}/output/include)
 
 set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} ${DEBUG_SYMBOL}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CPP_FLAGS} -O2 -pipe -Wall -W -fPIC -fstrict-aliasing -Wno-invalid-offsetof -Wno-unused-parameter -fno-omit-frame-pointer")

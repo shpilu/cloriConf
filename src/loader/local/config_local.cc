@@ -6,7 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
-#include "../../internal/def.h"
+#include "internal/def.h"
 #include "../joml.h"
 #include "../../config_impl.h"
 #include "config_local.h"
