@@ -197,13 +197,20 @@ Description
 Parameters
 >*input* - config data source, maybe a config string, file name, or zookeeper config file, depending on parameter *mode*   
 >
->*mode* - load mode, consists three components: source, format and comment
-    * source:
-       * SRC_LOCAL - load data from local file, and *input* translated as a config file name 
-       * SRC_DIRECT - load data directly  
-    * format:
-       * FMT_JOML - JOML-style 
+>*mode* - load mode, consists three components: source, format and comment, see the following table for detail
 >
->*err_msg* - optional   
+>*err_msg* - optional, filled with error detail when loading data error
+Mode and their descriptions:
 
+| Flag          | Type    | Description                                 |
+|---------------|---------|---------------------------------------------|
+| SRC_LOCAL     | source  | Load config data from local file            |
+| SRC_DIRECT    | source  | Load config data from input string directly |
+| SRC_ZK        | source  | Load config data from zookeeper             |
+| FMT_JOML      | format  | Parse data as JOML-style/INI-style          |
+| FMT_JSON      | format  | Parse data as JSON-style                    |
+| CMT_SHARP     | comment | Take '#' as line comment identifier         |
+| CMT_SLASH     | comment | Take '//' as line comment identifier        |
+| CMT_SEMICOLON | comment | Take ';' as line comment identifier         |
+| CMT_PERCENT   | comment | Take '%' as line comment identifier         |
 
