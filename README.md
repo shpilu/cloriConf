@@ -15,8 +15,8 @@ Multifunctional though cloriConf is, cloriConf's access API is designed to be as
 ## Usage 
 
 * Access INI-style configuration file---
-common.ini:
-```
+```C++
+# common.ini
 # JOML-style test
 [[adslot=xxx]]
 splash=123
@@ -24,9 +24,8 @@ popUp=345
 [vta]
 splash=222 #comment test ; semicolon test
 popUp=3415
-```
-C++ code:
-```C++
+
+==== C++ code ====
 // SRC_LOCAL: load config from local file
 // FMT_JOML: parse as INI-style(JOML-style) config 
 // CMT_SHARP: take '#' as line comment identifier
@@ -47,8 +46,9 @@ std::cout << "val1=" << val1 << std::endl;
 std::cout << "val2=" << val2 << std::endl;
 ```
 * Access JSON-style configuration file
-common.json:
-```
+```C++
+# common.json
+# JSON-style test
 {
     "adslot":{
         "splash":"123",                                                                                                                   
@@ -59,9 +59,8 @@ common.json:
         }   
     }   
 }
-```
-C++ code:
-```C++
+
+==== C++ code ====
 # FMT_JSON: parse as JSON-style config
 std::string err_msg;
 Config* conf = Config::instance()->Load("../conf/common.json", SRC_LOCAL | FMT_JSON, &err_msg);
