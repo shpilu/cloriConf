@@ -169,15 +169,6 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
 ```
 You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an example of cloriConf zookeeper dashboard.
 
-## Who Is Using CloriConf? 
-
-* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
-
-## Authors
-
-* James Wei (weijianlhp@163.com)  
-Please mail me in case of trouble with using cloriConf.
-
 ## API Reference 
 
 #### instance
@@ -228,7 +219,7 @@ Return value
 >A pointer to config object, if loading failed, a NULL pointer is returned
 
 ### GetConfNode
-`ConfNode* Config::GetConfNode(const std::string& name = "") const`
+`ConfNode* Config::GetConfNode(const std::string& name = "") const`</br>
 `ConfNode* ConfNode::GetConfNode(const std::string& name = "") const`
 
 Description
@@ -238,7 +229,7 @@ Parameters
 >*name* - path of config node
 
 ### GetString/GetBool/GetInt32/GetInt64
-`std::string Config::GetString(const std::string& name, const std::string& default_value = "") const`
+`std::string Config::GetString(const std::string& name, const std::string& default_value = "") const`</br>
 `std::string ConfNode::GetString(const std::string& name, const std::string& default_value = "") const`
 
 Description
@@ -250,7 +241,7 @@ Parameters
 >*default_value* - Default return value when confnode not found
 
 #### Exists
-`bool Config::Exists(const std::string& name) const`
+`bool Config::Exists(const std::string& name) const`</br>
 `bool ConfNode::Exists(const std::string& name) const`
 
 Description
@@ -273,4 +264,14 @@ Description
 
 ## About JOML
 
+## TODO List
+
+## Who Is Using CloriConf? 
+
+* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
+
+## Authors
+
+* James Wei (weijianlhp@163.com)  
+Please mail me in case of trouble with using cloriConf.
 
