@@ -214,3 +214,63 @@ Mode and their descriptions:
 | CMT_SEMICOLON | comment | Take ';' as line comment identifier         |
 | CMT_PERCENT   | comment | Take '%' as line comment identifier         |
 
+Example
+>Config conf;
+>// Load config data from local file and take ';' as line comment identifier
+>conf.Load("conf.ini", SRC_LOCAL | FMT_JOML | CMT_SEMICOLON);
+>// Load config data from zookeeper
+>conf.Load("zk.ini", SRC_ZK);
+>// Load JSON-style string config data
+>std::string input_str("{\"myself\":{\"name\":\"WeiJian\", \"school\":\"BUAA\",\"dr\":[\"cloris\", \"apache\"]}}");
+>conf.Load(input_str, SRC_DIRECT | FMT_JSON);
+
+Return value
+>A pointer to config object, if loading failed, a NULL pointer is returned
+
+### GetConfNode
+`ConfNode* Config::GetConfNode(const std::string& name = "") const`
+`ConfNode* ConfNode::GetConfNode(const std::string& name = "") const`
+
+Description
+>Get ConfNode from configuration tree
+
+Parameters
+>*name* - path of config node
+
+### GetString
+### GetBool
+### GetInt32
+### GetInt32
+### GetInt64
+`std::string Config::GetString(const std::string& name, const std::string& default_value = "") const`
+`std::string ConfNode::GetString(const std::string& name, const std::string& default_value = "") const`
+
+Description
+>Parse ConfNode as string/bool/int32/int64 
+
+Parameters
+>*name* - Config node path
+>
+>*default_value* - Default return value when confnode not found
+
+### Exists
+`bool Config::Exists(const std::string& name) const`
+`bool ConfNode::Exists(const std::string& name) const`
+
+Description
+>Check if conf node exists
+
+Parameters
+>*name* - Config node path
+
+### begin
+`ConstChildrenIterator ConfNode::begin() const` 
+
+Description
+>Begin of children config node iterator
+
+### end 
+`ConstChildrenIterator ConfNode::end() const` 
+
+Description
+>End of children config node iterator
