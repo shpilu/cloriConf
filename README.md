@@ -190,8 +190,10 @@ Return value
 >A Config class pointer to config instance
 ### Load
 `Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL)`  
+
 Description
 >Load configuration data from string, local file or zookeeper   
+
 Parameters
 >*input* - config data source, maybe a config string, file name, or zookeeper config file, depending on parameter *mode*   
 >
