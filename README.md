@@ -180,7 +180,7 @@ Please mail me in case of trouble with using cloriConf.
 
 ## API Reference 
 
-#### instance()
+#### instance
 `Config* Config::instance()`
 
 Description
@@ -197,7 +197,12 @@ Description
 Parameters
 >*input* - config data source, maybe a config string, file name, or zookeeper config file, depending on parameter *mode*   
 >
->*mode* - load mode, contain three parts, as 'SOURCE | FORMAT | COMMENT'   
+>*mode* - load mode, consists three components: source, format and comment
+    * source:
+       * SRC_LOCAL - load data from local file, and *input* translated as a config file name 
+       * SRC_DIRECT - load data directly  
+    * format:
+       * FMT_JOML - JOML-style 
 >
 >*err_msg* - optional   
 
