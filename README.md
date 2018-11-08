@@ -59,7 +59,7 @@ common.json:
         }   
     }
 ```
-    C++ code: 
+C++ code: 
 ```C++
     // FMT_JSON: parse as JSON-style config
     std::string err_msg;
@@ -82,36 +82,36 @@ common.json:
     std::cout << "val2=" << val2 << std::endl;
 ```
 * Load config from zookeeper  
-zk.ini ==>
+zk.ini:
 ```C++
-[zookeeper]
-    # host=10.6.43.15:2181,10.6.43.16:2181,10.6.1.12:2181,10.6.1.13:2181
-    host=localhost:2181
-    timeout=3000
-    interval=5000
-    root=/online/commercial/ssp
-[]
+    [zookeeper]
+        # host=10.6.43.15:2181,10.6.43.16:2181,10.6.1.12:2181,10.6.1.13:2181
+        host=localhost:2181
+        timeout=3000
+        interval=5000
+        root=/online/commercial/ssp
+    []
 ```
-C++ code ==>
+C++ code:
 ```C++
-// SRC_ZK: load config from zookeeper
-std::string err_msg;
-Config* conf = Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);
-if (conf) {
-    std::cout << "run test success" << std::endl;
-} else {
-    std::cout << "run test failed, " << err_msg << std::endl;
-    return;
-}
-std::string val1 = conf->GetString("rules/popUp");
-std::cout << "value of rules/popUp=" + val1 << std::endl;
+    // SRC_ZK: load config from zookeeper
+    std::string err_msg;
+    Config* conf = Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);
+    if (conf) {
+        std::cout << "run test success" << std::endl;
+    } else {
+        std::cout << "run test failed, " << err_msg << std::endl;
+        return;
+    }
+    std::string val1 = conf->GetString("rules/popUp");
+    std::cout << "value of rules/popUp=" + val1 << std::endl;
 
-ConfNode* node = conf->GetConfNode("rules/splash");
-if (node) {
-    for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) {
-        std::cout << "zookeeper config node, key=" << iter->name() << ", value=" << iter->AsString() << std::endl;
-    }   
-}
+    ConfNode* node = conf->GetConfNode("rules/splash");
+    if (node) {
+        for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) {
+            std::cout << "zookeeper config node, key=" << iter->name() << ", value=" << iter->AsString() << std::endl;
+        }   
+    }
 ```
 ## Installation
 
