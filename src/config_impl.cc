@@ -5,13 +5,13 @@
 //
 #include <memory>
 #include <boost/algorithm/string.hpp>
-#include "loader/local/config_local.h"
-#include "loader/direct/config_direct.h"
+#include "parser/local/config_local.h"
+#include "parser/direct/config_direct.h"
 #include "internal/def.h"
 #include "config_impl.h"
 
 #ifdef ENABLE_ZOOKEEPER
-    #include "loader/zookeeper/config_zk.h"
+    #include "parser/zookeeper/config_zk.h"
 #endif
 
 namespace cloris {
@@ -159,7 +159,7 @@ bool ConfigImpl::Load(const std::string& src, int mode, std::string* err_msg) {
             break;
         default:
             if (err_msg) {
-                *err_msg = "unsupported loader";
+                *err_msg = "unsupported parser";
             }
     }
     if (config_keeper_) {

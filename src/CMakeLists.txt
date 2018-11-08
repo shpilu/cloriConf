@@ -56,18 +56,18 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECOTRY ${PROJECT_BINARY_DIR}/output/lib)
 
 file(GLOB BASIC_SOURCES "${PROJECT_SOURCE_DIR}/src/*.cc")
 set(PACKAGE_SOURCES ${BASIC_SOURCES} 
-    ${PROJECT_SOURCE_DIR}/src/loader/config_keeper.cc
-    ${PROJECT_SOURCE_DIR}/src/loader/joml.cc
-    ${PROJECT_SOURCE_DIR}/src/loader/direct/config_direct.cc
-    ${PROJECT_SOURCE_DIR}/src/loader/local/config_local.cc)
+    ${PROJECT_SOURCE_DIR}/src/parser/config_keeper.cc
+    ${PROJECT_SOURCE_DIR}/src/parser/joml.cc
+    ${PROJECT_SOURCE_DIR}/src/parser/direct/config_direct.cc
+    ${PROJECT_SOURCE_DIR}/src/parser/local/config_local.cc)
 if(ENABLE_JSON)
     set(PACKAGE_SOURCES ${PACKAGE_SOURCES}
-        ${PROJECT_SOURCE_DIR}/src/loader/json.cc)
+        ${PROJECT_SOURCE_DIR}/src/parser/json.cc)
 endif()
 
 if(ENABLE_ZOOKEEPER)
     set(PACKAGE_SOURCES ${PACKAGE_SOURCES}
-        ${PROJECT_SOURCE_DIR}/src/loader/zookeeper/config_zk.cc)
+        ${PROJECT_SOURCE_DIR}/src/parser/zookeeper/config_zk.cc)
 endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})

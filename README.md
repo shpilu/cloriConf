@@ -175,7 +175,7 @@ You may click [here](http://60.205.189.117/index.php?group_id=default&path=/onli
 
 ## Authors
 
-* James Wei (weijianlhp@163.com)
+* James Wei (weijianlhp@163.com)  
 Please mail me in case of trouble with using cloriConf.
 
 ## Documentation
