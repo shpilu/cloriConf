@@ -157,14 +157,14 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
 ```PHP
     # set "/home/weijian/github/cloriConf" to your own directory
     location ~ \.php$ {
-        root    /home/weijian/github/cloriConf/src/manager;
+        root    /home/weijian/github/cloriConf/src/dashboard;
         fastcgi_pass   127.0.0.1:9000;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
         include        fastcgi_params;
     }   
     location ~ \.(css|js|html)$ {
-        root        /home/weijian/github/cloriConf/src/manager;                                                                       
+        root        /home/weijian/github/cloriConf/src/dashboard;
     }
 ```
 
