@@ -2,8 +2,10 @@ cloriConf
 ====
 
 Suppose you programing in C++ and looking for a third-party configuration library, I suggest you have a try on cloriConf, which has character of both lightweight configuration library and distributed configuration center. 
+    * [Features](https://github.com/shpilu/cloriConf/#features)
+    * [Authors](https://github.com/shpilu/cloriConf/#authors)
 
-## Features
+## Features<div id="features"></div>
 
 The most significant features cloriConf exceeds general configuration library are 
 
@@ -251,13 +253,15 @@ Parameters
 >*name* - Config node path
 
 ### begin
-`ConstChildrenIterator ConfNode::begin() const` 
+`ConstChildrenIterator ConfNode::begin() const`</br>
+`ChildrenIterator begin()`
 
 Description
 >Begin of children config node iterator
 
 ### end 
-`ConstChildrenIterator ConfNode::end() const` 
+`ConstChildrenIterator ConfNode::end() const`</br>
+`ChildrenIterator ConfNode::end()` 
 
 Description
 >End of children config node iterator
@@ -270,7 +274,7 @@ Description
 
 * [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
 
-## Authors
+## Authors<div id="authors"></div>
 
 * James Wei (weijianlhp@163.com)  
 Please mail me in case of trouble with using cloriConf.
