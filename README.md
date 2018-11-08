@@ -240,7 +240,7 @@ Parameters
 >
 >*default_value* - Default return value when confnode not found
 
-#### Exists
+### Exists
 `bool Config::Exists(const std::string& name) const`</br>
 `bool ConfNode::Exists(const std::string& name) const`
 
@@ -250,13 +250,13 @@ Description
 Parameters
 >*name* - Config node path
 
-#### begin
+### begin
 `ConstChildrenIterator ConfNode::begin() const` 
 
 Description
 >Begin of children config node iterator
 
-#### end 
+### end 
 `ConstChildrenIterator ConfNode::end() const` 
 
 Description
