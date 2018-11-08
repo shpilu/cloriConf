@@ -151,9 +151,22 @@ After adding cloriConf to your program, you can compile like (assume cloriConf i
 ```C++
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
-## Build Up CloriConf As Configuration Center
-As cloriConf support loading config data from zookeeper, you can take it as a simple distributed configuration center to some extent.
-The following steps will take you through how to use cloriConf to build up a configuration center
+## Build Up Zookeeper Dashboard by CloriConf
+As cloriConf support loading config data from zookeeper, you can take it as a simple distributed configuration center to some extent. 
+To simplify zookeeper management, cloriConf contain a zookeeper dashboard module in directory src/dashboard. To use cloriConf dashboard, a PHP runtime environment and nginx are required, and then you can add the following nginx config to nginx.conf and restart nginx
+```PHP
+    # set "/home/weijian/github/cloriConf" to your own directory
+    location ~ \.php$ {
+        root    /home/weijian/github/cloriConf/src/manager;
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }   
+    location ~ \.(css|js|html)$ {
+        root        /home/weijian/github/cloriConf/src/manager;                                                                       
+    }
+```
 
 ## Who Is Using CloriConf? 
 
