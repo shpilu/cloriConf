@@ -180,11 +180,19 @@ Please mail me in case of trouble with using cloriConf.
 
 ## API Reference 
 
-### 1. Config* Config::instance()
-```
-    Get A config instance by singleton pattern.  
-    Return value: a Config pointer to config instance.
-```
-### 2.Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL) noexcept
-    Load config from string, local file or zookeeper(controlled by mode)
+#### instance()
+`Config* Config::instance()`
+Description
+>Get a Config class instance using singleton pattern
+Return value
+>A Config class pointer to config instance
+### Load
+`Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL)`
+Description
+>Load configuration data from string, local file or zookeeper
+Parameters
+>*input* - config data source, maybe a config string, file name, or zookeeper config file, depending on parameter *mode*
+>*mode* - load mode, contain three parts, as 'SOURCE | FORMAT | COMMENT'
+>*err_msg* - optional,  
+
 
