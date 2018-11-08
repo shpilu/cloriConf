@@ -7,22 +7,22 @@ Suppose you programing in C++ and looking for a third-party configuration librar
 
 The most significant features cloriConf exceeds general configuration library are 
 
-* Configuration **format-independent**. CloriConf's access APIs are independent from configuration format. The currently supported formats are json and joml(a superset of ini format), and more config format will be supported in future.
+* Configuration **format-independent**. CloriConf's access APIs are independent from configuration format. The currently supported formats are json and joml(James's Obvious Minimal Language, a superset of ini format), and more config format will be supported in future.
 * Configuration **sourece-independent**. CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see usage and API document for detail.
 
 ## Usage 
 
-* Access INI-style configuration file  
+* Access INI-style/JOML-style configuration file  
 common.ini: 
 ```C++
     [[adslot=xxx]]
-    splash=123
-    popUp=345
-    [vta]
-    splash=222 #comment test ; semicolon test
-    popUp=3415
+      splash=123
+      popUp=345
+      [vta]
+      splash=222 #comment test ; semicolon test
+      popUp=3415
 ```
 C++ code: 
 ```C++
@@ -79,10 +79,10 @@ C++ code:
     // take 13456789 as default value when node "/adslot/vta/not_exist" not found
     int val2 = conf->GetInt32("/adslot/vta/not_exist", 13456789);
     std::cout << "val1=" << val1 << std::endl;
-   std::cout << "val2=" << val2 << std::endl;
+    std::cout << "val2=" << val2 << std::endl;
 ```
 * Load config from zookeeper  
-zk.ini:
+zk.ini(JOML-style):
 ```C++
     [zookeeper]
         # host=10.6.43.15:2181,10.6.43.16:2181,10.6.1.12:2181,10.6.1.13:2181
@@ -151,7 +151,6 @@ After adding cloriConf to your program, you can compile like (assume cloriConf i
 ```C++
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
-
 ## Who Is Using CloriConf? 
 
 * [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
@@ -159,4 +158,6 @@ g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib 
 ## Authors
 
 * James Wei (weijianlhp@163.com)
+
+## Documentation
 
