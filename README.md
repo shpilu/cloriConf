@@ -1,8 +1,15 @@
-cloriConf
+cloriConf<div id="top"></div>
 ====
 
 Suppose you programing in C++ and looking for a third-party configuration library, I suggest you have a try on cloriConf, which has character of both lightweight configuration library and distributed configuration center. 
 * [Features](#features)
+* [Usage](#usage)
+* [Installation](#installation)
+* [Build Up Zookeeper Dashboard by CloriConf](#dashboard)
+* [API Reference](#api)
+* [About JOML](#joml)
+* [TODO List](#todo)
+* [Who Is Using CloriConf?](#using)
 * [Authors](#authors)
 
 ## Features<div id="features"></div>
@@ -14,7 +21,7 @@ The most significant features cloriConf exceeds general configuration library ar
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see usage and API document for detail.
 
-## Usage 
+## Usage<div id="usage"></div>
 
 * Access INI-style/JOML-style configuration file  
 common.ini: 
@@ -115,7 +122,7 @@ C++ code:
         }   
     }
 ```
-## Installation
+## Installation<div id="#installation"></div>
 
 Before installation, you must be sure that
   * CloriConf currently passes the test in Linux operation system **only**. To support other OS, you may need to change CMakeLists.txt and some code.  
@@ -153,7 +160,7 @@ After adding cloriConf to your program, you can compile like (assume cloriConf i
 ```C++
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
-## Build Up Zookeeper Dashboard by CloriConf
+## Build Up Zookeeper Dashboard by CloriConf<div id="dashboard"></div>
 As cloriConf support loading config data from zookeeper, you can take it as a simple distributed configuration center to some extent. 
 To simplify zookeeper management, cloriConf contain a zookeeper dashboard module in directory src/dashboard. To use cloriConf dashboard, a PHP runtime environment and nginx are required, and then you can add the following nginx config to nginx.conf and restart nginx
 ```PHP
@@ -171,7 +178,7 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
 ```
 You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an example of cloriConf zookeeper dashboard.
 
-## API Reference 
+## API Reference<div id="api"></div>
 
 #### instance
 `Config* Config::instance()`
@@ -266,11 +273,11 @@ Description
 Description
 >End of children config node iterator
 
-## About JOML
+## About JOML<div id="joml"></div>
 
-## TODO List
+## TODO List<div id="todo"></div>
 
-## Who Is Using CloriConf? 
+## Who Is Using CloriConf?<div id="using"></div>
 
 * [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
 
@@ -278,4 +285,6 @@ Description
 
 * James Wei (weijianlhp@163.com)  
 Please mail me in case of trouble with using cloriConf.
+
+[Go back to top](#top)
 
