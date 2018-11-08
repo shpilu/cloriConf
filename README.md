@@ -7,8 +7,10 @@ Suppose you programing in C++ and looking for a third-party configuration librar
 
 The most significant features cloriConf exceeds general configuration library are 
 
-* Configuration format-independent. CloriConf's access APIs are independent from configuration format. The currently supported formats are json and joml(a superset of ini format), and more config format will be supported in future.
-* Configuration sourece-independent. CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
+* Configuration **format-independent** 
+    CloriConf's access APIs are independent from configuration format. The currently supported formats are json and joml(a superset of ini format), and more config format will be supported in future.
+* Configuration **sourece-independent**
+    CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see usage and API document for detail.
 
@@ -16,8 +18,8 @@ Multifunctional though cloriConf is, cloriConf's access API is designed to be as
 
 * Access INI-style configuration file---
 ```C++
-# common.ini
-# JOML-style test
+// JOML-style test
+// common.ini
 [[adslot=xxx]]
 splash=123
 popUp=345
@@ -47,11 +49,11 @@ std::cout << "val2=" << val2 << std::endl;
 ```
 * Access JSON-style configuration file
 ```C++
-# common.json
-# JSON-style test
+// JSON-style test
+// common.json
 {
     "adslot":{
-        "splash":"123",                                                                                                                   
+        "splash":"123",
         "popUp":"345",
         "vta":{
             "splash":"222",
@@ -61,7 +63,7 @@ std::cout << "val2=" << val2 << std::endl;
 }
 
 ==== C++ code ====
-# FMT_JSON: parse as JSON-style config
+// FMT_JSON: parse as JSON-style config
 std::string err_msg;
 Config* conf = Config::instance()->Load("../conf/common.json", SRC_LOCAL | FMT_JSON, &err_msg);
 if (conf) {
@@ -75,10 +77,56 @@ if (node) {
     std::cout << "adslot.vta.splash=" << node->AsString() << std::endl;
     std::cout << "adslot.vta.popUp=" << conf->GetString("adslot.vta.popUp") << std::endl;
 }   
+
 // take 13456789 as default value when node "/adslot/vta/not_exist" not found
 int val2 = conf->GetInt32("/adslot/vta/not_exist", 13456789);
 std::cout << "val1=" << val1 << std::endl;
 std::cout << "val2=" << val2 << std::endl;
 ```
 * Load config from zookeeper
+```C++
+// zookeeper 
+// zk.ini
+[zookeeper]
+    # host=10.6.43.15:2181,10.6.43.16:2181,10.6.1.12:2181,10.6.1.13:2181
+    host=localhost:2181
+    timeout=3000
+    interval=5000
+    root=/online/commercial/ssp
+[]
+
+==== C++ code ==== 
+// SRC_ZK: load config from zookeeper
+std::string err_msg;
+Config* conf = Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);
+if (conf) {
+    std::cout << "run test success" << std::endl;
+} else {
+    std::cout << "run test failed, " << err_msg << std::endl;
+    return;
+}
+std::string val1 = conf->GetString("rules/popUp");
+std::cout << "value of rules/popUp=" + val1 << std::endl;
+
+ConfNode* node = conf->GetConfNode("rules/splash");
+if (node) {
+    for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) {
+        std::cout << "zookeeper config node, key=" << iter->name() << ", value=" << iter->AsString() << std::endl;
+    }   
+}
+```
+## Installation
+
+CloriConf currently support Linux operation system only. To support other os, you may need to change CMakeLists.txt and some code.
+
+```
+// C
+
+## Who Is Using CloriConf? 
+
+* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
+
+## Authors
+
+* James Wei (weijianlhp@163.com)
 
