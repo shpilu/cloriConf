@@ -14,18 +14,18 @@ Multifunctional though cloriConf is, cloriConf's access API is designed to be as
 
 ## Usage 
 
-* Access INI-style configuration file---
+* Access INI-style configuration file
+==== common.ini ====
 ```C++
-// JOML-style test
-// common.ini
 [[adslot=xxx]]
 splash=123
 popUp=345
 [vta]
 splash=222 #comment test ; semicolon test
 popUp=3415
-
+```
 ==== C++ code ====
+```C++
 // SRC_LOCAL: load config from local file
 // FMT_JOML: parse as INI-style(JOML-style) config 
 // CMT_SHARP: take '#' as line comment identifier
@@ -46,9 +46,8 @@ std::cout << "val1=" << val1 << std::endl;
 std::cout << "val2=" << val2 << std::endl;
 ```
 * Access JSON-style configuration file
+==== common.json ====
 ```C++
-// JSON-style test
-// common.json
 {
     "adslot":{
         "splash":"123",
@@ -59,8 +58,9 @@ std::cout << "val2=" << val2 << std::endl;
         }   
     }   
 }
-
+```
 ==== C++ code ====
+```C++
 // FMT_JSON: parse as JSON-style config
 std::string err_msg;
 Config* conf = Config::instance()->Load("../conf/common.json", SRC_LOCAL | FMT_JSON, &err_msg);
@@ -82,9 +82,8 @@ std::cout << "val1=" << val1 << std::endl;
 std::cout << "val2=" << val2 << std::endl;
 ```
 * Load config from zookeeper
+==== zk.ini ====
 ```C++
-// zookeeper 
-// zk.ini
 [zookeeper]
     # host=10.6.43.15:2181,10.6.43.16:2181,10.6.1.12:2181,10.6.1.13:2181
     host=localhost:2181
@@ -92,8 +91,9 @@ std::cout << "val2=" << val2 << std::endl;
     interval=5000
     root=/online/commercial/ssp
 []
-
+```
 ==== C++ code ==== 
+```C++
 // SRC_ZK: load config from zookeeper
 std::string err_msg;
 Config* conf = Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);
@@ -118,7 +118,6 @@ if (node) {
 CloriConf currently support Linux operation system only. To support other os, you may need to change CMakeLists.txt and some code.
 
 ```
-// C
 
 ## Who Is Using CloriConf? 
 
