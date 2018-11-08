@@ -17,14 +17,14 @@ void load_joml_from_file() {
     } else {
         std::cout << "run test failed, " << err_msg << std::endl;
     }
-    std::string k1 = conf->GetString("adslot.vta.popUp");
+    std::string val1 = conf->GetString("adslot.vta.popUp");
     const ConfNode* node = conf->GetConfNode("adslot.vta.splash");
     if (node) {
         std::cout << "adslot.vta.splash=" << node->AsString() << std::endl;
     }
-    int k2 = conf->GetInt32("/adslot/vta/xxx", 13456);
-    std::cout << "k1=" << k1 << std::endl;
-    std::cout << "k2=" << k2 << std::endl;
+    int val2 = conf->GetInt32("/adslot/vta/xxx", 13456);
+    std::cout << "val1=" << val1 << std::endl;
+    std::cout << "val2=" << val2 << std::endl;
     std::cout << "[OK]local joml file test end..." << std::endl;
 }
 
@@ -37,15 +37,15 @@ void load_json_from_file() {
     } else {
         std::cout << "run test failed, " << err_msg << std::endl;
     }
-    std::string k1 = conf->GetString("adslot.vta.popUp");
+    std::string val1 = conf->GetString("adslot.vta.popUp");
     const ConfNode* node = conf->GetConfNode("adslot.vta.splash");
     if (node) {
         std::cout << "adslot.vta.splash=" << node->AsString() << std::endl;
         std::cout << "adslot.vta.popUp=" << conf->GetString("adslot.vta.popUp") << std::endl;
     }
-    int k2 = conf->GetInt32("/adslot/vta/xxx", 13456789);
-    std::cout << "k1=" << k1 << std::endl;
-    std::cout << "k2=" << k2 << std::endl;
+    int val2 = conf->GetInt32("/adslot/vta/xxx", 13456789);
+    std::cout << "val1=" << val1 << std::endl;
+    std::cout << "val2=" << val2 << std::endl;
     std::cout << "[OK]local json file test end..." << std::endl;
 }
 
@@ -66,8 +66,8 @@ void test_zookeeper() {
     }
     EventHandler handler = std::bind(Watch, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     conf->Watch("rules", EVENT_INIT, handler);
-    std::string k1 = conf->GetString("rules/popUp");
-    std::cout << "value of rules/popUp=" + k1 << std::endl;
+    std::string val1 = conf->GetString("rules/popUp");
+    std::cout << "value of rules/popUp=" + val1 << std::endl;
 
     ConfNode* node = conf->GetConfNode("rules/splash");
     if (node) {

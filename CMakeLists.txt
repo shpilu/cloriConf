@@ -19,7 +19,7 @@ endif()
 # compile options
 OPTION(ENABLE_JSON "Support json format" OFF)
 OPTION(ENABLE_ZOOKEEPER "Support zookeeper" OFF)
-OPTION(DEBUG "Print debug logs" FALSE)
+OPTION(DEBUG "Print debug logs" OFF)
 OPTION(WITH_DEBUG_SYMBOLS "With debug symbols" ON)
 
 # install prefix

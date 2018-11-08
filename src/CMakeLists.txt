@@ -36,6 +36,7 @@ else()
 endif()
 endmacro(use_cxx11)
 
+set(DYNAMIC_LIB pthread)
 use_cxx11()
 
 if(ENABLE_JSON)
@@ -44,9 +45,8 @@ endif()
 
 if(ENABLE_ZOOKEEPER)
     include_directories(${ZOOKEEPER_INCLUDE_PATH})
-    set(DYNAMIC_LIB pthread)
     set(DYNAMIC_LIB "${DYNAMIC_LIB} ${ZOOKEEPER_LIBRARY}")
-    set(CLORICONF_PRIVATE_LIBS "${CLORICONF_PRIVATE_LIBS} -lzookeeper_mt -lpthread") 
+    set(CLORICONF_PRIVATE_LIBS "${CLORICONF_PRIVATE_LIBS} -lzookeeper_mt") 
 endif()
 
 # for *.so output
