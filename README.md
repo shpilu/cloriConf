@@ -124,33 +124,37 @@ To install cloriConf, you can run the following command in root path of cloriCon
 mkdir build && cd build
 cmake ..
 make
-make install
+sudo make install
 ```
 To support JSON-style parser, you need to install [RapidJSON](https://github.com/Tencent/rapidjson) firstly, and then run
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_JSON=ON
 make
-make install
+sudo make install
 ```
 To support zookeeper, you need to install [zookeeper](https://www.apache.org/dyn/closer.cgi) firstly, and then run
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_ZOOKEEPER=ON
 make
-make install
+sudo make install
 ```
-Alternatively you can specify the install prefix by setting CMAKE_INSTALL_PREFIX, so a full step seems like 
+Alternatively you can specify the install prefix by setting CMAKE_INSTALL_PREFIX, so a complete step seems like 
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_JSON=ON -DENABLE_ZOOKEEPER=ON -DCMAKE_INSTALL_PREFIX=/usr/local/third_party
 make
-make install
+sudo make install
 ```
 After adding cloriConf to your program, you can compile like (assume cloriConf installed in /home/weijian/cloriconf)
 ```C++
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
+## Build Up CloriConf As Configuration Center
+As cloriConf support loading config data from zookeeper, you can take it as a simple distributed configuration center to some extent.
+The following steps will take you through how to use cloriConf to build up a configuration center
+
 ## Who Is Using CloriConf? 
 
 * [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
@@ -158,6 +162,7 @@ g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib 
 ## Authors
 
 * James Wei (weijianlhp@163.com)
+Please mail me in case of trouble with using cloriConf.
 
 ## Documentation
 
