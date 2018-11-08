@@ -24,7 +24,7 @@ common.ini:
     splash=222 #comment test ; semicolon test
     popUp=3415
 ```
-    C++ code: 
+C++ code: 
 ```C++
     // SRC_LOCAL: load config from local file
     // FMT_JOML: parse as INI-style(JOML-style) config 
