@@ -2,8 +2,8 @@ cloriConf
 ====
 
 Suppose you programing in C++ and looking for a third-party configuration library, I suggest you have a try on cloriConf, which has character of both lightweight configuration library and distributed configuration center. 
-    * [Features](https://github.com/shpilu/cloriConf/#features)
-    * [Authors](https://github.com/shpilu/cloriConf/#authors)
+* [Features](https://github.com/shpilu/cloriConf/#features)
+* [Authors](https://github.com/shpilu/cloriConf/#authors)
 
 ## Features<div id="features"></div>
 
