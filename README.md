@@ -237,11 +237,7 @@ Description
 Parameters
 >*name* - path of config node
 
-### GetString
-### GetBool
-### GetInt32
-### GetInt32
-### GetInt64
+### GetString/GetBool/GetInt32/GetInt64
 `std::string Config::GetString(const std::string& name, const std::string& default_value = "") const`
 `std::string ConfNode::GetString(const std::string& name, const std::string& default_value = "") const`
 
