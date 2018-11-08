@@ -14,8 +14,8 @@ Multifunctional though cloriConf is, cloriConf's access API is designed to be as
 
 ## Usage 
 
-* Access INI-style configuration file
-==== common.ini ====
+* Access INI-style configuration file  
+common.ini ==>
 ```C++
 [[adslot=xxx]]
 splash=123
@@ -24,7 +24,7 @@ popUp=345
 splash=222 #comment test ; semicolon test
 popUp=3415
 ```
-==== C++ code ====
+C++ code ==> 
 ```C++
 // SRC_LOCAL: load config from local file
 // FMT_JOML: parse as INI-style(JOML-style) config 
@@ -45,8 +45,8 @@ int val2 = conf->GetInt32("/adslot/vta/splash");
 std::cout << "val1=" << val1 << std::endl;
 std::cout << "val2=" << val2 << std::endl;
 ```
-* Access JSON-style configuration file
-==== common.json ====
+* Access JSON-style configuration file  
+common.json ==>
 ```C++
 {
     "adslot":{
@@ -59,7 +59,7 @@ std::cout << "val2=" << val2 << std::endl;
     }   
 }
 ```
-==== C++ code ====
+C++ code ==>
 ```C++
 // FMT_JSON: parse as JSON-style config
 std::string err_msg;
@@ -81,8 +81,8 @@ int val2 = conf->GetInt32("/adslot/vta/not_exist", 13456789);
 std::cout << "val1=" << val1 << std::endl;
 std::cout << "val2=" << val2 << std::endl;
 ```
-* Load config from zookeeper
-==== zk.ini ====
+* Load config from zookeeper  
+zk.ini ==>
 ```C++
 [zookeeper]
     # host=10.6.43.15:2181,10.6.43.16:2181,10.6.1.12:2181,10.6.1.13:2181
@@ -92,7 +92,7 @@ std::cout << "val2=" << val2 << std::endl;
     root=/online/commercial/ssp
 []
 ```
-==== C++ code ==== 
+C++ code ==>
 ```C++
 // SRC_ZK: load config from zookeeper
 std::string err_msg;
