@@ -79,7 +79,7 @@ C++ code:
     // take 13456789 as default value when node "/adslot/vta/not_exist" not found
     int val2 = conf->GetInt32("/adslot/vta/not_exist", 13456789);
     std::cout << "val1=" << val1 << std::endl;
-    std::cout << "val2=" << val2 << std::endl;
+   std::cout << "val2=" << val2 << std::endl;
 ```
 * Load config from zookeeper  
 zk.ini:
@@ -115,8 +115,41 @@ C++ code:
 ```
 ## Installation
 
-CloriConf currently support Linux operation system only. To support other os, you may need to change CMakeLists.txt and some code.
-
+Before installation, you must be sure that
+  * CloriConf currently passes the test in Linux operation system **only**. To support other OS, you may need to change CMakeLists.txt and some code.  
+  * CloriConf is not a fully self-contained library, which has dependency on RapidJSON and zookeeper. To simplify installation of cloriConf, function for json/zookeeper support is disabled by default.  
+To install cloriConf, you can run the following command in root path of cloriConf source code:
+```C++
+// (without support for JSON-style parser and zookeeper) 
+mkdir build && cd build
+cmake ..
+make
+make install
+```
+To support JSON-style parser, you need to install [RapidJSON](https://github.com/Tencent/rapidjson) firstly, and then run
+```C++
+mkdir build && cd build
+cmake .. -DENABLE_JSON=ON
+make
+make install
+```
+To support zookeeper, you need to install [zookeeper](https://www.apache.org/dyn/closer.cgi) firstly, and then run
+```C++
+mkdir build && cd build
+cmake .. -DENABLE_ZOOKEEPER=ON
+make
+make install
+```
+Alternatively you can specify the install prefix by setting CMAKE_INSTALL_PREFIX, so a full step seems like 
+```C++
+mkdir build && cd build
+cmake .. -DENABLE_JSON=ON -DENABLE_ZOOKEEPER=ON -DCMAKE_INSTALL_PREFIX=/usr/local/third_party
+make
+make install
+```
+After adding cloriConf to your program, you can compile like (assume cloriConf installed in /home/weijian/cloriconf)
+```C++
+g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
 
 ## Who Is Using CloriConf? 
