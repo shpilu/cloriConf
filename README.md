@@ -176,6 +176,7 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
         root        /home/weijian/github/cloriConf/src/dashboard;
     }
 ```
+![pics1](https://github.com/shpilu/cloriConf/blob/master/cloriconf.jpg)
 You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an example of cloriConf zookeeper dashboard.
 
 ## API Reference<div id="api"></div>
