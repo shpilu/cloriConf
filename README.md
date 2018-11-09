@@ -293,5 +293,5 @@ Description
 * James Wei (weijianlhp@163.com)  
 Please mail me in case of trouble with using cloriConf.
 
-[Go back to top](#top)
+[Go back to the top](#top)
 
