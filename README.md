@@ -3,12 +3,13 @@ cloriConf<div id="top"></div>
 
 Suppose you programing in C++ and looking for a third-party configuration library, I suggest you have a try on cloriConf, which has character of both lightweight configuration library and distributed configuration center. 
 * [Features](#features)
-* [Who Is Using CloriConf?](#using)
 * [Usage](#usage)
 * [Installation](#installation)
 * [Build Up Zookeeper Dashboard by CloriConf](#dashboard)
 * [API Reference](#api)
 * [About JOML](#joml)
+* [Array Access](#array)
+* [Who Is Using CloriConf?](#using)
 * [TODO List](#todo)
 * [Authors](#authors)
 
@@ -21,15 +22,11 @@ The most significant features cloriConf exceeds general configuration library ar
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see [Usage](#usage) and [API Reference](#api) for detail.</br>
 
-## Who Is Using CloriConf?<div id="using"></div>
-
-* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
-
 ## Usage<div id="usage"></div>
 
 The following will take you through how to use cloriConf in your program.Or you can reference [API Reference](#api) for detail of cloriConf APIs.
 
-* Access INI-style/JOML-style configuration file  
+* Access INI-style(JOML-style) configuration file  
 common.ini: 
 ```C++
     [[adslot=xxx]]
@@ -87,8 +84,8 @@ C++ code:
     std::string val1 = conf->GetString("adslot.vta.popUp");
     const ConfNode* node = conf->GetConfNode("adslot.vta.splash");
     if (node) {
-        std::cout << "adslot.vta.splash=" << node->AsString() << std::endl;
-        std::cout << "adslot.vta.popUp=" << conf->GetString("adslot.vta.popUp") << std::endl;
+        std::cout << "adslot.vta.splash=" << node->AsString() << std::endl; // 222
+        std::cout << "adslot.vta.popUp=" << conf->GetString("adslot.vta.popUp") << std::endl; // 3415
     }   
 
     // take 13456789 as default value when node "/adslot/vta/not_exist" not found
@@ -131,11 +128,11 @@ C++ code:
 ## Installation<div id="#installation"></div>
 
 Before installation, you must be sure that
-  * CloriConf currently passes the test in Linux operation system **only**. To support other OS, you may need to change CMakeLists.txt and some code.  
-  * CloriConf is not a fully self-contained library, which has dependency on RapidJSON and zookeeper. To simplify installation of cloriConf, function for json/zookeeper support is disabled by default.  
+  * CloriConf currently has passed the test in Linux operation system **only**. To support other OS, you may need to change CMakeLists.txt and some codes.  
+  * CloriConf is not a fully self-contained library, which has dependency on RapidJSON(for json support) and zookeeper(for zookeeper support). To simplify installation of cloriConf, function for json/zookeeper parser is disabled by default.  
 To install cloriConf, you can run the following command in root path of cloriConf source code:
 ```C++
-// (without support for JSON-style parser and zookeeper) 
+// (without support for JSON-style and zookeeper parser) 
 mkdir build && cd build
 cmake ..
 make
@@ -167,8 +164,8 @@ After adding cloriConf to your program, you can compile like (assume cloriConf i
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
 ## Build Up Zookeeper Dashboard by CloriConf<div id="dashboard"></div>
-As cloriConf support loading config data from zookeeper, you can take it as a simple distributed configuration center to some extent. 
-To simplify zookeeper management, cloriConf contain a zookeeper dashboard module in directory src/dashboard. To use cloriConf dashboard, a PHP runtime environment and nginx are required, and then you can add the following nginx config to nginx.conf and restart nginx
+As cloriConf support loading config data from zookeeper, you can use it as a simple distributed configuration center to some extent. 
+To simplify zookeeper management, cloriConf contain a zookeeper dashboard module in directory src/dashboard. To use cloriConf dashboard, a PHP runtime environment and nginx are required, and then you can add the following nginx configuration into nginx.conf and restart nginx
 ```PHP
     # set "/home/weijian/github/cloriConf" to your own directory
     location ~ \.php$ {
@@ -182,13 +179,13 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
         root        /home/weijian/github/cloriConf/src/dashboard;
     }
 ```
-A screenshot of dashboard:
+A screenshot of dashboard looks like this:
 ![pics1](https://github.com/shpilu/cloriConf/blob/master/cloriconf.jpg)
 You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an instance of cloriConf zookeeper dashboard.
 
 ## API Reference<div id="api"></div>
 
-#### instance
+### instance
 `Config* Config::instance()`
 
 Description
@@ -282,6 +279,12 @@ Description
 >End of children config node iterator
 
 ## About JOML<div id="joml"></div>
+
+## Array Access<div id="array"></div>
+
+## Who Is Using CloriConf?<div id="using"></div>
+
+* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
 
 ## TODO List<div id="todo"></div>
 
