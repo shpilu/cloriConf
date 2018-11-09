@@ -16,8 +16,9 @@ Suppose you programing in C++ and looking for a third-party configuration librar
 
 The most significant features cloriConf exceeds general configuration library are 
 
-* Configuration **format-independent**. CloriConf's access APIs are independent from configuration format. The currently supported formats are json and joml(James's Obvious Minimal Language, a superset of ini format), and more config format will be supported in future.
-* Configuration **sourece-independent**. CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
+* Configuration **format-independent**. </br>
+CloriConf's access APIs are independent from configuration format. The currently supported formats are json and joml(James's Obvious Minimal Language, a superset of ini format), and more config format will be supported in future.
+* Configuration **sourece-independent**.</br> CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see usage and API document for detail.
 
@@ -176,8 +177,9 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
         root        /home/weijian/github/cloriConf/src/dashboard;
     }
 ```
+A screenshot of dashboard:
 ![pics1](https://github.com/shpilu/cloriConf/blob/master/cloriconf.jpg)
-You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an example of cloriConf zookeeper dashboard.
+You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an instance of cloriConf zookeeper dashboard.
 
 ## API Reference<div id="api"></div>
 
