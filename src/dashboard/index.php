@@ -2,7 +2,7 @@
 <html lang="zh">
  <head> 
   <meta charset="UTF-8" /> 
-  <title>配置中心</title> 
+  <title>CloriConf</title> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
   <link href="css/bootstrap.min.css" rel="stylesheet" /> 
   <link href="css/bootstrap-responsive.min.css" rel="stylesheet" /> 
@@ -23,8 +23,8 @@ $group_id=$_GET["group_id"];
    <div class="row"> 
     <div class="span9"> 
      <div class="hero-unit"> 
-      <h2>配置中心</h2> 
-      <p>clorisConf Management Interface.</p> 
+      <h2>CloriConf</h2> 
+      <p>Zookeeper Management Center</p> 
      </div> 
      <hr/> 
      <form id="edit_profile" class="form-horizontal" method="POST"> 
