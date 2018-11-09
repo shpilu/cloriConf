@@ -16,12 +16,12 @@ Suppose you programing in C++ and looking for a third-party configuration librar
 
 The most significant features cloriConf exceeds general configuration library are 
 
-* **Format-independent** - As designed, cloriConf's access APIs are completely separated from specific configuration format. Actually cloriConf trys to translate configuration items of any config format(e.g. ini, json, yaml) into nodes of a configuration tree, and what cloriConf's API need to do is just searching a configuration tree.The currently supported formats are json, joml((James's Obvious Minimal Language, a superset of INI format, set [About JOML](#joml) for detail), and more config format will be supported in the future.
-* **Sourece-independent** - CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
+* **Format-independent** - As designed, cloriConf's access APIs are completely separated from specific configuration format. Actually cloriConf trys to translate configuration items of any config format(e.g. ini, json, yaml) into nodes of a configuration tree, and what cloriConf's API need to do is just searching a configuration tree.The currently supported formats are json, joml((James's Obvious Minimal Language, a superset of INI format, see [About JOML](#joml) for detail), and more config format will be supported in the future.
+* **Sourece-independent** - Not only can cloriConf load various configuration format from local file and read config from a string directly, but also accessing zookeeper(support for ectd will come soon) is OK. 
 
-Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see usage and API document for detail.
-
+Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see [Usage](#usage) and [API Reference](#api) for detail.</br>
 ## Usage<div id="usage"></div>
+The following will take you through how to use cloriConf in your program. Then you can reference [API Reference](#api) for detail of cloriConf APIs.
 
 * Access INI-style/JOML-style configuration file  
 common.ini: 
