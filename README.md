@@ -3,13 +3,13 @@ cloriConf<div id="top"></div>
 
 Suppose you programing in C++ and looking for a third-party configuration library, I suggest you have a try on cloriConf, which has character of both lightweight configuration library and distributed configuration center. 
 * [Features](#features)
+* [Who Is Using CloriConf?](#using)
 * [Usage](#usage)
 * [Installation](#installation)
 * [Build Up Zookeeper Dashboard by CloriConf](#dashboard)
 * [API Reference](#api)
 * [About JOML](#joml)
 * [TODO List](#todo)
-* [Who Is Using CloriConf?](#using)
 * [Authors](#authors)
 
 ## Features<div id="features"></div>
@@ -20,7 +20,13 @@ The most significant features cloriConf exceeds general configuration library ar
 * **Sourece-independent** - Not only can cloriConf load various configuration format from local file and read config from a string directly, but also accessing zookeeper(support for ectd will come soon) is OK. 
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see [Usage](#usage) and [API Reference](#api) for detail.</br>
+
+## Who Is Using CloriConf?<div id="using"></div>
+
+* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
+
 ## Usage<div id="usage"></div>
+
 The following will take you through how to use cloriConf in your program.Or you can reference [API Reference](#api) for detail of cloriConf APIs.
 
 * Access INI-style/JOML-style configuration file  
@@ -278,10 +284,6 @@ Description
 ## About JOML<div id="joml"></div>
 
 ## TODO List<div id="todo"></div>
-
-## Who Is Using CloriConf?<div id="using"></div>
-
-* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
 
 ## Authors<div id="authors"></div>
 
