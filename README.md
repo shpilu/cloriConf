@@ -16,9 +16,9 @@ Suppose you programing in C++ and looking for a third-party configuration librar
 
 The most significant features cloriConf exceeds general configuration library are 
 
-* Configuration **format-independent**. </br>
-CloriConf's access APIs are independent from configuration format. The currently supported formats are json and joml(James's Obvious Minimal Language, a superset of ini format), and more config format will be supported in future.
-* Configuration **sourece-independent**.</br> CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
+* **Format-independent** - As designed, cloriConf's access APIs are completely separated from specific configuration format. Actually cloriConf try to translate configuration items of any config format(e.g. ini, json, yaml) into nodes of a configuration tree, and what cloriConf's API need to do is just traversing a search tree.</br>
+The currently supported formats are json, joml((James's Obvious Minimal Language, a superset of ini format), and more config format will be supported in the future.
+* **Sourece-independent** - CloriConf not only can load various configuration format from file or string, but also accessing zookeeper is OK.
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see usage and API document for detail.
 
