@@ -293,6 +293,15 @@ Description
 Description
 >End of children config node iterator
 
+Example
+>// user begin and end to traverse children config nodes </br>
+>ConfNode* node = conf->GetConfNode("rules/splash");
+>if (node) { </br>
+>    for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) { </br>
+>        std::cout << "zookeeper config node, key=" << iter->name() << ", value=" << iter->AsString() << std::endl;</br>
+>    } </br>
+>}</br>
+
 ## About JOML<div id="joml"></div>
 
 ## Array Access<div id="array"></div>
