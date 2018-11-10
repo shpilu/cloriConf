@@ -322,7 +322,9 @@ if (node) {
 
 ## About JOML<div id="joml"></div>
 
-## Array Access<div id="array"></div>
+**JOML**(**James's** **Obvious** **Minimal** **Language** is a self-defined configuration description language
+
+## Json Array Access<div id="array"></div>
 
 ## Who Is Using CloriConf?<div id="using"></div>
 
