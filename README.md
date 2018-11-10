@@ -1,7 +1,7 @@
 cloriConf<div id="top"></div>
 ====
 
-Suppose you programing in C++ and looking for a third-party configuration library, I suggest you have a try on cloriConf, which has character of both lightweight configuration library and distributed configuration center. 
+Suppose you are programing in C++ and looking for a third-party configuration library, you may considering cloriConf, which has characters of both lightweight configuration library and distributed configuration center. 
 * [Features](#features)
 * [Usage](#usage)
 * [Installation](#installation)
@@ -15,12 +15,12 @@ Suppose you programing in C++ and looking for a third-party configuration librar
 
 ## Features<div id="features"></div>
 
-The most significant features cloriConf exceeds general configuration library are 
+The most significant features that cloriConf exceeds general configuration libraries are 
 
 * **Format-independent** - As designed, cloriConf's access APIs are completely separated from specific configuration format. Actually cloriConf trys to translate configuration items of any config format(e.g. ini, json, yaml) into nodes of a configuration tree, and what cloriConf's API need to do is just searching a configuration tree.The currently supported formats are json, joml((**James's** **Obvious** **Minimal** **Language**, a superset of INI format, see [About JOML](#joml) for detail), and more config format will be supported in the future.
 * **Sourece-independent** - Not only can cloriConf load various configuration format from local file and read config from a string directly, but also accessing zookeeper(support for ectd will come soon) is OK. 
 
-Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, see [Usage](#usage) and [API Reference](#api) for detail.</br>
+Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, Refer [Usage](#usage) and [API Reference](#api) for details.</br>
 
 ## Usage<div id="usage"></div>
 
@@ -127,9 +127,9 @@ C++ code:
 ```
 ## Installation<div id="#installation"></div>
 
-Before installation, you must be sure that
-  * CloriConf currently has passed the test in Linux operation system **only**. To support other OS, you may need to change CMakeLists.txt and some codes.  
-  * CloriConf is not a fully self-contained library, which has dependency on RapidJSON(for json support) and zookeeper(for zookeeper support). To simplify installation of cloriConf, function for json/zookeeper parser is disabled by default.  
+Before installation, you have to confirm that
+  * CloriConf currently has passed the test in Linux operation system **only**. To support other OS, you may need to modify CMakeLists.txt and do some other coding work.  
+  * CloriConf is not a fully self-contained library, which has dependency on RapidJSON(for json support) and zookeeper(for zookeeper support). To simplify the installation of cloriConf, function for json/zookeeper parser is disabled by default.  
 To install cloriConf, you can run the following command in root path of cloriConf source code:
 ```C++
 // (without support for JSON-style and zookeeper parser) 
@@ -152,7 +152,7 @@ cmake .. -DENABLE_ZOOKEEPER=ON
 make
 sudo make install
 ```
-Alternatively you can specify the install prefix by setting CMAKE_INSTALL_PREFIX, so a complete step seems like 
+Alternatively you can specify the install prefix by setting CMAKE_INSTALL_PREFIX, in this case, a complete step seems like 
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_JSON=ON -DENABLE_ZOOKEEPER=ON -DCMAKE_INSTALL_PREFIX=/usr/local/third_party
@@ -291,7 +291,7 @@ Description
 ## Authors<div id="authors"></div>
 
 * James Wei (weijianlhp@163.com)  
-Please mail me in case of trouble with using cloriConf.
+Please contact me if you have trouble using cloriConf.
 
 [Go back to the top](#top)
 
