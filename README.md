@@ -180,7 +180,7 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
     }
 ```
 A screenshot of dashboard looks like this:
-![pics1](https://github.com/shpilu/cloriConf/blob/master/cloriconf.jpg)
+![pics1](https://github.com/shpilu/cloriConf/blob/master/img/cloriconf.jpg)
 You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an instance of cloriConf zookeeper dashboard.
 
 ## API Reference<div id="api"></div>
@@ -322,7 +322,8 @@ if (node) {
 
 ## About JOML<div id="joml"></div>
 
-**JOML**(**James's** **Obvious** **Minimal** **Language** is a self-defined configuration description language
+**JOML**(**James's** **Obvious** **Minimal** **Language** is a self-defined configuration description language inspired by ini and toml. An instance of joml: 
+![joml](https://github.com/shpilu/cloriConf/blob/master/img/joml_style.jpg)
 
 ## Json Array Access<div id="array"></div>
 
