@@ -323,7 +323,32 @@ if (node) {
 ## About JOML<div id="joml"></div>
 
 **JOML**(**James's** **Obvious** **Minimal** **Language** is a self-defined configuration description language inspired by ini and toml. An instance of joml: 
-![joml](https://github.com/shpilu/cloriConf/blob/master/img/joml_style.jpg)
+```ini
+# @ad_server config
+[[[ad_server]]]
+    [[inmobi]]
+        # online config
+        host=api.w.xxx.cn
+        port=80
+        uri=/showadxxxx/v3.1
+        # test
+        #host=192.168.19.229
+        #port=7761
+        #uri=/getAdTestIxxx
+        timeout_connect=200
+        timeout_receive=300 
+        retry=0
+        [os_config.ios]
+            appid=1231
+        [os_config.android]
+            appid=1231
+        [splash.android]
+            id=1510609xxx
+            bundle=so.xxx.xxx
+        [splash.ios]
+            id=15119685xxx6
+            bundle=com.xxx.xxx
+```
 
 ## Json Array Access<div id="array"></div>
 
