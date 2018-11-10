@@ -222,7 +222,7 @@ Parameters
 Node
 >* Comment type is useful only when format type is FMT_JOML
 >* When source type is SRC_ZK, format and comment type are disabled
->* Commment type support combine of multi comment, e.g. *CMT_SHARP|CMT_SLASH* means '#' and '//' are all regard as comment identifier
+>* Commment type support combine of multi comment, e.g. "CMT_SHARP|CMT_SLASH" means '#' and '//' are all regard as comment identifier
 
 Example
 >Config conf;
