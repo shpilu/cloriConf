@@ -202,7 +202,7 @@ Description
 Parameters
 >*input* - config data source, maybe a config string, file name, or zookeeper config file, determined by parameter *mode* 
 >
->*mode* - load mode, consists three parts: source, format and comment, see the following table for detail
+>*mode* - load mode, consists three parts: source, format and comment(joined by '|'), see the following table for detail
 >
 >*err_msg* - optional, filled with detailed error message when loading data error occurred
 *Mode* and their descriptions:
