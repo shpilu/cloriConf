@@ -220,19 +220,19 @@ Parameters
 | CMT_SEMICOLON | comment | Take ';' as line comment identifier         |
 | CMT_PERCENT   | comment | Take '%' as line comment identifier         |
 
-Node
+Note
 >* Comment type is useful only when format type is FMT_JOML
 >* When source type is SRC_ZK, format and comment type are disabled
 >* Commment type support combine of multi comment, e.g. "CMT_SHARP|CMT_SLASH" means '#' and '//' are all regard as comment identifier
 
 Example
->Config conf;
->// Load config data from local file and take ';' as line comment identifier
->conf.Load("conf.ini", SRC_LOCAL | FMT_JOML | CMT_SEMICOLON);
->// Load config data from zookeeper
->conf.Load("zk.ini", SRC_ZK);
->// Load JSON-style string config data
->std::string input_str("{\"myself\":{\"name\":\"WeiJian\", \"school\":\"BUAA\",\"dr\":[\"cloris\", \"apache\"]}}");
+>Config conf;</br>
+>// Load config data from local file and take ';' as line comment identifier</br>
+>conf.Load("conf.ini", SRC_LOCAL | FMT_JOML | CMT_SEMICOLON); </br>
+>// Load config data from zookeeper </br>
+>conf.Load("zk.ini", SRC_ZK); </br>
+>// Load JSON-style string config data </br>
+>std::string input_str("{\"myself\":{\"name\":\"WeiJian\", \"school\":\"BUAA\",\"dr\":[\"cloris\", \"apache\"]}}"); </br>
 >conf.Load(input_str, SRC_DIRECT | FMT_JSON);
 
 Return value
@@ -243,22 +243,31 @@ Return value
 `ConfNode* ConfNode::GetConfNode(const std::string& name = "") const`
 
 Description
->Get ConfNode from configuration tree
+>Get specific *ConfNode* from configuration tree
 
 Parameters
->*name* - path of config node
+>*name* - path of config node. CloriConf supports two kinds of path style:"p1.p2.p3" or "p1/p2/p3"
 
-### GetString/GetBool/GetInt32/GetInt64
+### GetString/GetInt32/GetInt64/GetDouble/GetBool
 `std::string Config::GetString(const std::string& name, const std::string& default_value = "") const`</br>
-`std::string ConfNode::GetString(const std::string& name, const std::string& default_value = "") const`
+`int32_t Config::GetInt32(const std::string& name, int32_t default_value = 0) const`</br>
+`int64_t Config::GetInt64(const std::string& name, int64_t default_value = 0L) const`</br>
+`double  Config::GetDouble(const std::string& name, double default_value = 0.0) const`</br>
+`bool    Config::GetBool(const std::string& name, bool default_value = false) const`</br>
+
+`std::string ConfNode::GetString(const std::string& name, const std::string& default_value = "") const`</br>
+`int32_t ConfNode::GetInt32(const std::string& name, int32_t default_value = 0) const`</br>
+`int64_t ConfNode::GetInt64(const std::string& name, int64_t default_value = 0L) const`</br>
+`double  ConfNode::GetDouble(const std::string& name, double default_value = 0.0) const`</br>
+`bool    ConfNode::GetBool(const std::string& name, bool default_value = false) const`</br>
 
 Description
->Parse ConfNode as string/bool/int32/int64 
+>Parse ConfNode as string/int32/int64/double/bool
 
 Parameters
 >*name* - Config node path
 >
->*default_value* - Default return value when confnode not found
+>*default_value* - Default return value when ConfNode not found
 
 ### Exists
 `bool Config::Exists(const std::string& name) const`</br>
