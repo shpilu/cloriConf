@@ -262,12 +262,22 @@ Parameters
 `bool    ConfNode::GetBool(const std::string& name, bool default_value = false) const`</br>
 
 Description
->Parse ConfNode as string/int32/int64/double/bool
+>Search children config node from current ConfNode and parse children config node as string/int32/int64/double/bool
 
 Parameters
->*name* - Config node path
+>*name* - Child config node path
 >
 >*default_value* - Default return value when ConfNode not found
+
+### AsString/AsInt32/AsInt64/AsDouble/AsBool
+`const std::string& ConfNode::AsString() const`</br>
+`int32_t ConfNode::AsInt32() const`</br>
+`int64_t ConfNode::AsInt64() const`</br>
+`double  ConfNode::AsDouble() const`</br>
+`bool    ConfNode::AsBool() const`</br>
+
+Description
+>Parse ConfNode as string/int32/int64/double/bool
 
 ### Exists
 `bool Config::Exists(const std::string& name) const`</br>
@@ -278,6 +288,12 @@ Description
 
 Parameters
 >*name* - Config node path
+
+### name
+`const std::string& ConfNode::name()` 
+
+Description
+>Name of current conf node
 
 ### begin
 `ConstChildrenIterator ConfNode::begin() const`</br>
@@ -294,13 +310,15 @@ Description
 >End of children config node iterator
 
 Example
->// user begin and end to traverse children config nodes </br>
->ConfNode* node = conf->GetConfNode("rules/splash");
->if (node) { </br>
->    for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) { </br>
->        std::cout << "zookeeper config node, key=" << iter->name() << ", value=" << iter->AsString() << std::endl;</br>
->    } </br>
->}</br>
+```C++
+// user begin and end to traverse children config nodes 
+ConfNode* node = conf->GetConfNode("rules/splash");
+if (node) { 
+    for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) {
+        std::cout << "zookeeper config node, key=" << iter->name() << ", value=" << iter->AsString() << std::endl;
+    }
+}
+```
 
 ## About JOML<div id="joml"></div>
 
