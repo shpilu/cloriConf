@@ -218,6 +218,7 @@ Parameters
 | CMT_SLASH     | comment | Take '//' as line comment identifier        |
 | CMT_SEMICOLON | comment | Take ';' as line comment identifier         |
 | CMT_PERCENT   | comment | Take '%' as line comment identifier         |
+
 Node
 >* Comment type is useful only when format type is FMT_JOML
 >* When source type is SRC_ZK, format and comment type are disabled
