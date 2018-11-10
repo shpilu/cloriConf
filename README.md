@@ -164,7 +164,7 @@ After adding cloriConf to your program, you can compile like (assume cloriConf i
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
 ## Build Up Zookeeper Dashboard by CloriConf<div id="dashboard"></div>
-As cloriConf support loading config data from zookeeper, you can use it as a simple distributed configuration center to some extent. 
+As cloriConf support loading config data from zookeeper, you can use it as a simple distributed configuration center to some extent. What you need is a zookeeper cluster.</br> 
 To simplify zookeeper management, cloriConf contain a zookeeper dashboard module in directory src/dashboard. To use cloriConf dashboard, a PHP runtime environment and nginx are required, and then you can add the following nginx configuration into nginx.conf and restart nginx
 ```PHP
     # set "/home/weijian/github/cloriConf" to your own directory
@@ -189,23 +189,23 @@ You may click [here](http://60.205.189.117/index.php?group_id=default&path=/onli
 `Config* Config::instance()`
 
 Description
->Get a Config class instance using singleton pattern
+>Get a *Config* class instance using singleton pattern
 
 Return value
->A Config class pointer to config instance
+>A *Config* class pointer which pointer to a *Config* instance
 ### Load
 `Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL)`  
 
 Description
->Load configuration data from string, local file or zookeeper   
+>Load configuration data from a string, local file or zookeeper   
 
 Parameters
->*input* - config data source, maybe a config string, file name, or zookeeper config file, depending on parameter *mode*   
+>*input* - config data source, maybe a config string, file name, or zookeeper config file, determined by parameter *mode* 
 >
->*mode* - load mode, consists three components: source, format and comment, see the following table for detail
+>*mode* - load mode, consists three parts: source, format and comment, see the following table for detail
 >
->*err_msg* - optional, filled with error detail when loading data error
-Mode and their descriptions:
+>*err_msg* - optional, filled with detailed error message when loading data error occurred
+*Mode* and their descriptions:
 
 | Flag          | Type    | Description                                 |
 |---------------|---------|---------------------------------------------|
@@ -218,6 +218,10 @@ Mode and their descriptions:
 | CMT_SLASH     | comment | Take '//' as line comment identifier        |
 | CMT_SEMICOLON | comment | Take ';' as line comment identifier         |
 | CMT_PERCENT   | comment | Take '%' as line comment identifier         |
+Node
+>* Comment type is useful only when format type is FMT_JOML
+>* When source type is SRC_ZK, format and comment type are disabled
+>* Commment type support combine of multi comment, e.g. *CMT_SHARP|CMT_SLASH* means '#' and '//' are all regard as comment identifier
 
 Example
 >Config conf;
