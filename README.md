@@ -395,7 +395,7 @@ You can treat JOML as a superset of INI, compared with INI, JOML has the followi
 * More line comments identifier are supported - you can specify your own identifier in *Load/LoadEx* function
 
 ## Array Access<div id="array"></div>
-As designed, cloriConf's main purpose is to support config style like joml and zookeeper which do not have concept of array. To support config style which has array definition(e.g. json,toml), cloriConf translate any array into *name=value* pair, where *name* count from 0 until the end of the array.</br>
+As designed, cloriConf's main purpose is to support config style like joml and zookeeper which do not have concept of array. To support config style which has array definition(e.g. json,toml), cloriConf translate any array into *name=value* pair, where *name* counts from 0 until the end of the array.</br>
 
 The following example shows how to access arry in JSON-style configuration file: </br>
 ```C++
