@@ -396,9 +396,10 @@ You can treat JOML as a superset of INI, compared with INI, JOML has the followi
 
 ## Array Access<div id="array"></div>
 As designed, cloriConf's main purpose is to support config style like joml and zookeeper which do not have concept of array. To support config style which has array definition(e.g. json,toml), cloriConf translate any array into *name=value* pair, where *name* count from 0 until the end of the array.</br>
-The following example shows how to access in json: </br>
-conf.json:
+
+The following example shows how to access arry in JSON-style configuration file: </br>
 ```C++
+# conf.json:
 {
     "id":"N1",
     "name":"shpilu",
@@ -410,11 +411,10 @@ conf.json:
 C++ code:
 ```C++
     std::string err_msg;
-    Config* conf = Config::instance()->Load("conf/conf.json", SRC_LOCAL | FMT_JSON, &err_msg);
-    if (conf) {
-        std::cout << "run test success" << std::endl;
-    } else {
+    Config* conf = Config::instance()->Load("conf.json", SRC_LOCAL | FMT_JSON, &err_msg);
+    if (!conf) {
         std::cout << "run test failed, " << err_msg << std::endl;
+        return;
     }   
     std::string third_month = conf->GetString("info.month.2");
     // output: the third month is March
@@ -434,6 +434,10 @@ C++ code:
 * [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
 
 ## TODO List<div id="todo"></div>
+* Support YAML-style configuration file
+* Support TOML-style configuration file 
+* Support loading config from ectd
+* Update config automatically and smoothly when config in zookeeper/ectd changed
 
 ## Authors<div id="authors"></div>
 
