@@ -24,7 +24,7 @@ Multifunctional though cloriConf is, cloriConf's access API is designed to be as
 
 ## Usage<div id="usage"></div>
 
-The following will take you through how to use cloriConf in your program.Or you can reference [API Reference](#api) for detail of cloriConf APIs.
+The following will take you through how to use cloriConf in your program.Or you can refer [API Reference](#api) for detail of cloriConf APIs.
 
 * Access INI-style(JOML-style) configuration file  
 common.ini: 
@@ -331,7 +331,7 @@ Description
 
 Example
 ```C++
-// user begin and end to traverse children config nodes 
+// use begin and end to traverse children config nodes 
 ConfNode* node = conf->GetConfNode("rules/splash");
 if (node) { 
     for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) {
