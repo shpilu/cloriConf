@@ -369,6 +369,27 @@ if (node) {
             id=15119685xxx6
             bundle=com.xxx.xxx
 ```
+You can treat JOML as a superset of INI, compared with INI, JOML has the following features
+
+* Section nesting support - e.g. "[[...]]" is the parent section of "[...]", the more brackets nested, the higher layer it is
+* More slack writing style - for example, to express "ad_server.inmobi.os_config.ios.appid=1231", the following style is all OK
+```C++
+[[[[ad_server]]]]
+    [[[inmobi]]]
+        [[os_config]]
+            [ios]
+                appid=1231
+```
+```C++
+[ad_server.inmobi.os_config]
+    ios.appid=1231
+```
+```C++
+[[[ad_server.inmobi]]]
+    [os_config]
+        ios.appid=1231
+```
+* More line comment identifier are supported - you can specify your own identifier in *Load/LoadEx* function
 
 ## Json Array Access<div id="array"></div>
 
