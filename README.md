@@ -394,8 +394,41 @@ You can treat JOML as a superset of INI, compared with INI, JOML has the followi
 ```
 * More line comments identifier are supported - you can specify your own identifier in *Load/LoadEx* function
 
-## Json Array Access<div id="array"></div>
-
+## Array Access<div id="array"></div>
+As designed, cloriConf's main purpose is to support config style like joml and zookeeper which do not have concept of array. To support config style which has array definition(e.g. json,toml), cloriConf translate any array into *name=value* pair, where *name* count from 0 until the end of the array.</br>
+The following example shows how to access in json: </br>
+conf.json:
+```C++
+{
+    "id":"N1",
+    "name":"shpilu",
+    "info":{
+        "month":["January","February", "March", "April", "May"]
+    }
+}
+```
+C++ code:
+```C++
+    std::string err_msg;
+    Config* conf = Config::instance()->Load("conf/conf.json", SRC_LOCAL | FMT_JSON, &err_msg);
+    if (conf) {
+        std::cout << "run test success" << std::endl;
+    } else {
+        std::cout << "run test failed, " << err_msg << std::endl;
+    }   
+    std::string third_month = conf->GetString("info.month.2");
+    // output: the third month is March
+    std::cout << "the third month is " << third_month << std::endl;
+    ConfNode* node = conf->GetConfNode("info.month");
+    if (node) {
+        for (auto &p : *node) {
+            // 0, January
+            // 1, February
+            // ...
+            std::cout << "name=" << p.name() << ", value=" << p.AsString() << std::endl;
+        }   
+    }
+```
 ## Who Is Using CloriConf?<div id="using"></div>
 
 * [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
