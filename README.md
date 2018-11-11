@@ -3,10 +3,7 @@ cloriConf<div id="top"></div>
 
 Suppose you are programing in C++ and looking for a third-party configuration library, you may considering cloriConf, which has characters of both lightweight configuration library and distributed configuration center. 
 
-<font color="#avdcdet"> cloriConf中文简介: </font>
-
-&nbsp;&nbsp;作为一个配置解析库,cloriConf特别之处在于——**不论你的配置文件格式是gflags、ini、json、yaml还是toml，或者将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来读取**
-
+* [中文简介](#chinese)
 * [Features](#features)
 * [Usage](#usage)
 * [Installation](#installation)
@@ -17,6 +14,10 @@ Suppose you are programing in C++ and looking for a third-party configuration li
 * [Who Is Using CloriConf?](#using)
 * [TODO List](#todo)
 * [Authors](#authors)
+
+## 中文简介<div id="chinese"></div>
+
+作为一个配置解析库,cloriConf特别之处在于——不论你的配置文件格式是gflags、ini、json、yaml还是toml，或者将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来读取
 
 ## Features<div id="features"></div>
 
