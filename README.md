@@ -238,6 +238,26 @@ Example
 Return value
 >A pointer to config object, if loading failed, a NULL pointer is returned
 
+### LoadEx
+`bool LoadEx(const std::string& input, uint32_t mode, std::string* err_msg = NULL)`  
+
+Description
+>Have the same function as *Load*, the difference is that return value tyle is bool.
+
+Return value
+>A bool value indicating success or failure.
+
+Example
+>Config conf;</br>
+>// Load config data from local file and take ';' as line comment identifier</br>
+>bool ok = conf.LoadEx("conf.ini", SRC_LOCAL | FMT_JOML | CMT_SEMICOLON); </br>
+>// Load config data from zookeeper </br>
+>bool ok = conf.LoadEx("zk.ini", SRC_ZK); </br>
+>// Load JSON-style string config data </br>
+>std::string input_str("{\"myself\":{\"name\":\"WeiJian\", \"school\":\"BUAA\",\"dr\":[\"cloris\", \"apache\"]}}"); </br>
+>bool ok = conf.LoadEx(input_str, SRC_DIRECT | FMT_JSON);
+
+
 ### GetConfNode
 `ConfNode* Config::GetConfNode(const std::string& name = "") const`</br>
 `ConfNode* ConfNode::GetConfNode(const std::string& name = "") const`
@@ -322,7 +342,7 @@ if (node) {
 
 ## About JOML<div id="joml"></div>
 
-**JOML**(**James's** **Obvious** **Minimal** **Language** is a self-defined configuration description language inspired by ini and toml. An instance of joml: 
+**JOML**(**J**ames's **O**bvious **M**inimal **L**anguage) is a self-defined configuration description language inspired by ini and toml. An instance of joml: 
 ```ini
 # @ad_server config
 [[[ad_server]]]

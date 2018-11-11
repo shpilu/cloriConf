@@ -110,6 +110,7 @@ public:
     ~Config();
 
     Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL) noexcept;
+    bool LoadEx(const std::string& input, uint32_t mode, std::string* err_msg = NULL) noexcept;
     bool Watch(const std::string& path, uint32_t event, EventHandler& handler);
 
     ConfNode* GetConfNode(const std::string& name = "") const;
