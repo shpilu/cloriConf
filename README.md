@@ -17,7 +17,7 @@ Suppose you are programing in C++ and looking for a third-party configuration li
 
 ## 中文简介<div id="chinese"></div>
 
-作为一个配置解析库,cloriConf的特别之处在于——不论你的配置文件格式是gflags、ini、json、yaml还是toml，或者将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来读取, 所谓"One ring(API) to rule(read) them ALL".
+作为一个配置解析库,cloriConf的特别之处在于——不论你的配置文件格式是gflags、ini、json、yaml还是toml，或者将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来读取, "One ring(API) to rule(read) them ALL".
 
 ## Features<div id="features"></div>
 
