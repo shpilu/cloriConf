@@ -1,3 +1,5 @@
+[中文版](README_cn.md)
+
 cloriConf<div id="top"></div>
 ====
 
