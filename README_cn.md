@@ -133,10 +133,10 @@ C++ 代码:
         }   
     }
 ```
-## 安装<div id="#installation"></div>
+## 安装<div id="installation"></div>
 
 在安装cloriConf之前需要注意
-  * cloriConf目前只在Linux操作系统通过测试，要在其他操作系统使用cloriConf，你可能需要手动改一些代码 
+  * cloriConf目前只在Linux操作系统通过测试，要在其他操作系统使用cloriConf，你可能需要手动改一些代码和CMakeLists
   * cloriConf对其他库有一些依赖，以支持json解析和zookeeper加载，这些库包括RapidJSON和zookeeper。为简化安装过程，cloriConf默认不开启对json和zookeeper的支持功能
 
 可以通过在cloriConf源码根路径执行以下命令来安装cloriConf

@@ -128,7 +128,7 @@ C++ code:
         }   
     }
 ```
-## Installation<div id="#installation"></div>
+## Installation<div id="installation"></div>
 
 Before installation, you have to confirm that
   * CloriConf currently has passed the test in Linux operation system **only**. To support other OS, you may need to modify CMakeLists.txt and do some other coding work.  
