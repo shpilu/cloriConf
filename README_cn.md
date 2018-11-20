@@ -1,32 +1,29 @@
-[中文版](README_cn.md)
+[English Version](README.md)
 
 cloriConf<div id="top"></div>
 ====
 
-Suppose you are programing in C++ and looking for a third-party configuration library, you may considering cloriConf, which has characters of both lightweight configuration library and distributed configuration center. 
+根据工程实践的经验，如果没有专门的基础架构团队负责配置中心的搭建与维护，业务团队往往需要自己引入或者开发配置解析库，而随着业务的迭代升级，配置系统往往有从一种配置格式升级为另外一种配置格式，最终升级到配置中心的需求，针对这一业务场景我们开发了cloriConf。
 
-* [中文简介](#chinese)
-* [Features](#features)
-* [Usage](#usage)
-* [Installation](#installation)
-* [Build Up Zookeeper Dashboard by CloriConf](#dashboard)
-* [API Reference](#api)
-* [About JOML](#joml)
-* [Array Access](#array)
-* [Who Is Using CloriConf?](#using)
-* [TODO List](#todo)
-* [Authors](#authors)
+cloriConf的愿景是，通过统一所有配置形式的操作API, 在简化配置读取操作的同时, 实现配置系统从本地配置文件到分布式配置中心的平滑升级——不论配置文件格式是gflags、ini、json、yaml或toml，还是将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来操作
 
-## 中文简介<div id="chinese"></div>
-
-作为一个配置解析库,cloriConf的特别之处在于——不论你的配置文件格式是gflags、ini、json、yaml或toml，还是将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来读取, "One ring(API) to rule(read) them ALL".
+* [特点](#features)
+* [实例](#usage)
+* [安装](#installation)
+* [Zookeeper可视化界面](#dashboard)
+* [API参考](#api)
+* [关于JOML](#joml)
+* [Json数组操作](#array)
+* [CloriConf生产环境实践](#using)
+* [待完成](#todo)
+* [作者](#authors)
 
 ## Features<div id="features"></div>
 
-The most significant features that cloriConf exceeds general configuration libraries are 
+与普通配置解析库相比, cloriConf的特别之处在于
 
-* **Format-independent** - As designed, cloriConf's access APIs are completely separated from specific configuration format. Actually cloriConf trys to translate configuration items of any config format(e.g. ini, json, yaml) into nodes of a configuration tree, and what cloriConf's API need to do is just searching a configuration tree.The currently supported formats are json, joml((**James's** **Obvious** **Minimal** **Language**, a superset of INI format, see [About JOML](#joml) for detail), and more config format will be supported in the future.
-* **Sourece-independent** - Not only can cloriConf load various configuration format from local file and read config from a string directly, but also accessing zookeeper(support for ectd will come soon) is OK. 
+* **配置格式无关** - cloriConf的配置读取接口与配置格式完全独立，不论配置文件格式是ini、json或toml(支持的配置格式可自由扩展)，你都可以用同一套API来读取 
+* **配置来源无关** - cloriConf支持加载配置字符串、配置文件或者zookeeper中的配置数据(配置来源亦可自由扩展)
 
 Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, Refer [Usage](#usage) and [API Reference](#api) for details.</br>
 
