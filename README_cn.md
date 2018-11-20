@@ -13,7 +13,7 @@ cloriConf通过统一所有配置形式的对外存取API及内部存储数据�
 * [Zookeeper可视化界面](#dashboard)
 * [API参考](#api)
 * [关于JOML](#joml)
-* [Json数组操作](#array)
+* [数组操作](#array)
 * [CloriConf生产环境实践](#using)
 * [待完成列表](#todo)
 * [作者](#authors)
@@ -408,7 +408,7 @@ ad_server.inmobi.os_config.ios.appid=1231
 ```
 * 支持自定义注释标识符 - 可以在*Load/LoadEx*函数中指定哪些字符是注释标识符 
 
-## 数组访问<div id="array"></div>
+## 数组操作<div id="array"></div>
 
 在设计上，cloriConf主要参照的配置形式是没有数组概念的ini格式和zookeeper，而一些配置格式比如json、yaml、toml有数组的概念。为此，cloriConf通过将数组转换为*name=value*对的形式来实现对数组的支持，其中*name*从0，1，2……逐一递增
 
@@ -446,7 +446,7 @@ C++ code:
 ```
 ## CloriConf生产环境实践<div id="using"></div>
 
-* cloriConf目前应用于[ofo 小黄车](http://www.ofo.so/#/)，其多个服务模块通过使用cloriConf，在小而精的团队中实现配置系统的平滑过渡
+* cloriConf目前应用于[ofo 小黄车](http://www.ofo.so/#/)，其多个服务模块通过使用cloriConf，在小而精的团队中实现配置系统的平滑升级
 
 ## 待完成列表<div id="todo"></div>
 * 支持yaml风格的配置格式
