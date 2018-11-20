@@ -31,6 +31,7 @@ cloriConf的愿景是，通过统一所有配置形式的操作API, 在简化配
 以下简要介绍cloriConf的使用实例，具体API可参考[API参考](#api)一节
 
 * 读取ini格式(joml格式)的配置文件
+
 common.ini: 
 ```C++
     [[adslot=xxx]]
@@ -42,7 +43,7 @@ common.ini:
 ```
 C++ 代码: 
 ```C++
-    // SRC_LOCAL: 从本地磁盘文件配置 
+    // SRC_LOCAL: 从本地磁盘文件读取配置 
     // FMT_JOML: 以joml格式解析配置文件 
     // CMT_SHARP: 将'#'视为注释符 
     Config* conf = Config::instance()->Load("../conf/common.ini", SRC_LOCAL | FMT_JOML | CMT_SHARP);
@@ -62,6 +63,7 @@ C++ 代码:
     std::cout << "val2=" << val2 << std::endl;
 ```
 * 访问json格式的配置文件 
+
 common.json:
 ```C++
     {
@@ -98,6 +100,7 @@ C++ 代码:
     std::cout << "val2=" << val2 << std::endl;
 ```
 * 从zookeeper加载配置数据 
+
 zk.ini(JOML-style):
 ```C++
     [zookeeper]
@@ -133,10 +136,11 @@ C++ 代码:
 
 在安装cloriConf之前需要注意
   * cloriConf目前只在Linux操作系统通过测试，要在其他操作系统使用cloriConf，你可能需要手动改一些代码 
-  * cloriConf为支持json解析和zookeeper加载，对其他库有一些依赖，这些库包括RapidJSON和zookeeper。为简化安装过程，cloriConf默认不开启对json和zookeeper的支持功能
+  * cloriConf对其他库有一些依赖，以支持json解析和zookeeper加载，这些库包括RapidJSON和zookeeper。为简化安装过程，cloriConf默认不开启对json和zookeeper的支持功能
+
 可以通过在cloriConf源码根路径执行以下命令来安装cloriConf
 ```C++
-// (默认不支持json和zookeeper) 
+// (默认不支持json和zookeeper，不用依赖其它第三方库) 
 mkdir build && cd build
 cmake ..
 make
@@ -156,20 +160,21 @@ cmake .. -DENABLE_ZOOKEEPER=ON
 make
 sudo make install
 ```
-你可以通过制定CMAKE_INSTALL_PREFIX来自定义安装路径，一个完整的安装命令如下
+你可以通过指定CMAKE_INSTALL_PREFIX来自定义安装路径，一个完整的安装命令如下
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_JSON=ON -DENABLE_ZOOKEEPER=ON -DCMAKE_INSTALL_PREFIX=/usr/local/third_party
 make
 sudo make install
 ```
-安装cloriConf以后就可以在程序中使用cloriConf了，编译命令类似于 (如下假设cloriConf安装于/home/weijian/cloriconf目录)
+安装cloriConf以后在程序中使用cloriConf的编译命令类似于 (假设cloriConf安装于/home/weijian/cloriconf目录)
 ```C++
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
 ## Zookeeper可视化界面<div id="dashboard"></div>
-cloriConf的特性使得它可以当配置中心来使，需要你事先搭建一个zookeeper集群</br>
-为简化zookeeper的操作，cloriConf自带一个简单的zookeeper控制面板(其源码在src/dashboard目录下)，你只需要一个nginx和php运行环境就可以搭建起一套zookeeper可视化界面(cloriConf的zookeeper可视化界面实际是用php重写了奇虎360的[Qconf](https://github.com/Qihoo360/QConf)dashboard，当然你可以使用其他zookeeper工具来管理配置)
+cloriConf的特性使得它可以当配置中心来使用，不过需要你事先搭建一个zookeeper集群</br>
+为简化zookeeper的操作，cloriConf自带一个简单的zookeeper控制面板(其源码在src/dashboard目录下)，你只需要一个nginx和php运行环境就可以搭建起一套zookeeper可视化界面</br>
+cloriConf的zookeeper可视化界面实际是用php重写了奇虎360的[Qconf](https://github.com/Qihoo360/QConf) dashboard，当然你可以使用其他zookeeper工具来管理配置</br>
 cloriConf zookeeper dashboard的nginx配置可以参考以下
 ```PHP
     # set "/home/weijian/github/cloriConf" to your own directory
@@ -186,7 +191,7 @@ cloriConf zookeeper dashboard的nginx配置可以参考以下
 ```
 cloriConf zookeeper dashboard截图如下: 
 ![pics1](https://github.com/shpilu/cloriConf/blob/master/img/cloriconf.jpg)
-你可以点击这里[here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules)了解下zookeeper可视化实例 
+你可以点击[这里](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules)了解下zookeeper可视化实例 
 
 ## API参考<div id="api"></div>
 
@@ -194,7 +199,7 @@ cloriConf zookeeper dashboard截图如下:
 `Config* Config::instance()`
 
 功能描述
->使用单例模式获取一个*Config*类实例
+>使用单例模式获取*Config*类实例
 
 返回值
 >一个指向*Config*类实例的指针
@@ -202,10 +207,10 @@ cloriConf zookeeper dashboard截图如下:
 `Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL)`  
 
 功能描述
->从一个字符串、配置文件或者zookeeper加载配置数据
+>从字符串、配置文件或者zookeeper加载配置数据
 
 参数
->*input* - 数据源，可能是一个配置字符串、配置文件名称或者zookeeper配置(由*mode*参数决定)
+>*input* - 数据源，可能是配置字符串、配置文件名称或者zookeeper配置(由*mode*参数决定)
 >
 >*mode* - 加载模式，包括配置来源、配置数据格式和注释标识符三部分并由"|"隔开，参考以下表格
 >
@@ -346,7 +351,8 @@ if (node) {
 ```
 
 ## 关于JOML<div id="joml"></div>
-**JOML**(**J**ames's **O**bvious **M**inimal **L**anguage) 是一种受ini、yaml、toml启发而自创的配置格式，一个joml的实例如下:
+**JOML**(**J**ames's **O**bvious **M**inimal **L**anguage) 是一种自创的配置格式，一个joml的实例如下:
+```
 # @ad_server config
 [[[ad_server]]]
     [[inmobi]]
