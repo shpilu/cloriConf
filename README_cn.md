@@ -410,7 +410,7 @@ ad_server.inmobi.os_config.ios.appid=1231
 
 ## 数组访问<div id="array"></div>
 
-在设计上，cloriConf主要参照的配置形式是没有数组概念的ini格式和zookeeper，而一些配置格式比如json、yaml、toml有数组的概念。为此，cloriConf通过将数组转换为*name=value*对的形式来实现对数组的访问，其中*name*从0，1，2……逐一递增
+在设计上，cloriConf主要参照的配置形式是没有数组概念的ini格式和zookeeper，而一些配置格式比如json、yaml、toml有数组的概念。为此，cloriConf通过将数组转换为*name=value*对的形式来实现对数组的支持，其中*name*从0，1，2……逐一递增
 
 以下实例介绍如何访问json配置格式中的数组:
 ```C++
