@@ -447,5 +447,5 @@ C++ code:
 * James Wei (weijianlhp@163.com)  
 Please contact me if you have trouble using cloriConf.
 
-[Go back to the top](#top)
+[Go back to top](#top)
 

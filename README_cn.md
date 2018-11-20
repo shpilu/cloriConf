@@ -3,9 +3,8 @@
 cloriConf<div id="top"></div>
 ====
 
-根据工程实践的经验，如果没有专门的基础架构团队负责配置中心的搭建与维护，业务团队往往需要自己引入或者开发配置解析库，而随着业务的迭代升级，配置系统往往有从一种配置格式升级为另外一种配置格式，最终升级到配置中心的需求，针对这一业务场景我们开发了cloriConf。
-
-cloriConf的愿景是，通过统一所有配置形式的操作API, 在简化配置读取操作的同时, 实现配置系统从本地配置文件到分布式配置中心的平滑升级——不论配置文件格式是gflags、ini、json、yaml或toml，还是将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来操作
+在工程实践中，如果没有专门的基础架构团队负责配置中心的搭建与维护，业务团队往往需要自己引入或者开发配置解析库，而随着业务的迭代升级，配置系统往往有从一种配置格式升级为另外一种配置格式，最终升级到配置中心的需求，针对这一业务场景我们设计了cloriConf——</br>
+cloriConf的愿景是，通过统一所有配置形式的操作API, 在简化配置读取操作的同时, 实现配置系统从本地配置文件到分布式配置中心的平滑升级——不论配置文件格式是gflags、ini、json、yaml或toml，还是将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来操作。
 
 * [特点](#features)
 * [实例](#usage)
@@ -15,23 +14,23 @@ cloriConf的愿景是，通过统一所有配置形式的操作API, 在简化配
 * [关于JOML](#joml)
 * [Json数组操作](#array)
 * [CloriConf生产环境实践](#using)
-* [待完成](#todo)
+* [待完成列表](#todo)
 * [作者](#authors)
 
-## Features<div id="features"></div>
+## 特点<div id="features"></div>
 
 与普通配置解析库相比, cloriConf的特别之处在于
 
-* **配置格式无关** - cloriConf的配置读取接口与配置格式完全独立，不论配置文件格式是ini、json或toml(支持的配置格式可自由扩展)，你都可以用同一套API来读取 
-* **配置来源无关** - cloriConf支持加载配置字符串、配置文件或者zookeeper中的配置数据(配置来源亦可自由扩展)
+* **配置格式无关** - cloriConf的配置操作接口与配置格式完全独立，不论配置文件格式是ini、json或toml(支持的配置格式可自由扩展)，你都可以用同一套API来读取 
+* **配置来源无关** - cloriConf同时支持加载配置字符串、配置文件或者zookeeper中的配置数据(配置来源亦可自由扩展)
 
-Multifunctional though cloriConf is, cloriConf's access API is designed to be as simple as a lightweight configuration library, Refer [Usage](#usage) and [API Reference](#api) for details.</br>
+虽然cloriConf支持的功能多样化，但cloriConf的API被设计得很简单，与一个轻量级配置解析库没什么差别，很方便引入你的C++项目中。
 
-## Usage<div id="usage"></div>
+## 实例<div id="usage"></div>
 
-The following will take you through how to use cloriConf in your program.Or you can refer [API Reference](#api) for detail of cloriConf APIs.
+以下简要介绍cloriConf的使用实例，具体API可参考[API参考](#api)一节
 
-* Access INI-style(JOML-style) configuration file  
+* 读取ini格式(joml格式)的配置文件
 common.ini: 
 ```C++
     [[adslot=xxx]]
@@ -41,11 +40,11 @@ common.ini:
       splash=222 #comment test ; semicolon test
       popUp=3415
 ```
-C++ code: 
+C++ 代码: 
 ```C++
-    // SRC_LOCAL: load config from local file
-    // FMT_JOML: parse as INI-style(JOML-style) config 
-    // CMT_SHARP: take '#' as line comment identifier
+    // SRC_LOCAL: 从本地磁盘文件配置 
+    // FMT_JOML: 以joml格式解析配置文件 
+    // CMT_SHARP: 将'#'视为注释符 
     Config* conf = Config::instance()->Load("../conf/common.ini", SRC_LOCAL | FMT_JOML | CMT_SHARP);
     if (conf) {
         std::cout << "parse ini config file success" << std::endl;
@@ -62,7 +61,7 @@ C++ code:
     std::cout << "val1=" << val1 << std::endl;
     std::cout << "val2=" << val2 << std::endl;
 ```
-* Access JSON-style configuration file  
+* 访问json格式的配置文件 
 common.json:
 ```C++
     {
@@ -76,9 +75,9 @@ common.json:
         }   
     }
 ```
-C++ code: 
+C++ 代码: 
 ```C++
-    // FMT_JSON: parse as JSON-style config
+    // FMT_JSON: 以json格式解析配置文件 
     std::string err_msg;
     Config* conf = Config::instance()->Load("../conf/common.json", SRC_LOCAL | FMT_JSON, &err_msg);
     if (conf) {
@@ -98,7 +97,7 @@ C++ code:
     std::cout << "val1=" << val1 << std::endl;
     std::cout << "val2=" << val2 << std::endl;
 ```
-* Load config from zookeeper  
+* 从zookeeper加载配置数据 
 zk.ini(JOML-style):
 ```C++
     [zookeeper]
@@ -109,9 +108,9 @@ zk.ini(JOML-style):
         root=/online/commercial/ssp
     []
 ```
-C++ code:
+C++ 代码:
 ```C++
-    // SRC_ZK: load config from zookeeper
+    // SRC_ZK: 从zookeeper加载配置 
     std::string err_msg;
     Config* conf = Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);
     if (conf) {
@@ -130,47 +129,48 @@ C++ code:
         }   
     }
 ```
-## Installation<div id="#installation"></div>
+## 安装<div id="#installation"></div>
 
-Before installation, you have to confirm that
-  * CloriConf currently has passed the test in Linux operation system **only**. To support other OS, you may need to modify CMakeLists.txt and do some other coding work.  
-  * CloriConf is not a fully self-contained library, which has dependency on RapidJSON(for json support) and zookeeper(for zookeeper support). To simplify the installation of cloriConf, function for json/zookeeper parser is disabled by default.  
-To install cloriConf, you can run the following command in root path of cloriConf source code:
+在安装cloriConf之前需要注意
+  * cloriConf目前只在Linux操作系统通过测试，要在其他操作系统使用cloriConf，你可能需要手动改一些代码 
+  * cloriConf为支持json解析和zookeeper加载，对其他库有一些依赖，这些库包括RapidJSON和zookeeper。为简化安装过程，cloriConf默认不开启对json和zookeeper的支持功能
+可以通过在cloriConf源码根路径执行以下命令来安装cloriConf
 ```C++
-// (without support for JSON-style and zookeeper parser) 
+// (默认不支持json和zookeeper) 
 mkdir build && cd build
 cmake ..
 make
 sudo make install
 ```
-To support JSON-style parser, you need to install [RapidJSON](https://github.com/Tencent/rapidjson) firstly, and then run
+如果支持json解析，你需要先安装[RapidJSON](https://github.com/Tencent/rapidjson)，然后执行 
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_JSON=ON
 make
 sudo make install
 ```
-To support zookeeper, you need to install [zookeeper](https://www.apache.org/dyn/closer.cgi) firstly, and then run
+如果支持zookeeper加载，你需要先安装[zookeeper](https://www.apache.org/dyn/closer.cgi)，然后执行
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_ZOOKEEPER=ON
 make
 sudo make install
 ```
-Alternatively you can specify the install prefix by setting CMAKE_INSTALL_PREFIX, in this case, a complete step seems like 
+你可以通过制定CMAKE_INSTALL_PREFIX来自定义安装路径，一个完整的安装命令如下
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_JSON=ON -DENABLE_ZOOKEEPER=ON -DCMAKE_INSTALL_PREFIX=/usr/local/third_party
 make
 sudo make install
 ```
-After adding cloriConf to your program, you can compile like (assume cloriConf installed in /home/weijian/cloriconf)
+安装cloriConf以后就可以在程序中使用cloriConf了，编译命令类似于 (如下假设cloriConf安装于/home/weijian/cloriconf目录)
 ```C++
 g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib -lcloriconf -o main -std=c++11 -Wl,-rpath=/home/weijian/cloriconf/lib
 ```
-## Build Up Zookeeper Dashboard by CloriConf<div id="dashboard"></div>
-As cloriConf support loading config data from zookeeper, you can use it as a simple distributed configuration center to some extent. What you need is a zookeeper cluster.</br> 
-To simplify zookeeper management, cloriConf contain a zookeeper dashboard module in directory src/dashboard. To use cloriConf dashboard, a PHP runtime environment and nginx are required, and then you can add the following nginx configuration into nginx.conf and restart nginx
+## Zookeeper可视化界面<div id="dashboard"></div>
+cloriConf的特性使得它可以当配置中心来使，需要你事先搭建一个zookeeper集群</br>
+为简化zookeeper的操作，cloriConf自带一个简单的zookeeper控制面板(其源码在src/dashboard目录下)，你只需要一个nginx和php运行环境就可以搭建起一套zookeeper可视化界面(cloriConf的zookeeper可视化界面实际是用php重写了奇虎360的[Qconf](https://github.com/Qihoo360/QConf)dashboard，当然你可以使用其他zookeeper工具来管理配置)
+cloriConf zookeeper dashboard的nginx配置可以参考以下
 ```PHP
     # set "/home/weijian/github/cloriConf" to your own directory
     location ~ \.php$ {
@@ -184,53 +184,53 @@ To simplify zookeeper management, cloriConf contain a zookeeper dashboard module
         root        /home/weijian/github/cloriConf/src/dashboard;
     }
 ```
-A screenshot of dashboard looks like this:
+cloriConf zookeeper dashboard截图如下: 
 ![pics1](https://github.com/shpilu/cloriConf/blob/master/img/cloriconf.jpg)
-You may click [here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules) to see an instance of cloriConf zookeeper dashboard.
+你可以点击这里[here](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules)了解下zookeeper可视化实例 
 
-## API Reference<div id="api"></div>
+## API参考<div id="api"></div>
 
 ### instance
 `Config* Config::instance()`
 
-Description
->Get a *Config* class instance using singleton pattern
+功能描述
+>使用单例模式获取一个*Config*类实例
 
-Return value
->A *Config* class pointer which pointer to a *Config* instance
+返回值
+>一个指向*Config*类实例的指针
 ### Load
 `Config* Load(const std::string& input, uint32_t mode, std::string* err_msg = NULL)`  
 
-Description
->Load configuration data from a string, local file or zookeeper   
+功能描述
+>从一个字符串、配置文件或者zookeeper加载配置数据
 
-Parameters
->*input* - config data source, maybe a config string, file name, or zookeeper config file, determined by parameter *mode* 
+参数
+>*input* - 数据源，可能是一个配置字符串、配置文件名称或者zookeeper配置(由*mode*参数决定)
 >
->*mode* - load mode, consists three parts: source, format and comment(joined by '|'), see the following table for detail
+>*mode* - 加载模式，包括配置来源、配置数据格式和注释标识符三部分并由"|"隔开，参考以下表格
 >
->*err_msg* - optional, filled with detailed error message when loading data error occurred
+>*err_msg* - 可选值，用于加载配置失败时获取错误信息
 
-*Mode* and their descriptions:
+*Mode* 表:
 
 | Flag          | Type    | Description                                 |
 |---------------|---------|---------------------------------------------|
-| SRC_LOCAL     | source  | Load config data from local file            |
-| SRC_DIRECT    | source  | Load config data from input string directly |
-| SRC_ZK        | source  | Load config data from zookeeper             |
-| FMT_JOML      | format  | Parse data as JOML-style/INI-style          |
-| FMT_JSON      | format  | Parse data as JSON-style                    |
-| CMT_SHARP     | comment | Take '#' as line comment identifier         |
-| CMT_SLASH     | comment | Take '//' as line comment identifier        |
-| CMT_SEMICOLON | comment | Take ';' as line comment identifier         |
-| CMT_PERCENT   | comment | Take '%' as line comment identifier         |
+| SRC_LOCAL     | source  | 从本地配置文件加载配置                      |
+| SRC_DIRECT    | source  | 直接从配置字符串加载配置                    |
+| SRC_ZK        | source  | 从zookeeper加载配置                         |
+| FMT_JOML      | format  | 以ini/joml格式解析配置数据                  |
+| FMT_JSON      | format  | 以json格式解析配置数据                      |
+| CMT_SHARP     | comment | 以'#'作为注释标识符                         |
+| CMT_SLASH     | comment | 以'//'作为注释标识符                        |
+| CMT_SEMICOLON | comment | 以';'作为注释标识符                         |
+| CMT_PERCENT   | comment | 以'%'作为注释标识符                         |
 
-Note
->* Comment type is useful only when format type is FMT_JOML
->* When source type is SRC_ZK, format and comment type are disabled
->* Commment type support combine of multi comment, e.g. "CMT_SHARP|CMT_SLASH" means '#' and '//' are all regard as comment identifier
+注意
+>* Comment类型只有在format类型是FMT_JOML时有用
+>* 当source类型是SRC_ZK时，format和comment类型失效 
+>* Comment类型支持多个注释符的组合，比如"CMT_SHARP|CMT_SLASH"表示'#'和'//'都是注释标识符 
 
-Example
+实例
 >Config conf;</br>
 >// Load config data from local file and take ';' as line comment identifier</br>
 >conf.Load("conf.ini", SRC_LOCAL | FMT_JOML | CMT_SEMICOLON); </br>
@@ -240,19 +240,19 @@ Example
 >std::string input_str("{\"myself\":{\"name\":\"WeiJian\", \"school\":\"BUAA\",\"dr\":[\"cloris\", \"apache\"]}}"); </br>
 >conf.Load(input_str, SRC_DIRECT | FMT_JSON);
 
-Return value
->A pointer to config object, if loading failed, a NULL pointer is returned
+返回值
+>一个指向config对象的指针，如果加载失败，返回一个空指针
 
 ### LoadEx
 `bool LoadEx(const std::string& input, uint32_t mode, std::string* err_msg = NULL)`  
 
-Description
->Have the same function as *Load*, the difference is that return value tyle is bool.
+功能描述
+>与*Load*功能相同，区别在于返回值是bool类型
 
-Return value
->A bool value indicating success or failure.
+返回值
+>一个标识加载成功或失败的bool类型
 
-Example
+实例
 >Config conf;</br>
 >// Load config data from local file and take ';' as line comment identifier</br>
 >bool ok = conf.LoadEx("conf.ini", SRC_LOCAL | FMT_JOML | CMT_SEMICOLON); </br>
@@ -267,11 +267,11 @@ Example
 `ConfNode* Config::GetConfNode(const std::string& name = "") const`</br>
 `ConfNode* ConfNode::GetConfNode(const std::string& name = "") const`
 
-Description
->Get specific *ConfNode* from configuration tree
+功能描述
+>从配置树获取指定的*ConfNode*结点 
 
-Parameters
->*name* - path of config node. CloriConf supports two kinds of path style:"p1.p2.p3" or "p1/p2/p3"
+参数
+>*name* - 配置结点路径，支持两种书写方式:"p1.p2.p3" 或 "p1/p2/p3"
 
 ### GetString/GetInt32/GetInt64/GetDouble/GetBool
 `std::string Config::GetString(const std::string& name, const std::string& default_value = "") const`</br>
@@ -286,13 +286,13 @@ Parameters
 `double  ConfNode::GetDouble(const std::string& name, double default_value = 0.0) const`</br>
 `bool    ConfNode::GetBool(const std::string& name, bool default_value = false) const`</br>
 
-Description
->Search children config node from current ConfNode and parse children config node as string/int32/int64/double/bool
+功能描述
+>从当前配置结点搜索子配置结点并将其值解析为string/int32/int64/double/bool类型
 
-Parameters
->*name* - Child config node path
+参数
+>*name* - 子配置结点路径，支持两种书写方式:"p1.p2.p3" 或 "p1/p2/p3"
 >
->*default_value* - Default return value when ConfNode not found
+>*default_value* - 当子结点不存在时，作为默认值返回
 
 ### AsString/AsInt32/AsInt64/AsDouble/AsBool
 `const std::string& ConfNode::AsString() const`</br>
@@ -301,42 +301,42 @@ Parameters
 `double  ConfNode::AsDouble() const`</br>
 `bool    ConfNode::AsBool() const`</br>
 
-Description
->Parse ConfNode as string/int32/int64/double/bool
+功能描述
+>将配置结点解析为string/int32/int64/double/bool类型
 
 ### Exists
 `bool Config::Exists(const std::string& name) const`</br>
 `bool ConfNode::Exists(const std::string& name) const`
 
-Description
->Check if conf node exists
+功能描述
+>判断配置结点是否存在
 
-Parameters
->*name* - Config node path
+参数
+>*name* - 配置结点路径
 
 ### name
 `const std::string& ConfNode::name()` 
 
-Description
->Name of current conf node
+功能描述
+>当前结点的名称
 
 ### begin
 `ConstChildrenIterator ConfNode::begin() const`</br>
 `ChildrenIterator begin()`
 
-Description
->Begin of children config node iterator
+功能描述
+>子配置结点迭代器的begin()
 
 ### end 
 `ConstChildrenIterator ConfNode::end() const`</br>
 `ChildrenIterator ConfNode::end()` 
 
-Description
->End of children config node iterator
+功能描述
+>子配置结点迭代器的end()
 
-Example
+实例
 ```C++
-// use begin and end to traverse children config nodes 
+// 使用begin和end遍历子结点
 ConfNode* node = conf->GetConfNode("rules/splash");
 if (node) { 
     for (ConfNode::ChildrenIterator iter = node->begin(); iter != node->end(); ++iter) {
@@ -345,10 +345,8 @@ if (node) {
 }
 ```
 
-## About JOML<div id="joml"></div>
-
-**JOML**(**J**ames's **O**bvious **M**inimal **L**anguage) is a self-defined configuration description language inspired by ini and toml. An instance of joml: 
-```ini
+## 关于JOML<div id="joml"></div>
+**JOML**(**J**ames's **O**bvious **M**inimal **L**anguage) 是一种受ini、yaml、toml启发而自创的配置格式，一个joml的实例如下:
 # @ad_server config
 [[[ad_server]]]
     [[inmobi]]
@@ -374,10 +372,10 @@ if (node) {
             id=15119685xxx6
             bundle=com.xxx.xxx
 ```
-You can treat JOML as a superset of INI, compared with INI, JOML has the following features
+你可以把joml当做ini的超集，以支持更加复杂的配置场景，与ini/yaml相比，joml有以下特征
 
-* Section nesting support - e.g. "[[...]]" is the parent section of "[...]", the more brackets nested, the higher layer it is
-* More slack writing style - for example, to express item "ad_server.inmobi.os_config.ios.appid=1231", the following styles are all OK
+* 比ini多了对多节嵌套的支持 - 比如"[[...]]" 是 "[...]"的上一层, 嵌套的'['越多，section的层级越高 
+* 比yaml支持更加自由的书写风格 - 比如，要表达配置项"ad_server.inmobi.os_config.ios.appid=1231", 以下配置写法都可以
 ```C++
 # case 1
 [[[[ad_server]]]]
@@ -397,12 +395,13 @@ You can treat JOML as a superset of INI, compared with INI, JOML has the followi
     [os_config]
         ios.appid=1231
 ```
-* More line comments identifier are supported - you can specify your own identifier in *Load/LoadEx* function
+* 支持自定义注释标识符 - 可以在*Load/LoadEx*函数中指定哪些字符是注释标识符 
 
-## Array Access<div id="array"></div>
-As designed, cloriConf's main purpose is to support config style like joml and zookeeper which do not have concept of array. To support config style which has array definition(e.g. json,toml), cloriConf translate any array into *name=value* pair, where *name* counts from 0 until the end of the array.</br>
+## 数组访问<div id="array"></div>
 
-The following example shows how to access arry in JSON-style configuration file: </br>
+在设计上，cloriConf主要参照的配置形式是没有数组概念的ini格式和zookeeper，而一些配置格式比如json、yaml、toml有数组的概念。为此，cloriConf通过将数组中转换为*name=value*对的形式来实现对数组的访问，其中*name*从0，1，2……逐一递增
+
+以下实例介绍如何访问json配置格式中的数组:
 ```C++
 # conf.json:
 {
@@ -430,24 +429,23 @@ C++ code:
             // 0, January
             // 1, February
             // ...
-            std::cout << "name=" << p.name() << ", value=" << p.AsString() << std::endl;
-        }   
+            std::cout << p.name() << ", " << p.AsString() << std::endl;
+        }
     }
 ```
-## Who Is Using CloriConf?<div id="using"></div>
+## CloriConf生产环境实践<div id="using"></div>
 
-* [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
+* [ofo 小黄车](http://www.ofo.so/#/)的多个服务模块通过使用cloriConf，在小而精的团队中实现配置系统的平滑过渡
 
-## TODO List<div id="todo"></div>
-* Support YAML-style configuration file
-* Support TOML-style configuration file 
-* Support loading config from ectd
-* Update config automatically and smoothly when config in zookeeper/ectd changed
+## 待完成列表<div id="todo"></div>
+* 支持yaml风格的配置格式
+* 支持toml风格的配置格式
+* 支持从etcd加载配置
+* 支持基于zookeeper/etcd的配置自动更新与消息订阅/发布
 
-## Authors<div id="authors"></div>
+## 作者<div id="authors"></div>
 
 * James Wei (weijianlhp@163.com)  
-Please contact me if you have trouble using cloriConf.
 
-[Go back to the top](#top)
+[返回顶部](#top)
 
