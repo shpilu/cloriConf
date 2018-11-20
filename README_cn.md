@@ -3,7 +3,7 @@
 cloriConf<div id="top"></div>
 ====
 
-在工程实践中，如果没有专门的基础架构团队负责配置中心的搭建与维护，业务团队往往需要自己引入或者开发配置解析库，而随着业务的迭代升级，配置系统往往有从一种配置格式升级为另外一种配置格式，最终升级到配置中心的需求，针对这一业务场景我们设计了cloriConf——</br>
+在工程实践中，如果没有专门的基础架构团队负责配置中心的搭建与维护，业务团队往往需要自己引入或者开发配置解析库，而随着业务的迭代升级，配置系统往往有从一种配置格式升级为另外一种配置格式，最终升级到配置中心的需求，针对这一业务场景我们设计了cloriConf。</br>
 cloriConf的愿景是，通过统一所有配置形式的操作API, 在简化配置读取操作的同时, 实现配置系统从本地配置文件到分布式配置中心的平滑升级——不论配置文件格式是gflags、ini、json、yaml或toml，还是将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来操作。
 
 * [特点](#features)
@@ -378,7 +378,7 @@ if (node) {
             id=15119685xxx6
             bundle=com.xxx.xxx
 ```
-你可以把joml当做ini的超集，以支持更加复杂的配置场景，与ini/yaml相比，joml有以下特征
+joml在ini的基础上做了扩展，以支持更加复杂的配置场景(可以把joml当做ini的超集)，与ini/yaml相比，joml有以下特征
 
 * 比ini多了对多节嵌套的支持 - 比如"[[...]]" 是 "[...]"的上一层, 嵌套的'['越多，section的层级越高 
 * 比yaml支持更加自由的书写风格 - 比如，要表达配置项"ad_server.inmobi.os_config.ios.appid=1231", 以下配置写法都可以
@@ -405,7 +405,7 @@ if (node) {
 
 ## 数组访问<div id="array"></div>
 
-在设计上，cloriConf主要参照的配置形式是没有数组概念的ini格式和zookeeper，而一些配置格式比如json、yaml、toml有数组的概念。为此，cloriConf通过将数组中转换为*name=value*对的形式来实现对数组的访问，其中*name*从0，1，2……逐一递增
+在设计上，cloriConf主要参照的配置形式是没有数组概念的ini格式和zookeeper，而一些配置格式比如json、yaml、toml有数组的概念。为此，cloriConf通过将数组转换为*name=value*对的形式来实现对数组的访问，其中*name*从0，1，2……逐一递增
 
 以下实例介绍如何访问json配置格式中的数组:
 ```C++
@@ -441,7 +441,7 @@ C++ code:
 ```
 ## CloriConf生产环境实践<div id="using"></div>
 
-* [ofo 小黄车](http://www.ofo.so/#/)的多个服务模块通过使用cloriConf，在小而精的团队中实现配置系统的平滑过渡
+* cloriConf目前应用于[ofo 小黄车](http://www.ofo.so/#/)，其多个服务模块通过使用cloriConf，在小而精的团队中实现配置系统的平滑过渡
 
 ## 待完成列表<div id="todo"></div>
 * 支持yaml风格的配置格式
