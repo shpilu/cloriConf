@@ -29,7 +29,7 @@ cloriConf通过统一所有配置形式的对外存取API及内部存储数据�
 
 ## 实例<div id="usage"></div>
 
-以下简要介绍cloriConf的使用实例，具体API可参考[API参考](#api)一节
+以下简要举例说明cloriConf的使用，具体API可参考[API参考](#api)一节
 
 * 读取ini格式(joml格式)的配置文件
 
@@ -175,7 +175,7 @@ g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib 
 ## Zookeeper可视化界面<div id="dashboard"></div>
 cloriConf的特性使得它可以当配置中心来使用，不过需要你事先搭建一个zookeeper集群</br>
 为简化zookeeper的操作，cloriConf自带一个简单的zookeeper控制面板(其源码在src/dashboard目录下)，你只需要一个nginx和php运行环境就可以搭建起一套zookeeper可视化界面</br>
-cloriConf的zookeeper可视化界面实际是用php重写了奇虎360的[Qconf](https://github.com/Qihoo360/QConf) dashboard，当然你可以使用其他zookeeper工具来管理配置</br>
+cloriConf的zookeeper可视化界面实际是用php重写了奇虎360公司开源项目[Qconf](https://github.com/Qihoo360/QConf)的dashboard，当然你可以使用其他zookeeper工具来管理配置</br>
 cloriConf zookeeper dashboard的nginx配置可以参考以下
 ```PHP
     # set "/home/weijian/github/cloriConf" to your own directory
@@ -192,7 +192,7 @@ cloriConf zookeeper dashboard的nginx配置可以参考以下
 ```
 cloriConf zookeeper dashboard截图如下: 
 ![pics1](https://github.com/shpilu/cloriConf/blob/master/img/cloriconf.jpg)
-你可以点击[这里](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules)了解下zookeeper可视化实例 
+你可以点击[这里](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules)了解下cloriConf zookeeper dashboard实例 
 
 ## API参考<div id="api"></div>
 
@@ -401,6 +401,10 @@ joml在ini的基础上做了扩展，以支持更加复杂的配置场景(可以
 [[[ad_server.inmobi]]]
     [os_config]
         ios.appid=1231
+```
+```C++
+# case 4
+ad_server.inmobi.os_config.ios.appid=1231
 ```
 * 支持自定义注释标识符 - 可以在*Load/LoadEx*函数中指定哪些字符是注释标识符 
 
