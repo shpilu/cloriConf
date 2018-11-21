@@ -13,6 +13,7 @@ Suppose you are programing in C++ and looking for a third-party configuration li
 * [About JOML](#joml)
 * [Array Access](#array)
 * [Who Is Using CloriConf?](#using)
+* [Related Projects](#related)
 * [TODO List](#todo)
 * [Authors](#authors)
 
@@ -436,6 +437,10 @@ C++ code:
 
 * [ofo 小黄车](http://www.ofo.so/#/) - ofo Inc., a Beijing-based bicycle sharing company
 
+## Related Projects<div id="related"></div>
+ * [Qihoo360/QConf](https://github.com/Qihoo360/QConf)-A distributed configuration management system
+ * [knightliao/disconf](https://github.com/knightliao/disconf)-A distributed configuration center
+To some extent, cloriConf is inspired by the upper projects
 ## TODO List<div id="todo"></div>
 * Support YAML-style configuration file
 * Support TOML-style configuration file 

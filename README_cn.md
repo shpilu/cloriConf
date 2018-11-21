@@ -15,6 +15,7 @@ cloriConf通过统一所有配置形式的对外存取API及内部存储数据�
 * [关于JOML](#joml)
 * [数组操作](#array)
 * [CloriConf生产环境实践](#using)
+* [相关项目](#related)
 * [待完成列表](#todo)
 * [作者](#authors)
 
@@ -447,6 +448,10 @@ C++ code:
 ## CloriConf生产环境实践<div id="using"></div>
 
 * cloriConf目前应用于[ofo 小黄车](http://www.ofo.so/#/)，其多个服务模块通过使用cloriConf，在小而精的团队中实现配置系统的平滑升级
+
+## 相关项目<div id="related"></div>
+ * [Qihoo360/QConf](https://github.com/Qihoo360/QConf)-奇虎360版配置管理系统
+ * [knightliao/disconf](https://github.com/knightliao/disconf)-百度开源的分布式配置中心
 
 ## 待完成列表<div id="todo"></div>
 * 支持yaml风格的配置格式
