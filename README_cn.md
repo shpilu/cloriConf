@@ -175,9 +175,7 @@ g++ tutorial.cc -I/home/weijian/cloriconf/include -L/home/weijian/cloriconf/lib 
 ```
 ## Zookeeper可视化界面<div id="dashboard"></div>
 cloriConf的特性使得它可以当配置中心来使用，不过需要你事先搭建一个zookeeper集群</br>
-为简化zookeeper的操作，cloriConf自带一个简单的zookeeper控制面板(其源码在src/dashboard目录下)，你只需要一个nginx和php运行环境就可以搭建起一套zookeeper可视化界面</br>
-cloriConf的zookeeper可视化界面实际是用php重写了奇虎360公司开源项目[Qconf](https://github.com/Qihoo360/QConf)的dashboard，当然你可以使用其他zookeeper工具来管理配置</br>
-cloriConf zookeeper dashboard的nginx配置可以参考以下
+为简化zookeeper的操作，cloriConf自带一个简单的zookeeper控制面板(其源码在src/dashboard目录下)，你只需要一个nginx和php运行环境就可以搭建起一套zookeeper可视化界面，cloriConf zookeeper dashboard的nginx配置可以参考以下
 ```PHP
     # set "/home/weijian/github/cloriConf" to your own directory
     location ~ \.php$ {
@@ -194,6 +192,10 @@ cloriConf zookeeper dashboard的nginx配置可以参考以下
 cloriConf zookeeper dashboard截图如下: 
 ![pics1](https://github.com/shpilu/cloriConf/blob/master/img/cloriconf.jpg)
 你可以点击[这里](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules)了解下cloriConf zookeeper dashboard实例 
+
+```PHP
+cloriConf的zookeeper可视化界面实际是用php重写了奇虎360公司开源项目[Qconf](https://github.com/Qihoo360/QConf)的dashboard，当然你可以使用其他zookeeper工具来管理配置
+```
 
 ## API参考<div id="api"></div>
 
