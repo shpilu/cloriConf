@@ -193,7 +193,7 @@ cloriConf zookeeper dashboard截图如下:
 ![pics1](https://github.com/shpilu/cloriConf/blob/master/img/cloriconf.jpg)
 你可以点击[这里](http://60.205.189.117/index.php?group_id=default&path=/online/commercial/ssp/rules)了解下cloriConf zookeeper dashboard实例 
 
-cloriConf的zookeeper可视化界面实际是用php重写了奇虎360公司开源项目[Qconf](https://github.com/Qihoo360/QConf)的dashboard，当然你可以使用其他zookeeper工具来管理配置
+cloriConf的zookeeper可视化界面实际是用php重写并改进奇虎360公司开源项目[Qconf](https://github.com/Qihoo360/QConf)的dashboard，当然你可以使用其他zookeeper工具来管理配置
 
 ## API参考<div id="api"></div>
 
