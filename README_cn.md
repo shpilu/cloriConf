@@ -45,6 +45,8 @@ common.ini:
 ```
 C++ 代码: 
 ```C++
+    #include <cloriconf/config.h>
+
     // SRC_LOCAL: 从本地磁盘文件读取配置 
     // FMT_JOML: 以joml格式解析配置文件 
     // CMT_SHARP: 将'#'视为注释符 
@@ -81,6 +83,8 @@ common.json:
 ```
 C++ 代码: 
 ```C++
+    #include <cloriconf/config.h>
+
     // FMT_JSON: 以json格式解析配置文件 
     std::string err_msg;
     Config* conf = Config::instance()->Load("../conf/common.json", SRC_LOCAL | FMT_JSON, &err_msg);
@@ -115,6 +119,8 @@ zk.ini(JOML-style):
 ```
 C++ 代码:
 ```C++
+    #include <cloriconf/config.h>
+
     // SRC_ZK: 从zookeeper加载配置 
     std::string err_msg;
     Config* conf = Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);

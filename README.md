@@ -42,6 +42,8 @@ common.ini:
 ```
 C++ code: 
 ```C++
+    #include <cloriconf/config.h>
+    
     // SRC_LOCAL: load config from local file
     // FMT_JOML: parse as INI-style(JOML-style) config 
     // CMT_SHARP: take '#' as line comment identifier
@@ -77,6 +79,8 @@ common.json:
 ```
 C++ code: 
 ```C++
+    #include <cloriconf/config.h>
+
     // FMT_JSON: parse as JSON-style config
     std::string err_msg;
     Config* conf = Config::instance()->Load("../conf/common.json", SRC_LOCAL | FMT_JSON, &err_msg);
@@ -110,6 +114,8 @@ zk.ini(JOML-style):
 ```
 C++ code:
 ```C++
+    #include <cloriconf/config.h>
+
     // SRC_ZK: load config from zookeeper
     std::string err_msg;
     Config* conf = Config::instance()->Load("../conf/zk.ini", SRC_ZK, &err_msg);
