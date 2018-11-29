@@ -111,7 +111,7 @@ install(TARGETS cloriconf-static
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
 install(DIRECTORY ${PROJECT_BINARY_DIR}/output/include/
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/include/cloriconf/
     FILES_MATCHING
     PATTERN "*.h"
     )
