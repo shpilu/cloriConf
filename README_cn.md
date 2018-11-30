@@ -156,14 +156,14 @@ cmake ..
 make
 sudo make install
 ```
-如果支持json解析，你需要先安装[RapidJSON](https://github.com/Tencent/rapidjson)，然后执行 
+如果想支持json解析，你需要先安装[RapidJSON](https://github.com/Tencent/rapidjson)，然后执行 
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_JSON=ON
 make
 sudo make install
 ```
-如果支持zookeeper加载，你需要先安装[zookeeper](https://www.apache.org/dyn/closer.cgi)，然后执行
+如果想支持zookeeper加载，你需要先安装[zookeeper](https://www.apache.org/dyn/closer.cgi)，然后执行
 ```C++
 mkdir build && cd build
 cmake .. -DENABLE_ZOOKEEPER=ON
