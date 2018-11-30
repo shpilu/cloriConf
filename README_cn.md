@@ -7,6 +7,8 @@ cloriConf<div id="top"></div>
 
 cloriConf通过统一所有配置形式的对外存取API及内部存储数据结构, 在简化配置读取操作的同时, 实现配置系统从本地配置文件到分布式配置中心的平滑升级——不论配置文件格式是gflags、ini、json、yaml或toml，还是将配置数据存放于zookeeper/etcd上，你都可以用cloriConf来操作。
 
+在设计上，cloriConf在一定程度上参考了[Qconf](https://github.com/Qihoo360/QConf)(奇虎360公司开源的配置管理平台)，其核心数据结构是一个哈希表(用于配置节点查找)和多叉树(用于配置节点存储)，所有配置数据存放在树节点，其存储路径以某种标准格式存储在哈希表，并对外提供配置节点插入与查询接口。
+
 * [特点](#features)
 * [实例](#usage)
 * [安装](#installation)
