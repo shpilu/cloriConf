@@ -113,8 +113,7 @@ Config* Config::Load(const std::string& input, uint32_t mode, std::string* err_m
 }
 
 bool Config::LoadEx(const std::string& input, uint32_t mode, std::string* err_msg) noexcept {
-    bool ret = impl_->Load(input, mode, err_msg);
-    return ret;
+    return impl_->Load(input, mode, err_msg);
 }
 
 ConfNode::ConfNode(ConfigImpl* impl, const std::string& name, const std::string& hash_key, const std::string& value, bool is_leaf) 
