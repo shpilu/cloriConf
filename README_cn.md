@@ -464,6 +464,8 @@ C++ code:
 ## 待完成列表<div id="todo"></div>
 * 支持yaml风格的配置格式
 * 支持toml风格的配置格式
+* 支持gflags风格的配置格式
+* 支持protobuf风格的配置格式
 * 支持从etcd加载配置
 * 支持基于zookeeper/etcd的配置自动更新与消息订阅/发布
 

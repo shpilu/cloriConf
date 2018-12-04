@@ -451,6 +451,8 @@ To some extent, cloriConf is inspired by the upper projects
 ## TODO List<div id="todo"></div>
 * Support YAML-style configuration file
 * Support TOML-style configuration file 
+* Support gflags-style configuration file 
+* Support protobuf-style configuration file 
 * Support loading config from ectd
 * Update config automatically and smoothly when config in zookeeper/ectd changed
 
