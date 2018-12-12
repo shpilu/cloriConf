@@ -1,16 +1,8 @@
-cloriConf<div id="top"></div>
-====
-尽管github上有众多的配置解析库与配置中心，cloriConf还是做了一定的创新，在以下方面超过一般配置解析库：
-* **配置格式无关，能解析几乎所有常见配置格式**(cloriConf独有的特性)
-* **同时支持从配置文件/字符串/zookeeper/etcd读取配置**(cloriConf独有的特性, 带配置中心部分功能)
-* **当配置数据源或者配置格式变更时，配置读取API保持不变**(cloriConf独有的特性)
-
-也许cloriConf在大型配置中心面前显得young & simple，不过如果你的团队缺少专门的人力来维护配置中心，且业务面临频繁迭代/指数增长(初创团队经常遇到的场景)，cloriConf也许是一个很好的选择.
 
 [中文版](README_cn.md)
 
-## Introduction
-
+cloriConf<div id="top"></div>
+====
 Suppose you are programing in C++ and looking for a third-party configuration library, you may considering cloriConf, which has characters of both lightweight configuration library and distributed configuration center. 
 
 * [Features](#features)
