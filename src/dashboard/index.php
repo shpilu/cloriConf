@@ -23,7 +23,7 @@ $group_id=$_GET["group_id"];
    <div class="row"> 
     <div class="span9"> 
      <div class="hero-unit"> 
-      <h2>CloriConf</h2> 
+      <h2>cloriConf</h2> 
       <p>Zookeeper Management Center</p> 
      </div> 
      <hr/> 
@@ -41,7 +41,7 @@ $group_id=$_GET["group_id"];
          <label class="control-label" for="">GroupId</label> 
          <div class="controls"> 
           <select name="group_id" id="params_group_id" class="input-xlarge"> <option value="default">default</option> </select> 
-         </div> 
+         </div>
         </div> 
         <div class="control-group"> 
          <label class="control-label" for="textarea">Value</label> 
@@ -91,7 +91,7 @@ $group_id=$_GET["group_id"];
       </tbody> 
      </table> 
      <ul class="pager"> 
-      <li class="next"> More Infomation <a href="https://github.com/Qihoo360/QConf" target="_blank" title="github">Github</a> <a href="https://github.com/Qihoo360/QConf/wiki" title="wiki" target="_blank">wiki</a> </li> 
+      <li class="next"> More Infomation <a href="https://github.com/shpilu/cloriConf" target="_blank" title="github">Github</a></li> 
      </ul> 
     </div> 
    </div> 
